@@ -1,0 +1,22 @@
+<?php
+/**
+ * All Wet
+ * 2018
+ * 
+ * Keys
+ */
+
+// DB
+$sql_host = "";
+$sql_username = "";
+$sql_password = "";
+$sql_database = "";
+
+// Globe
+$glb_app_id = "";
+$glb_app_secret = "";
+$glb_sender_address = "";
+$glb_login_redirect = "http://developer.globelabs.com.ph/dialog/oauth?app_id=$glb_app_id";
+
+// Place all additional keys here
+?>
