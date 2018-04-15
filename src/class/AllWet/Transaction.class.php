@@ -20,7 +20,6 @@ class Transaction {
     public $transaction_date;
     public $transaction_time;
     public $customer_id;
-    public $transaction_items;
     public $transaction_count;
     public $transaction_price;
     public $transaction_payment_method;

@@ -17,8 +17,23 @@ require_once("../_system/config.php");
 </head>
 <body class="grey lighten-4">
 
+    <!--splashscreen-->
+    <div class="splashscreen valign-wrapper blue darken-3" id="splashscreen">
+        <h3 class="valign center-block white-text">
+            <noscript>
+                <b class="white-text">
+                    <center>
+                        <h4>Sorry!</h4>
+                        <h5>This application requires Javascript to be turned on.</h5>
+                    </center>
+                </b>
+            </noscript>
+        </h3>
+    </div>
+    <!--.splashscreen-->
+
     <!-- navbar -->
-	<div class="navbar-fixed">
+	<div class="navbar-fixed" id="navbar">
         <nav class="blue darken-3">
             <div class="nav-wrapper">
             <a href="#" data-target="snav" class="show-on-large sidenav-trigger"><i class="material-icons">menu</i></a>
@@ -54,6 +69,8 @@ require_once("../_system/config.php");
         <li><a href="#" onclick="orderShow()"><i class="material-icons">view_list</i> My Order</a></li>
         <li><a href="#" onclick="productsShow()"><i class="material-icons">local_mall</i> Products</a></li>
         <li class="divider"></li>
+        <li><a href="#" onclick="editAccountShow()"><i class="material-icons">info</i> Edit Account</a></li>
+        <li class="divider"></li>
         <li><a href="/authenticate/logout.php"><i class="material-icons">person</i> Log-out</a></li>
 
     </ul>
@@ -62,13 +79,15 @@ require_once("../_system/config.php");
     <!-- myorderActivity -->
     <div class="activity col s12" id="myorderActivity">
         <div class="container">
-            <h4 class="blue-text text-darken-3"><b>My Order</b></h4>
+            <h4 class="blue-text text-darken-3">My Order <a href="#" onclick="setMyOrders()"><i class="material-icons grey-text">refresh</i></a></h4>
             <br>
-            <div id="orderList"></div>
+            <div class="cards-container">
+                <div id="orderList"></div>
+            </div>        
             <br><br><br><br>
         </div>
         <div class="fixed-action-btn">
-            <a id="btnAdd" class="btn-floating btn-large blue darken-3 waves-effect waves-light btn-floating pulse" href="/app/order.php">
+            <a id="btnAdd" class="btn-floating btn-large blue darken-3 waves-effect waves-light btn-floating" href="/app/order.php">
                 <i class="material-icons">add</i>
             </a>
         </div>
@@ -78,7 +97,7 @@ require_once("../_system/config.php");
     <!-- productsActivity -->
     <div class="activity col s12" id="productsActivity">
         <div class="container">
-            <h4 class="blue-text text-darken-3"><b>Products</b></h4>
+            <h4 class="blue-text text-darken-3">Products <a href="#" onclick="setProducts()"><i class="material-icons grey-text">refresh</i></a></h4>
             <br>
             <div class="cards-container">
                 <div id="productsList"></div>
@@ -87,6 +106,29 @@ require_once("../_system/config.php");
         </div>
     </div>
     <!-- .productsActivity -->
+
+    <!-- editAccountActivity -->
+    <div class="activity col s12" id="editAccountActivity">
+        <div class="container">
+            <h4 class="blue-text text-darken-3">Edit Account</h4>
+            <br>
+            <div class="row">
+                <div class="input-field col s12">
+                    <input type="text" id="nameField">
+                    <label for="name">Name</label>
+                </div>
+                <div class="input-field col s12">
+                    <input type="text" id="addressField">
+                    <label for="address">Address</label>
+                </div>
+            </div>
+            <br><br>
+            <button class="btn btn-large blue darken-2 waves-effect waves-light" onclick="editAccount()">Edit</button>
+            <br><br><br><br><br>
+        </div>
+    </div>
+    <!-- .editAccountActivity -->
+
 
 </body>
 </html>

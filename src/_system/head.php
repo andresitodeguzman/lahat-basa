@@ -81,61 +81,12 @@ if('serviceWorker' in navigator){
 <link
     rel="stylesheet"
     href="/assets/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-<style>
-html {
-  height: 100%;
-}
-body {
-  overscroll-behavior-y: none !important;
-  height: 100%;
-}
-
-.cards-container {
-  column-break-inside: avoid;
-}
-
-.cards-container .card {
-  display: inline-block;
-  overflow: visible;
-  width:100% !important;
-}
-
-@media only screen and (max-width: 600px) {
-  .cards-container {
-    -webkit-column-count: 1;
-    -moz-column-count: 1;
-    column-count: 1;
-  }
-}
-
-@media only screen and (min-width: 601px) {
-  .cards-container {
-    -webkit-column-count: 2;
-    -moz-column-count: 2;
-    column-count: 2;
-  }
-}
-
-@media only screen and (min-width: 993px) {
-  .cards-container {
-    -webkit-column-count: 3;
-    -moz-column-count: 3;
-    column-count: 3;
-  }
-}
-
-.nav-wrapper{
-  padding-right: 3%;
-}        
-.title {
-  padding-left: 1%;
-  font-size: 18pt;
-}
-
-.btn-block {
-  width:100%;
-}
-</style>
+<link
+  rel="stylesheet"
+  href="/assets/material-refresh/css/material-refresh.min.css">
+<link
+  rel="stylesheet"
+  href="/assets/css/customstyle.css">
 
 <!-- Javascript -->
 <script
@@ -145,4 +96,20 @@ body {
 <script
     type="text/javascript"
     src="/assets/materialize/js/materialize.min.js">
+</script>
+<script
+    type="text/javascript"
+    src="/assets/material-refresh/js/material-refresh.min.js">
+</script>
+<script>
+/*
+    splash
+    Splashscreen handler
+ */
+function splash(param){
+    var time = param;
+    setTimeout(function(){
+        $("#splashscreen").fadeOut();
+    },time);
+}
 </script>
