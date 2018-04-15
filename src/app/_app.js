@@ -12,7 +12,7 @@ $(document).ready(()=>{
 	setMyOrders();
 	setProducts();
 
-	splash(500);
+	splash(1000);
 	$("#myorderActivity").fadeIn();
 	$("#btnAdd").slideDown();
 

@@ -28,6 +28,11 @@ require_once("../_system/config.php");
                     </center>
                 </b>
             </noscript>
+            <center>
+                <h4>
+                    <b>All Wet</b>
+                </h4>
+            </center>
         </h3>
     </div>
     <!--.splashscreen-->
@@ -87,7 +92,7 @@ require_once("../_system/config.php");
             <br><br><br><br>
         </div>
         <div class="fixed-action-btn">
-            <a id="btnAdd" class="btn-floating btn-large blue darken-3 waves-effect waves-light btn-floating" href="/app/order.php">
+            <a id="btnAdd" class="btn-floating btn-large blue darken-3 waves-effect waves-light btn-floating z-depth-3" href="/app/order.php">
                 <i class="material-icons">add</i>
             </a>
         </div>
