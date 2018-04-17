@@ -15,8 +15,7 @@
     let status = checkLoginStatus();
 
     let loginButton = `
-        <a class="btn btn-large blue darken-4 waves-effect waves-light" href="/authenticate"> Sign-In with Your Mobile Number <i class="material-icons right">
-            smartphone</i>
+        <a class="btn btn-large blue darken-4 waves-effect waves-light" href="/authenticate"> Sign-In with Mobile Number
         </a>`;
     
     let appButton = `

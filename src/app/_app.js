@@ -1,4 +1,6 @@
 $(document).ready(()=>{
+	loginCheck();
+	
 	clear();
 
 	$(".sidenav").sidenav();
@@ -6,7 +8,6 @@ $(document).ready(()=>{
 
 	$("#btnAdd").hide();
 
-	//loginCheck();
 	init();
 
 	setMyOrders();
@@ -23,6 +24,7 @@ $(document).ready(()=>{
 let transactionGetApi = '/sample_data/transaction.getall.php'; 
 let productGetAllApi = '/sample_data/product.getall.php';
 let transitemGetByProductIdApi = '/sample_data/transitem.getByProductId.php';
+let categoryGetAll = '/sample_data/category.getall.php';
 
 // Global Cards
 let errorCard = `
@@ -57,26 +59,34 @@ var closeNav = ()=>{
 	$(".sidenav").sidenav('close');
 }
 
+var productFilter = (catId)=>{
+	$(".product").hide();
+	$(`.${catId}`).fadeIn();
+};
+
 
 // Activity Loader
 var orderShow = ()=>{
 	$("#btnAdd").hide();
 	clear();
 	closeNav();
-	$("#myorderActivity").fadeIn();
-	$("#btnAdd").slideDown();
+	$("#myorderActivity").fadeIn(); 
+	$("meta[name='theme-color']").attr("content","#1565c0");
+	$("#btnAdd").slideDown();	
 }
 
 var productsShow = ()=>{
 	clear();
 	closeNav();
 	$("#productsActivity").fadeIn();
+	$("meta[name='theme-color']").attr("content","#1565c0");
 }
 
 var editAccountShow = ()=>{
 	clear();
 	closeNav();
 	$("#editAccountActivity").fadeIn();
+	$("meta[name='theme-color']").attr("content","#455a64");
 };
 
 
@@ -266,7 +276,57 @@ var renderMyOrder = ()=>{
 };
 
 
+var setCategories = ()=>{
+	$.ajax({
+		type: 'GET',
+		cache: 'false',
+		url: categoryGetAll,
+		data: {
+			a: 1
+		},
+		success: result=>{
+			try{
+				localStorage.setItem("all-wet-categories",JSON.stringify(result));
+				renderCategories();
+			} catch(e){
+				console.log(`Categories Error: ${e}`);
+				M.toast({html:"An error occured while fetching data",displayLength:3000});
+			}
+		}
+	}).fail(()=>{
+		renderCategories();
+		M.toast({html:'Cannot get categories', displayLength:2000});
+	});
+};
+
+var renderCategories = ()=>{
+	try {
+		var addAllCategories = `<li class="tab"><a href="#" onclick="productFilter('product')">All</a></li>`;
+		var result = JSON.parse(localStorage.getItem("all-wet-categories"));
+
+		$("#categoryTabs").html(addAllCategories);
+
+		$.each(result,(index,value)=>{
+			var cid = value['category_id'];
+			var cn = value['category_name'];
+			var cd = value['category_description'];
+			var cc = value['category_code'];
+
+			var tmpl = `
+				<li class="tab">
+					<a href="#" onclick="productFilter('cat${cid}')">${cn}</a>
+				</li>`;
+			$("#categoryTabs").append(tmpl);
+		});
+	} catch(e){
+		M.toast({html:"Fatal error: Cannot processs categories"});
+	}
+}
+
+
 var setProducts = ()=>{
+	setCategories();
+
 	var empty = `
 	<div class='card'>
 		<div class='card-content'>
@@ -292,7 +352,7 @@ var setProducts = ()=>{
 			catch(e){
 				console.log(`Products Error: ${e}`);
 				$("#productsList").html(errorCard);
-				M.toast({html:"An error fetching data",displayLength:3000});
+				M.toast({html:"An error occured while fetching data",displayLength:3000});
 			}
 		}
 	}).fail(()=>{
@@ -341,7 +401,7 @@ var renderProduct = ()=>{
 			}
 
 			var templ = `
-				<div class="card hoverable">
+				<div class="card hoverable product cat${cat}">
 					${img}
 					<div class="card-content">
 						<span class="card-title">

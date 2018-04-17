@@ -18,7 +18,7 @@ require_once("../_system/config.php");
 <body class="grey lighten-4">
 
     <!--splashscreen-->
-    <div class="splashscreen valign-wrapper blue-grey-3" id="splashscreen">
+    <div class="splashscreen valign-wrapper blue-grey darken-3" id="splashscreen">
         <h3 class="valign center-block white-text">
             <noscript>
                 <b class="white-text">
@@ -36,17 +36,6 @@ require_once("../_system/config.php");
         </h3>
     </div>
     <!--.splashscreen-->
-
-    <!-- navbar -->
-	<div class="navbar-fixed" id="navbar">
-        <nav class="blue-grey darken-2">
-            <div class="nav-wrapper">
-            <a href="#" data-target="snav" class="show-on-large sidenav-trigger"><i class="material-icons">menu</i></a>
-                <a class="title" href="#"><b>All Wet</b> Employee</a>
-            </div>
-        </nav>
-    </div>
-    <!-- .navbar -->
 
     <!-- sideNav -->
 	<ul class="sidenav" id="snav">
@@ -83,8 +72,23 @@ require_once("../_system/config.php");
 
     <!-- forDeliveryActivity -->
     <div class="activity col s12" id="forDeliveryActivity">
+
+        <!-- navbar -->
+        <div class="navbar-fixed" id="navbar">
+            <nav class="blue-grey darken-2 z-depth-2">
+                <div class="nav-wrapper">
+                    <a href="#" data-target="snav" class="show-on-large sidenav-trigger"><i class="material-icons">menu</i></a>
+                    <a class="title" href="#"><b>All Wet</b> Employee</a>
+                    <div class="right">
+                        <a href="#" onclick="setForDelivery()"><i class="material-icons white-text">refresh</i></a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <!-- .navbar -->
+
         <div class="container">
-            <h4 class="blue-grey-text text-darken-3">For Delivery <a href="#" onclick="setForDelivery()"><i class="material-icons grey-text">refresh</i></a></h4>
+            <h4 class="blue-grey-text text-darken-3">For Delivery</h4>
             <br>
             <div class="cards-container">
                 <div id="forDeliveryList"></div>
@@ -96,19 +100,48 @@ require_once("../_system/config.php");
 
     <!-- productsActivity -->
     <div class="activity col s12" id="productsActivity">
+
+        <div class="navbar-fixed">
+            <nav class="nav-extended blue-grey darken-2 z-depth-2">
+                <div class="nav-wrapper">
+                    <a href="#" data-target="snav" class="show-on-large sidenav-trigger"><i class="material-icons">menu</i></a>
+                    <a class="title" href="#"><b>All Wet</b> Products</a>
+                    <div class="right">
+                        <a href="#" onclick="setProducts()"><i class="material-icons white-text">refresh</i></a>
+                    </div>
+                </div>
+                <div class="nav-content">
+                    <ul class="tabs tabs-transparent" id="categoryTabs"></ul>
+                </div>
+             </nav>
+        </div>
+        <!-- .navbar -->
+        
         <div class="container">
-            <h4 class="blue-grey-text text-darken-3">Products <a href="#" onclick="setProducts()"><i class="material-icons grey-text">refresh</i></a></h4>
-            <br>
+            <br><br><br><br>
             <div class="cards-container">
                 <div id="productsList"></div>
             </div>
             <br><br><br>
         </div>
+
     </div>
     <!-- .productsActivity -->
 
     <!-- editAccountActivity -->
     <div class="activity col s12" id="editAccountActivity">
+
+        <!-- navbar -->
+        <div class="navbar-fixed" id="navbar">
+            <nav class="blue-grey darken-2 z-depth-2">
+                <div class="nav-wrapper">
+                    <a href="#" data-target="snav" class="show-on-large sidenav-trigger"><i class="material-icons">menu</i></a>
+                    <a class="title" href="#"><b>All Wet</b> Employee</a>
+                </div>
+            </nav>
+        </div>
+        <!-- .navbar -->
+
         <div class="container">
             <h4 class="blue-grey-text text-darken-3">Edit Account</h4>
             <br>
