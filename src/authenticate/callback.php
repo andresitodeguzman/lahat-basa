@@ -88,6 +88,7 @@ if(!empty($result)){
 <html>
     <head>
         <script type="text/javascript">
+            localStorage.setItem("all-wet-account-type","customer");
             localStorage.setItem("all-wet-login",true);
             localStorage.setItem("all-wet-customer-id","<?=$customer_id?>");
             localStorage.setItem("all-wet-customer-number", "<?=$subscriber_number?>");

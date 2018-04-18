@@ -3,7 +3,7 @@ $(document).ready(()=>{
 	$("#loader").hide();
 });
 
-var signInApi = '/authenticate/process/admin.php';
+var signInApi = '/authenticate/process/employee.php';
 
 var signIn = ()=>{
 	$("#loader").show();
@@ -36,16 +36,16 @@ var signIn = ()=>{
 				}, 
 				success: result=>{
 					try {
-						if(result['admin_id']){
-							 var ai = result['admin_id'];
-							 var an = result['admin_name'];
-							 var au = result['admin_username'];
+						if(result['employee_id']){
+							 var ei = result['employee_id'];
+							 var en = result['employee_name'];
+							 var eu = result['employee_username'];
 							 
-							 localStorage.setItem("all-wet-account-type","admin");
+							 localStorage.setItem("all-wet-account-type","employee");
 							 localStorage.setItem("all-wet-login",true);
-							 localStorage.setItem("all-wet-admin-id",ai);
-							 localStorage.setItem("all-wet-admin-name",an);
-							 localStorage.setItem("all-wet-admin-userame",au);
+							 localStorage.setItem("all-wet-employee-id",ei);
+							 localStorage.setItem("all-wet-employee-name",en);
+							 localStorage.setItem("all-wet-employee-userame",eu);
 							
 							 window.location.replace("/admin");
 							

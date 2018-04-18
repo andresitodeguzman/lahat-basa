@@ -3,7 +3,7 @@
  * All Wet
  * 2018
  * 
- * App
+ * Employee
  * Index
  */
 require_once("../_system/config.php");
@@ -11,8 +11,8 @@ require_once("../_system/config.php");
 <!Doctype html>
 <html>
 <head>
-    <title>All Wet - Employee</title>
-    <?php require_once("../_system/head.php"); ?>
+  <title>All Wet - Employee</title>
+  <?php require_once("../_system/head.php"); ?>
 	<script type="text/javascript" src="/employee/_app.js"></script>
 </head>
 <body class="grey lighten-4">

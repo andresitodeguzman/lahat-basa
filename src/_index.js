@@ -1,5 +1,6 @@
   $(document).ready(()=>{
     $('.parallax').parallax();
+    $('.dropdown-trigger').dropdown();
     $('.container').hide();
     
     setButton();
@@ -20,7 +21,7 @@
         </a>`;
     
     let appButton = `
-        <a class="btn btn-large blue darken-4 waves-effect waves-light" href="/app">
+        <a class="btn btn-large blue darken-4 waves-effect waves-light waves-green" href="/app">
             Open App
         </a>`;
 

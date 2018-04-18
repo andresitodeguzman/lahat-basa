@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once("../_system/config.php");
 ?>
 <!Doctype html>
@@ -6,6 +7,7 @@ require_once("../_system/config.php");
 <head>
 	<title>All Wet - Admin Sign-In</title>
 	<?php require_once("../_system/head.php") ?>
+	<script src="/authenticate/_scripts/admin.js"></script>
 </head>
 <body class="blue-grey darken-3">	
 	<div class="container">
@@ -15,7 +17,24 @@ require_once("../_system/config.php");
 		</center>
 		<br>
 		<div class="card z-depth-4">
-			<div class="card-content">
+			
+			<div class="card-content" id="loader">
+				<center>
+					<div class="preloader-wrapper big active">
+						<div class="spinner-layer spinner-blue-only">
+							<div class="circle-clipper left">
+								<div class="circle"></div>
+							</div><div class="gap-patch">
+								<div class="circle"></div>
+							</div><div class="circle-clipper right">
+								<div class="circle"></div>
+							</div>
+						</div>
+					</div>
+				</center>
+			</div>
+			
+			<div class="card-content" id="entry">
 				<br>
 				<div class="input-field">
 					<input type="text" id="username">
