@@ -49,7 +49,7 @@ require_once("_system/config.php");
         <div class="parallax">
             <img src="/assets/images/heroimg2.jpg">
         </div>
-        <div class="container"><br><br>
+        <div class="container">
             <center>
                 <h2 class="white-text"><b>All Wet</b></h2>
                 <h5 class="white-text">
