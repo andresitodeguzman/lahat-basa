@@ -2,7 +2,7 @@ $(document).ready(()=>{
 	$("meta[name='theme-color']").attr("content","#455a64");
 });
 
-var signInApi = '';
+var signInApi = '/authenticate/process/admin.php';
 
 var signIn = ()=>{
 	var u = $("#username").val();
@@ -19,16 +19,31 @@ var signIn = ()=>{
 				cache: 'false',
 				url: signInApi,
 				data: {
-					admin_username: u,
-					admin_password: p
+					username: u,
+					password: p
 				}, 
 				success: result=>{
 					try {
+						if(result['admin_id']){
+							 var ai = result['admin_id'];
+							 var an = result['admin_name'];
+							 var au = result['admin_username'];
+							 
+							 localStorage.setItem("all-wet-login",true);
+							 localStorage.setItem("all-wet-admin-id",ai);
+							 localStorage.setItem("all-wet-admin-name",an);
+							 localStorage.setItem("all-wet-admin-userame",au);
+							
+							
+						} else {
+							M.toast({html: result, durationLength:3000});
+						}
+						
 						if(result.code == 400){
 							var rm = result['message'];
 							M.toast({html:rm, durationLength:3000});
 						} else {
-							alert("ok");
+							var an = result
 						}
 					} catch(e) {
 						M.toast({html:"Problem processing request", durationLength:3000});

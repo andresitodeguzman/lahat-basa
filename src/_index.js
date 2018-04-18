@@ -1,9 +1,10 @@
   $(document).ready(()=>{
     $('.parallax').parallax();
+    $('.container').hide();
     
     setButton();
-    $(".btn").hide();
-    $(".btn").fadeIn();
+    
+    $('.container').fadeIn(2000);
   });
 
   checkLoginStatus = ()=>{

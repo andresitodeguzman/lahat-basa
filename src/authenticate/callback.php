@@ -76,6 +76,7 @@ if(!empty($result)){
         }
     }
 
+    $_SESSION['account_type'] = "customer";
     $_SESSION['customer_id'] = $customer_id;
     $_SESSION['logged_in'] =  True;
     $_SESSION['customer_number'] = $subscriber_number;
