@@ -126,12 +126,36 @@ require_once("../_system/config.php");
         <div class="cards-container">
           <div id="categoryList"></div>
         </div>
-      </div>
+      </div><br><br><br><br>
 
       <div class="fixed-action-btn">
-        <a id="btnAdd" class="btn-floating btn-large blue-grey darken-2 waves-effect waves-light btn-floating z-depth-3" href="/app/order.php">
+        <a id="btnAdd" class="btn-floating btn-large blue-grey darken-2 waves-effect waves-light btn-floating z-depth-3 modal-trigger" href="#" data-target="addCategoryModal">
                 <i class="material-icons">add</i>
             </a>
+      </div>
+    </div>
+
+    <div class="modal modal-fixed-footer" id="addCategoryModal">
+      <div class="modal-content">
+        <h5>
+          Add a Category
+        </h5><br>
+        <div class="input-field">
+          <input type="text" id="categoryName">
+          <label for="categoryName">Name</label>
+        </div>
+        <div class="input-field">
+          <input type="text" id="categoryCode">
+          <label for="categoryCode">Code</label>
+        </div>
+        <div class="input-field">
+          <input type="text" id="categoryDescription">
+          <label for="categoryDescription" class="active">Description</label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <a href="#" onclick="addCategory()" class="modal-action waves-effect btn-flat">Add</a>
+        <a href="#" class="modal-action modal-close waves-effect waves-red btn-flat">Close</a>
       </div>
     </div>
     <!-- .categoryActivity -->
