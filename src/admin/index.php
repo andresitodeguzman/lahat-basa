@@ -60,9 +60,9 @@ require_once("../_system/config.php");
 
         </div>
 
-        <li><a href="#" onclick="forDeliveryShow()"><i class="material-icons">view_list</i> For Delivery</a></li>
+        <li><a href="#" onclick="forDeliveryShow()"><i class="material-icons">local_shipping</i> For Delivery</a></li>
         <li class="divider"></li>
-        <li><a href="#" onclick="categoryShow()"><i class="material-icons">local_mall</i>Category</a></li>
+        <li><a href="#" onclick="categoryShow()"><i class="material-icons">view_list</i>Category</a></li>
         <li><a href="#" onclick="productsShow()"><i class="material-icons">local_mall</i> Products</a></li>
         <li class="divider"></li>
         <li><a href="#" onclick="editAccountShow()"><i class="material-icons">info</i> Edit Account</a></li>

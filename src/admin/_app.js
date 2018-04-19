@@ -223,6 +223,8 @@ var renderCategories = ()=>{
 		var result = JSON.parse(localStorage.getItem("all-wet-categories"));
 
 		$("#categoryTabs").html(addAllCategories);
+		
+		$("#categoryList").html(" ");
 
 		$.each(result,(index,value)=>{
 			var cid = value['category_id'];
@@ -234,7 +236,17 @@ var renderCategories = ()=>{
 				<li class="tab">
 					<a href="#" onclick="productFilter('cat${cid}')">${cn}</a>
 				</li>`;
+			
+			var tmplCat = `
+				<div class="card">
+					<div class="card-content">
+						<span class="card-title">${cn}</span>
+					</div>
+				</div>
+				`;
+			
 			$("#categoryTabs").append(tmpl);
+			$("#categoryList").append(tmplCat);
 		});
 	} catch(e){
 		M.toast({html:"Fatal error: Cannot processs categories"});

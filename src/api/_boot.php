@@ -11,6 +11,8 @@ spl_autoload_register(function($class_name){
     include('../../class/'.$class_name.'.class.php');
 });
 
+
+
 $time_zone = "Asia/Manila";
 date_default_timezone_set($time_zone);
 

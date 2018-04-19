@@ -118,9 +118,13 @@ class Customer {
         $stmt = $this->mysqli->prepare("SELECT `customer_id`, `customer_number`, `customer_name`, `customer_longitude`, `customer_latitude`, `customer_address`, `customer_image` FROM `customer` WHERE `customer_number` = ? LIMIT 1");
         $stmt->bind_param("s", $this->customer_number);
         $stmt->execute();
-
-        $result = $stmt->get_result();
-        return $result->fetch_assoc();
+        
+        $stmt->bind_result($cust);
+        $stmt->fetch();
+      
+        return $cust;
+        //$result = $stmt->get_result();
+        //return $result->fetch_assoc();
     }
 
     /**
