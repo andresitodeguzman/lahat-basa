@@ -1,24 +1,26 @@
-$(document).ready(()=>{
-	$("meta[name='theme-color']").attr("content","#455a64");
+$(document).ready(() => {
+	$("meta[name='theme-color']").attr("content", "#455a64");
 	clear();
 
 	$(".sidenav").sidenav();
-    $('.modal').modal();
-    
-    loginCheck();
+	$('.modal').modal();
 
-    setForDelivery();
-    setProducts();
+	loginCheck();
 
-    splash(1000);
-    forDeliveryShow();
+	setForDelivery();
+	setProducts();
+
+	splash(1000);
+	forDeliveryShow();
 });
 
 // API URLS
-let transactionGetApi = '/sample_data/transaction.getall.php'; 
+let transactionGetApi = '/sample_data/transaction.getall.php';
 let productGetAllApi = '/sample_data/product.getall.php';
 let transitemGetByProductIdApi = '/sample_data/transitem.getByProductId.php';
 let categoryGetAll = '/sample_data/category.getall.php';
+let categoryUpdate = '/';
+let categoryDelete = '/';
 
 // Global Variables
 let errorCard = `
@@ -46,37 +48,37 @@ let preloader = `
 `;
 
 // UI Functions
-var clear = ()=>{
+var clear = () => {
 	$(".activity").hide();
 }
-var closeNav = ()=>{
+var closeNav = () => {
 	$(".sidenav").sidenav('close');
 }
-var productFilter = (catId)=>{
+var productFilter = (catId) => {
 	$(".product").hide();
 	$(`.${catId}`).fadeIn();
 };
 
 // Activity Loader
-var forDeliveryShow = ()=>{
+var forDeliveryShow = () => {
 	clear();
 	closeNav();
 	$("#forDeliveryActivity").fadeIn();
 }
 
-var categoryShow = ()=>{
+var categoryShow = () => {
 	clear();
 	closeNav();
 	$("#categoryActivity").fadeIn();
 };
 
-var productsShow = ()=>{
+var productsShow = () => {
 	clear();
 	closeNav();
 	$("#productsActivity").fadeIn();
 }
 
-var editAccountShow = ()=>{
+var editAccountShow = () => {
 	clear();
 	closeNav();
 	$("#editAccountActivity").fadeIn();
@@ -84,38 +86,44 @@ var editAccountShow = ()=>{
 
 
 // App Functions
-var loginCheck = ()=>{
-    return true;
+var loginCheck = () => {
+	return true;
 };
 
-var setForDelivery = ()=>{
+var setForDelivery = () => {
 
-    $("#forDeliveryList").html(preloader);
+	$("#forDeliveryList").html(preloader);
 
-    $.ajax({
-        type:'GET',
-        cache: 'false',
-        url: transactionGetApi,
-        data: {
-            a:1
-        },
-        success: result => {
-            try {
-                localStorage.setItem("all-wet-for-delivery",JSON.stringify(result));
-                renderForDelivery();
-            } catch(e) {
-                $("#forDeliveryList").html(errorCard);
-                M.toast({html:"Error processing request", displayLength:3000});
-            }
-        }
-    }).fail(()=>{
-        renderForDelivery();
-        M.toast({html: "Cannot get new 'for delivery' list", displayLength:3000});
-    });
+	$.ajax({
+		type: 'GET',
+		cache: 'false',
+		url: transactionGetApi,
+		data: {
+			a: 1
+		},
+		success: result => {
+			try {
+				localStorage.setItem("all-wet-for-delivery", JSON.stringify(result));
+				renderForDelivery();
+			} catch (e) {
+				$("#forDeliveryList").html(errorCard);
+				M.toast({
+					html: "Error processing request",
+					displayLength: 3000
+				});
+			}
+		}
+	}).fail(() => {
+		renderForDelivery();
+		M.toast({
+			html: "Cannot get new 'for delivery' list",
+			displayLength: 3000
+		});
+	});
 }
 
-var renderForDelivery = ()=>{
-    var empty = `
+var renderForDelivery = () => {
+	var empty = `
 	<div class='card'>
 		<div class='card-content'>
 			<center>Nothing to Deliver Yet</center>
@@ -123,44 +131,44 @@ var renderForDelivery = ()=>{
 	</div>
     `;
 
-    try {
-        var result = JSON.parse(localStorage.getItem("all-wet-for-delivery"));
+	try {
+		var result = JSON.parse(localStorage.getItem("all-wet-for-delivery"));
 
-        if(result.code == 400){
-            $("#forDeliveryList").html(empty);
-        } else {
-            $("#forDeliveryList").html(" ");
+		if (result.code == 400) {
+			$("#forDeliveryList").html(empty);
+		} else {
+			$("#forDeliveryList").html(" ");
 
-            $.each(result,(index,order)=>{
-                var mpimg = " ";
+			$.each(result, (index, order) => {
+				var mpimg = " ";
 
-                var tid = order['transaction_id'];
-                var td = order['transaction_date'];
-                var tt= order['transaction_time'];
-                var cid = order['customer_id'];
-                var tc = order['transaction_count'];
-                var tp = order['transaction_price'];
-                var tpm = order['transaction_payment_method'];
-                var ts = order['transaction_status'];
-                var tlo = order['transaction_longitude'];
-                var tlt = order['transaction_latitude'];
-                var ta = order['transaction_address'];
+				var tid = order['transaction_id'];
+				var td = order['transaction_date'];
+				var tt = order['transaction_time'];
+				var cid = order['customer_id'];
+				var tc = order['transaction_count'];
+				var tp = order['transaction_price'];
+				var tpm = order['transaction_payment_method'];
+				var ts = order['transaction_status'];
+				var tlo = order['transaction_longitude'];
+				var tlt = order['transaction_latitude'];
+				var ta = order['transaction_address'];
 
-                if(tc <= 1) {
-                    var qv = "item";
-                } else {
-                    var qv = "items";
-                }
+				if (tc <= 1) {
+					var qv = "item";
+				} else {
+					var qv = "items";
+				}
 
-                if(tlo){
-                    var mpimg = `
+				if (tlo) {
+					var mpimg = `
                         <div class="card-img">
                             <img src="https://maps.googleapis.com/maps/api/staticmap?center=${tlt},${tlo}&zoom=17&size=800x300&markers=color:blue%7C${tlt},${tlo}&key=AIzaSyCuNfQSkwl85bk38k4de_QR-DwBGL-069o" width="100%">
                         </div>
                     `;
-                }
+				}
 
-                var templ = `
+				var templ = `
                     <div class="card hoverable">
                         ${mpimg}
                         <div class="card-content">
@@ -180,19 +188,19 @@ var renderForDelivery = ()=>{
                         </div>
                     </div>
                 `;
-                    
-                $("#forDeliveryList").append(templ);
 
-            });
+				$("#forDeliveryList").append(templ);
 
-        }
-    } catch(e){
-        alert(e);
-        $("#forDeliveryList").html(errorCard);
-    }
+			});
+
+		}
+	} catch (e) {
+		alert(e);
+		$("#forDeliveryList").html(errorCard);
+	}
 };
 
-var setCategories = ()=>{
+var setCategories = () => {
 	$("#categoryList").html(preloader);
 	$.ajax({
 		type: 'GET',
@@ -201,32 +209,41 @@ var setCategories = ()=>{
 		data: {
 			a: 1
 		},
-		success: result=>{
-			try{
-				localStorage.setItem("all-wet-categories",JSON.stringify(result));
+		success: result => {
+			try {
+				localStorage.setItem("all-wet-categories", JSON.stringify(result));
 				renderCategories();
-			} catch(e){
+			} catch (e) {
 				console.log(`Categories Error: ${e}`);
 				$("#categoryList").html(errorCard);
-				M.toast({html:"An error occured while fetching data",displayLength:3000});
+				M.toast({
+					html: "An error occured while fetching data",
+					displayLength: 3000
+				});
 			}
 		}
-	}).fail(()=>{
+	}).fail(() => {
 		renderCategories();
-		M.toast({html:'Cannot get categories', displayLength:2000});
+		M.toast({
+			html: 'Cannot get categories',
+			displayLength: 2000
+		});
 	});
 };
 
-var renderCategories = ()=>{
+var renderCategories = () => {
 	try {
 		var addAllCategories = `<li class="tab"><a href="#" onclick="productFilter('product')">All</a></li>`;
 		var result = JSON.parse(localStorage.getItem("all-wet-categories"));
 
 		$("#categoryTabs").html(addAllCategories);
-		
+
 		$("#categoryList").html(" ");
 
-		$.each(result,(index,value)=>{
+		$.each(result, (index, value) => {
+			var catup = categoryUpdate;
+			var dlapi = categoryDelete;
+			
 			var cid = value['category_id'];
 			var cn = value['category_name'];
 			var cd = value['category_description'];
@@ -236,26 +253,106 @@ var renderCategories = ()=>{
 				<li class="tab">
 					<a href="#" onclick="productFilter('cat${cid}')">${cn}</a>
 				</li>`;
-			
+
 			var tmplCat = `
-				<div class="card">
+				<div class="card hoverable" id="categoryCard${cid}">
 					<div class="card-content">
-						<span class="card-title">${cn}</span>
+						<span class="card-title">${cn}</span><br>
+						<p>
+							<i class="material-icons">info_outline</i> ${cc}<br>
+							<i class="material-icons">note</i> ${cd}
+						</p>
+					</div>
+					<div class="card-action">
+						<a href="#" class="black-text modal-trigger" data-target="editModalCategory${cid}"><i class="material-icons">edit</i></a>
+						<a href="#" id="deleteCategoryButton${cid}" class="red-text"><i class="material-icons">delete</i></a>
 					</div>
 				</div>
+				
+				<div class="modal" id="editModalCategory${cid}">
+					<div class="modal-content">
+						<h5>Edit Category</h5><br>
+						<div class="input-field">
+							<input type="text" id="categoryName${cid}" value="${cn}">
+							<label for="categoryName${cid}" class="active">Name</label>
+						</div>
+						<div class="input-field">
+							<input type="text" id="categoryCode${cid}" value="${cc}">
+							<label for="categoryCode${cid}" class="active">Code</label>
+						</div>
+						<div class="input-field">
+							<input type="text" id="categoryDescription${cid}" value="${cd}">
+							<label for="categoryDescription${cid}" class="active">Description</label>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<a href="#" id="editCategorySaveButton${cid}" class="modal-action waves-effect btn-flat">Save</a>
+						<a href="#" class="modal-action modal-close waves-effect waves-red btn-flat">Close</a>
+					</div>
+				</div>
+
+				<script type="text/javascript">
+					$(document).ready(()=>{
+						$(".modal").modal();
+					});
+
+					$("#deleteCategoryButton${cid}").click(()=>{
+						
+						$.ajax({
+							type:'POST',
+							cache: 'false',
+							url: '${dlapi}',
+							success: result => {
+								setCategories();
+							}
+						}).fail(()=>{
+							M.toast({html:"An Error Occured", durationLength:3000});
+						});
+					});
+
+					$("#editCategorySaveButton${cid}").click(()=>{
+						var cn${cid} = $("#categoryName${cid}").val();
+						var cc${cid} = $("#categoryCode${cid}").val();
+						var cd${cid} = $("#category_description${cid}").val();
+						
+						if(!cc${cid}){
+							M.toast({html: 'Category code is required', durationLength:3000});
+						} else {
+							if(!cn${cid}){
+								M.toast({html: 'Category name is required', durationLength:3000});
+							} else {
+								$.ajax({
+									type:'POST',
+									cache:'false',
+									url: "${catup}",
+									success: result=>{
+										if(result.message){
+											var rm = result.message;
+											M.toast({html:rm, durationLength:3000});
+										} else {
+											M.toast({html: "Unknown error occured", durationLength:3000});
+										}
+									}
+								});
+							}
+						}
+					});
+				</script>
 				`;
-			
+
 			$("#categoryTabs").append(tmpl);
 			$("#categoryList").append(tmplCat);
 		});
-	} catch(e){
-		M.toast({html:"Fatal error: Cannot processs categories"});
+	} catch (e) {
+		M.toast({
+			html: `Fatal error: ${e}`
+		});
 	}
 }
 
 
 
-var setProducts = ()=>{
+var setProducts = () => {
 	setCategories();
 
 	var empty = `
@@ -269,36 +366,41 @@ var setProducts = ()=>{
 	$("#productsList").html(preloader);
 
 	$.ajax({
-		type:'GET',
+		type: 'GET',
 		cache: 'false',
 		url: productGetAllApi,
 		data: {
 			a: 1
 		},
-		success: result=>{
-			try{
-				localStorage.setItem("all-wet-product",JSON.stringify(result));
+		success: result => {
+			try {
+				localStorage.setItem("all-wet-product", JSON.stringify(result));
 				renderProduct();
-			}
-			catch(e){
+			} catch (e) {
 				console.log(`Products Error: ${e}`);
 				$("#productsList").html(errorCard);
-				M.toast({html:"An error fetching data",displayLength:3000});
+				M.toast({
+					html: "An error fetching data",
+					displayLength: 3000
+				});
 			}
 		}
-	}).fail(()=>{
+	}).fail(() => {
 		renderProduct();
-		M.toast({html:"Cannot get new products",displayLength:3000});
+		M.toast({
+			html: "Cannot get new products",
+			displayLength: 3000
+		});
 	});
 
 }
 
-var renderProduct = ()=>{
-	try{
+var renderProduct = () => {
+	try {
 		var result = JSON.parse(localStorage.getItem("all-wet-product"));
 
 		$("#productsList").html(" ");
-		$.each(result, (index,value)=>{
+		$.each(result, (index, value) => {
 			var n = value['product_name'];
 			var c = value['product_code'];
 			var d = value['product_description'];
@@ -308,7 +410,7 @@ var renderProduct = ()=>{
 			var a = value['product_available'];
 			var i = value['product_image'];
 
-			if(i){
+			if (i) {
 				var img = `
 				<div class="card-img">
 					<img src="${i}" width="100%">
@@ -318,14 +420,14 @@ var renderProduct = ()=>{
 				var img = ``;
 			}
 
-			if(a == 'True'){
+			if (a == 'True') {
 				var a = "Available";
 			} else {
 				var a = "Out of Stock";
 			}
 
 
-			if(p){
+			if (p) {
 				var p = `₱${p}`;
 			} else {
 				var p = "Price Unavailable";
@@ -354,7 +456,7 @@ var renderProduct = ()=>{
 		});
 
 
-	} catch(e){
+	} catch (e) {
 		$("#productsList").html(errorCard);
 	}
 }
