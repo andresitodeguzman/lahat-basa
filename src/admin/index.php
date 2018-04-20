@@ -130,8 +130,8 @@ require_once("../_system/config.php");
 
       <div class="fixed-action-btn">
         <a id="btnAdd" class="btn-floating btn-large blue-grey darken-2 waves-effect waves-light btn-floating z-depth-3 modal-trigger" href="#" data-target="addCategoryModal">
-                <i class="material-icons">add</i>
-            </a>
+          <i class="material-icons">add</i>
+        </a>
       </div>
     </div>
 
@@ -140,21 +140,40 @@ require_once("../_system/config.php");
         <h5>
           Add a Category
         </h5><br>
-        <div class="input-field">
-          <input type="text" id="categoryName">
-          <label for="categoryName">Name</label>
+        <div id="preloaderAddCategory">
+          <center>
+            <div class="preloader-wrapper big active">
+              <div class="spinner-layer spinner-blue-only">
+                <div class="circle-clipper left">
+                  <div class="circle"></div>
+                </div>
+                <div class="gap-patch">
+                  <div class="circle"></div>
+                </div>
+                <div class="circle-clipper right">
+                  <div class="circle"></div>
+                </div>
+              </div>
+            </div>
+          </center>
         </div>
-        <div class="input-field">
-          <input type="text" id="categoryCode">
-          <label for="categoryCode">Code</label>
-        </div>
-        <div class="input-field">
-          <input type="text" id="categoryDescription">
-          <label for="categoryDescription" class="active">Description</label>
+        <div class="addCategoryActivity">
+          <div class="input-field">
+            <input type="text" id="categoryName">
+            <label for="categoryName">Name</label>
+          </div>
+          <div class="input-field">
+            <input type="text" id="categoryCode">
+            <label for="categoryCode">Code</label>
+          </div>
+          <div class="input-field">
+            <input type="text" id="categoryDescription">
+            <label for="categoryDescription" class="active">Description</label>
+          </div>
         </div>
       </div>
-      <div class="modal-footer">
-        <a href="#" onclick="addCategory()" class="modal-action waves-effect btn-flat">Add</a>
+      <div class="modal-footer addCategoryActivity">
+        <a href="#" id="addCategoryButton" onclick="addCategory()" class="modal-action waves-effect btn-flat">Add</a>
         <a href="#" class="modal-action modal-close waves-effect waves-red btn-flat">Close</a>
       </div>
     </div>
@@ -189,9 +208,67 @@ require_once("../_system/config.php");
 
 
       <div class="fixed-action-btn">
-        <a id="btnAdd" class="btn-floating btn-large blue-grey darken-2 waves-effect waves-light btn-floating z-depth-3" href="/app/order.php">
-                <i class="material-icons">add</i>
-            </a>
+        <a id="btnAdd" class="btn-floating btn-large blue-grey darken-2 waves-effect waves-light btn-floating z-depth-3 modal-trigger" href="#" data-target="addProductModal">
+          <i class="material-icons">add</i>
+        </a>
+      </div>
+    </div>
+    
+    <div class="modal modal-fixed-footer" id="addProductModal">
+      <div class="modal-content">
+        <h5>
+          Add a Product
+        </h5><br>
+        <div id="preloaderAddProduct">
+          <center>
+            <div class="preloader-wrapper big active">
+              <div class="spinner-layer spinner-blue-only">
+                <div class="circle-clipper left">
+                  <div class="circle"></div>
+                </div>
+                <div class="gap-patch">
+                  <div class="circle"></div>
+                </div>
+                <div class="circle-clipper right">
+                  <div class="circle"></div>
+                </div>
+              </div>
+            </div>
+          </center>
+        </div>
+        <div class="addProductActivity">
+          <div class="input-field">
+                <input type="text" id="productName">
+                <label for="productName" class="active">Name</label>
+              </div>
+              <div class="input-field">
+                <input type="text" id="productImage">
+                <label for="productImage" class="active">Image URL (Relative to Home)</label>
+              </div>
+              <div class="input-field">
+                <input type="text" id="productDescription">
+                <label for="productDescription" class="active">Description</label>
+              </div>
+              <div class="input-field">
+                <input type="text" id="productCode">
+                <label for="productCode" class="active">Code</label>
+              </div>
+              <div class="input-field">
+                <input type="text" id="productPrice">
+                <label for="productPrice" class="active">Price (in Pesos)</label>
+              </div>
+              <div class="input-field">
+                <select id="productAvailable">
+                  <option value="True">Available</option>
+                  <option value="False">Out of Stock</option>
+                </select>
+                <label>Availability</label>
+              </div>
+        </div>
+      </div>
+      <div class="modal-footer addProductActivity">
+        <a href="#" id="addCategoryButton" onclick="addProduct()" class="modal-action waves-effect btn-flat">Add</a>
+        <a href="#" class="modal-action modal-close waves-effect waves-red btn-flat">Close</a>
       </div>
     </div>
     <!-- .productsActivity -->

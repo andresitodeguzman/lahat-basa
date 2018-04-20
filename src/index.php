@@ -47,7 +47,7 @@ require_once("_system/config.php");
         </ul>
         
         <div class="parallax">
-            <img src="/assets/images/heroimg2.jpg">
+            <img src="/assets/images/heroimg2.jpg" alt="Background Image">
         </div>
         <div class="container">
             <center>
