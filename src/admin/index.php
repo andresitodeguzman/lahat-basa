@@ -67,8 +67,12 @@ require_once("../_system/config.php");
       <li><a href="#" onclick="categoryShow()"><i class="material-icons">view_list</i>Category</a></li>
       <li><a href="#" onclick="productsShow()"><i class="material-icons">local_mall</i> Products</a></li>
       <li class="divider"></li>
-      <li><a href="#" onclick="editAccountShow()"><i class="material-icons">info</i> Edit Account</a></li>
+      <li><a href="#" onclick="customerShow()"><i class="material-icons">people</i> Customers</a></li>
+      <li><a href="#" onclick="employeeShow()"><i class="material-icons">people_outline</i> Employees</a></li>
       <li class="divider"></li>
+      <li><a href="#" onclick="editAccountShow()"><i class="material-icons">pie_chart</i> Sales Report</a></li>
+      <li class="divider"></li>
+      <li><a href="#" onclick="editAccountShow()"><i class="material-icons">info</i> Edit Account</a></li>
       <li><a href="/authenticate/logout.php"><i class="material-icons">person</i> Log-out</a></li>
 
     </ul>
@@ -272,7 +276,55 @@ require_once("../_system/config.php");
       </div>
     </div>
     <!-- .productsActivity -->
-
+    
+    <!-- customerActivity -->
+    <div class="activity col s12" id="customerActivity">
+      <!-- navbar -->
+      <div class="navbar-fixed" id="navbar">
+        <nav class="blue-grey darken-2 z-depth-2">
+          <div class="nav-wrapper">
+            <a href="#" data-target="snav" class="show-on-large sidenav-trigger"><i class="material-icons">menu</i></a>
+            <a class="title" href="#"><b>All Wet</b> Admin</a>
+          </div>
+        </nav>
+      </div>
+      <!-- .navbar -->
+      
+      <div class="container">
+        <h4 class="blue-grey-text text-darken-3">
+          Customers
+        </h4><br>
+        <div class="cards-container">
+          <div id="customerList"></div>
+        </div>
+      </div><br><br><br><br>
+    </div>
+    <!-- .customerActivity -->
+    
+    <!-- employeeActivity -->
+    <div class="activity col s12" id="employeeActivity">
+      <!-- navbar -->
+      <div class="navbar-fixed" id="navbar">
+        <nav class="blue-grey darken-2 z-depth-2">
+          <div class="nav-wrapper">
+            <a href="#" data-target="snav" class="show-on-large sidenav-trigger"><i class="material-icons">menu</i></a>
+            <a class="title" href="#"><b>All Wet</b> Admin</a>
+          </div>
+        </nav>
+      </div>
+      <!-- .navbar -->
+      
+      <div class="container">
+        <h4 class="blue-grey-text text-darken-3">
+          Employees
+        </h4><br>
+        <div class="cards-container">
+          <div id="employeeList"></div>
+        </div>
+      </div>
+    </div>
+    <!-- .employeeActivity -->
+      
     <!-- editAccountActivity -->
     <div class="activity col s12" id="editAccountActivity">
 
@@ -281,7 +333,7 @@ require_once("../_system/config.php");
         <nav class="blue-grey darken-2 z-depth-2">
           <div class="nav-wrapper">
             <a href="#" data-target="snav" class="show-on-large sidenav-trigger"><i class="material-icons">menu</i></a>
-            <a class="title" href="#"><b>All Wet</b> Employee</a>
+            <a class="title" href="#"><b>All Wet</b> Admin</a>
           </div>
         </nav>
       </div>
