@@ -14,7 +14,26 @@ require_once("../_system/config.php");
   <head>
     <title>All Wet - Admin</title>
     <?php require_once("../_system/head.php"); ?>
-    <script type="text/javascript" src="/admin/_app.js"></script>
+    <?php
+      $ar = array(
+        "_global",
+        "_api",
+        "forDelivery",
+        "category",
+        "product",
+        "customer",
+        "employee",
+        "self",
+        "_init"
+      );
+
+      foreach($ar as $loc){
+        $loc = $loc . ".js";
+        echo "
+        <script type='text/javascript' src='/admin/$loc'></script>
+        ";
+      }
+    ?>
   </head>
 
   <body class="grey lighten-4">
@@ -285,6 +304,9 @@ require_once("../_system/config.php");
           <div class="nav-wrapper">
             <a href="#" data-target="snav" class="show-on-large sidenav-trigger"><i class="material-icons">menu</i></a>
             <a class="title" href="#"><b>All Wet</b> Admin</a>
+            <div class="right">
+              <a href="#" onclick="setCustomer()"><i class="material-icons white-text">refresh</i></a>
+            </div>
           </div>
         </nav>
       </div>
@@ -309,6 +331,9 @@ require_once("../_system/config.php");
           <div class="nav-wrapper">
             <a href="#" data-target="snav" class="show-on-large sidenav-trigger"><i class="material-icons">menu</i></a>
             <a class="title" href="#"><b>All Wet</b> Admin</a>
+            <div class="right">
+              <a href="#" onclick="setEmployee()"><i class="material-icons white-text">refresh</i></a>
+            </div>
           </div>
         </nav>
       </div>
@@ -322,7 +347,61 @@ require_once("../_system/config.php");
           <div id="employeeList"></div>
         </div>
       </div>
+
+      <div class="fixed-action-btn">
+        <a id="btnAdd" class="btn-floating btn-large blue-grey darken-2 waves-effect waves-light btn-floating z-depth-3 modal-trigger" href="#" data-target="addEmployeeModal">
+          <i class="material-icons">add</i>
+        </a>
+      </div>
     </div>
+   
+   <div class="modal modal-fixed-footer" id="addEmployeeModal">
+
+     <div class="modal-content">
+       <h5>Add Employee</h5><br>
+       <div id="preloaderAddEmployee">
+          <center>
+            <div class="preloader-wrapper big active">
+              <div class="spinner-layer spinner-blue-only">
+                <div class="circle-clipper left">
+                  <div class="circle"></div>
+                </div>
+                <div class="gap-patch">
+                  <div class="circle"></div>
+                </div>
+                <div class="circle-clipper right">
+                  <div class="circle"></div>
+                </div>
+              </div>
+            </div>
+          </center>
+        </div>
+
+        <div class="addEmployeeActivity">
+          <div class="input-field">
+            <input type="text" id="employeeName">
+            <label for="employeeName">Name</label> 
+          </div>
+          <div class="input-field">
+            <input type="text" id="employeeUsername">
+            <label for="employeeUsername">Username</label>
+          </div>
+          <div class="input-field">
+            <input type="password" id="employeePassword">
+            <label for="employeePassword">Password</label>
+          </div>
+          <div class="input-field">
+            <input type="text" id="employeeImage">
+            <label for="employeeImage">Image (Relative from Home)</label> 
+          </div>
+        </div>
+     </div>
+
+      <div class="modal-footer addEmployeeActivity">
+        <a href="#" id="addEmployeeButton" onclick="addEmployee()" class="modal-action waves-effect btn-flat">Add</a>
+        <a href="#" class="modal-action modal-close waves-effect waves-red btn-flat">Close</a>
+      </div>
+   </div>
     <!-- .employeeActivity -->
       
     <!-- editAccountActivity -->

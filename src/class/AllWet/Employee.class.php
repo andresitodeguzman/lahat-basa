@@ -131,10 +131,10 @@ class Employee {
      */
     final public function getAll(){
         // Query in DB
-        $stmt = $this->mysqli->prepare("SELECT `employee_id`, `employee_name`, `employee_username`, `employee_image` FROM `employee`");
+        $stmt = $this->mysqli->prepare("SELECT `employee_id`, `employee_name`, `employee_username`, `employee_image` FROM `employee` LIMIT 50");
         $stmt->execute();
-        $result = $stmt->get_result();                                          
-        
+        $result = $stmt->get_result();
+
         // Create Empty Placeholder
         $this->employee_array = array();
 
@@ -146,10 +146,10 @@ class Employee {
             $employee_image = $emp['employee_image'];
 
             $prep_arr = array(
-                "employee_id" => $this->employee_id,
-                "employee_name" => $this->employee_name,
-                "employee_username" => $this->employee_username,
-                "employee_image" => $this->employee_image
+                "employee_id" => $employee_id,
+                "employee_name" => $employee_name,
+                "employee_username" => $employee_username,
+                "employee_image" => $employee_image
             );
 
 
