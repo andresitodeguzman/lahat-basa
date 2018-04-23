@@ -23,6 +23,8 @@ let preloader = `
 	</center>
 `;
 
+let errorMessage = "An error occurred";
+
 // Global UI Functions
 var clear = () => {
   $(".activity").hide();

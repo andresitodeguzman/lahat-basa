@@ -44,7 +44,7 @@ class Employee {
         $this->employee_name = $e_array['employee_name'];
         $this->employee_username = $e_array['employee_username'];
         $this->employee_password = $e_array['employee_password'];
-        $this->employee_image = $e_array['employee_image'];
+        if($e_array['employee_image']) $this->employee_image = $e_array['employee_image'];
 
         // Check if username already exists
         if($this->usernameExists($this->employee_username)){
@@ -115,11 +115,13 @@ class Employee {
         $stmt->bind_param("s", $this->employee_username);
         $stmt->execute();
 
-        $result = $stmt->get_result();
-        if($result->fetch_assoc()){
+        $stmt->bind_result($employee_id);
+        while($stmt->fetch()){
+          if($employee_id){
             return True;
-        } else {
+          } else {
             return False;
+          }
         }
     }
 
@@ -130,34 +132,34 @@ class Employee {
      * @return: Array
      */
     final public function getAll(){
-        // Query in DB
-        $stmt = $this->mysqli->prepare("SELECT `employee_id`, `employee_name`, `employee_username`, `employee_image` FROM `employee` LIMIT 50");
-        $stmt->execute();
-        $result = $stmt->get_result();
-
         // Create Empty Placeholder
         $this->employee_array = array();
 
-        // Loop along data
-        while($emp = $result->fetch_array()){
-            $employee_id = $emp['employee_id'];
-            $employee_name = $emp['employee_name'];
-            $employee_username = $emp['employee_username'];
-            $employee_image = $emp['employee_image'];
+        if($result = $this->mysqli->query("SELECT `employee_id`, `employee_name`, `employee_username`, `employee_image` FROM `employee` LIMIT 50")){
+          // Loop along data
+          while($emp = $result->fetch_array()){
+              $employee_id = $emp['employee_id'];
+              $employee_name = $emp['employee_name'];
+              $employee_username = $emp['employee_username'];
+              $employee_image = $emp['employee_image'];
 
-            $prep_arr = array(
-                "employee_id" => $employee_id,
-                "employee_name" => $employee_name,
-                "employee_username" => $employee_username,
-                "employee_image" => $employee_image
-            );
+              $prep_arr = array(
+                  "employee_id" => $employee_id,
+                  "employee_name" => $employee_name,
+                  "employee_username" => $employee_username,
+                  "employee_image" => $employee_image
+              );
 
 
-            array_push($this->employee_array, $prep_arr);
+              array_push($this->employee_array, $prep_arr);
+          }
+
         }
-
+        
         // Return array
         return $this->employee_array;
+        
+
     }
 
     /**

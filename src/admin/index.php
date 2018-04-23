@@ -18,11 +18,12 @@ require_once("../_system/config.php");
       $ar = array(
         "_global",
         "_api",
-        "forDelivery",
+        "fordelivery",
         "category",
         "product",
         "customer",
         "employee",
+        "salesreport",
         "self",
         "_init"
       );
@@ -89,7 +90,7 @@ require_once("../_system/config.php");
       <li><a href="#" onclick="customerShow()"><i class="material-icons">people</i> Customers</a></li>
       <li><a href="#" onclick="employeeShow()"><i class="material-icons">people_outline</i> Employees</a></li>
       <li class="divider"></li>
-      <li><a href="#" onclick="editAccountShow()"><i class="material-icons">pie_chart</i> Sales Report</a></li>
+      <li><a href="#" onclick="salesReportShow()"><i class="material-icons">pie_chart</i> Sales Report</a></li>
       <li class="divider"></li>
       <li><a href="#" onclick="editAccountShow()"><i class="material-icons">info</i> Edit Account</a></li>
       <li><a href="/authenticate/logout.php"><i class="material-icons">person</i> Log-out</a></li>
@@ -403,7 +404,27 @@ require_once("../_system/config.php");
       </div>
    </div>
     <!-- .employeeActivity -->
-      
+    
+    <!-- salesReportActivity -->
+    <div class="activity col s12" id="salesReportActivity">
+      <!-- navbar -->
+      <div class="navbar-fixed" id="navbar">
+        <nav class="blue-grey darken-2 z-depth-2">
+          <div class="nav-wrapper">
+            <a href="#" data-target="snav" class="show-on-large sidenav-trigger"><i class="material-icons">menu</i></a>
+            <a class="title" href="#"><b>All Wet</b> Admin</a>
+          </div>
+        </nav>
+      </div>
+      <!-- .navbar -->
+      <div class="container">
+         <h4 class="blue-grey-text text-darken-3">
+           Sales Report
+        </h4><br>
+      </div>
+    </div>
+    <!-- .salesReportActivity -->
+    
     <!-- editAccountActivity -->
     <div class="activity col s12" id="editAccountActivity">
 

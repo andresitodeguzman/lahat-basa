@@ -58,6 +58,10 @@ var renderCustomer = ()=>{
         var img = "";
       }
       
+      if(!ca){
+       var ca = "Unknown Address"; 
+      }
+      
       var tmpl = `
         <div class="card hoverable">
             ${img}
@@ -65,7 +69,12 @@ var renderCustomer = ()=>{
             <span class="card-title">${cn}</span><br>
             <p>
               <i class="material-icons">phone</i> 0${cnu}<br>
+              <i class="material-icons">map</i> ${ca}
             </p>
+          </div>
+          <div class="card-action">
+            <a href="tel:+69${cnu}" class="black-text"><i class="material-icons">phone</i></a>
+            <a href="sms:+69${cnu}" class="black-text"><i class="material-icons">message</i></a>
           </div>
         </div>
       `;

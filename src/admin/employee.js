@@ -34,6 +34,7 @@ var renderEmployee = ()=>{
     var result = JSON.parse(localStorage.getItem("all-wet-employee"));
     $("#employeeList").html(" ");
     $.each(result,(index,value)=>{
+      console.log(value);
       var eid = value.employee_id;
       var en = value.employee_name;
       var eu = value.employee_username;
@@ -109,7 +110,7 @@ var renderEmployee = ()=>{
 
           </div>
           <div class="modal-footer" id="editEmployeeActivity${eid}">
-            <a href="#" onclick="saveEditEmployee${id}()" class="modal-action waves-effect btn-flat">Save</a>
+            <a href="#" onclick="saveEditEmployee${eid}()" class="modal-action waves-effect btn-flat">Save</a>
             <a href="#" class="modal-action modal-close waves-effect waves-red btn-flat">Close</a>
           </div>
         </div>

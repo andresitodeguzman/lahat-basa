@@ -246,7 +246,7 @@ var addCategory = () => {
               $("#categoryCode").val(" ");
               $("#categoryDescription").val(" ");              
             } else {
-              M.toast({html:"An Error Occured", durationLength:3000});
+              M.toast({html:"An Error Occurred", durationLength:3000});
             }
             
             $(".addCategoryActivity").show();
@@ -254,7 +254,7 @@ var addCategory = () => {
 
           } catch (e) {
             M.toast({
-              html: `A Fatal Error Occured: ${e}`,
+              html: `A Fatal Error Occurred: ${e}`,
               durationLength: 3000
             });
           }
