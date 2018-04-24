@@ -16,9 +16,9 @@ $obj = new AllWet\Employee($mysqli);
 
 if(empty($_REQUEST['employee_id'])) throwError("Empty id");
 
-$employee_id = $_REQUEST['employee_id'];
+$employee_id = (Int) $_REQUEST['employee_id'];
 
-$result = $obj->delete($array);
+$result = $obj->delete($employee_id);
 
 if($result){
 	$res = array(

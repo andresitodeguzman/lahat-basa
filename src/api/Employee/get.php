@@ -14,7 +14,7 @@ require_once("../_boot.php");
 
 if(empty($_REQUEST['employee_id'])) throwError("Empty id");
 
-$id = $_REQUEST['employee_id'];
+$id = (Integer) $_REQUEST['employee_id'];
 
 $obj = new AllWet\Employee($mysqli);
 
