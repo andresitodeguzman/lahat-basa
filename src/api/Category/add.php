@@ -30,7 +30,7 @@ $array = array(
 
 $result = $obj->add($array);
 
-if($result){
+if($result === True){
 	$res = array(
 		"code" => "200",
 		"message" => "Successfully Added"

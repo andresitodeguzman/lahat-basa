@@ -128,8 +128,11 @@ var renderCategories = () => {
 							type:'POST',
 							cache: 'false',
 							url: '${dlapi}',
+              data:{
+                category_id:${cid}
+              },
 							success: result => {
-								setCategories();
+								setCategory();
 							}
 						}).fail(()=>{
 							M.toast({html:"An Error Occured", durationLength:3000});
@@ -172,6 +175,7 @@ var renderCategories = () => {
                       if(result.message){
                         var rm = result.message;
                         M.toast({html:rm, durationLength:3000});
+                        setCategory();
                       } else {
                         M.toast({html: "Unknown error occured", durationLength:3000});
                       }
@@ -242,9 +246,10 @@ var addCategory = () => {
             
             if(result.code){
               M.toast({html:result.message, durationLength:3000});
-              $("#categoryName").val(" ");
-              $("#categoryCode").val(" ");
-              $("#categoryDescription").val(" ");              
+              $("#categoryName").val("");
+              $("#categoryCode").val("");
+              $("#categoryDescription").val("");
+              setCategory();
             } else {
               M.toast({html:"An Error Occurred", durationLength:3000});
             }

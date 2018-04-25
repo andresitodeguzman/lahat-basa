@@ -16,12 +16,13 @@ $obj = new AllWet\Category($mysqli);
 
 if(empty($_REQUEST['category_id'])) throwError("Empty id");
 if(empty($_REQUEST['category_name'])) throwError("Empty name");
-if(empty($_REQUEST['category_description'])) throwError("Empty description");
 if(empty($_REQUEST['category_code'])) throwError("Empty code");
 
-$category_id = $_REQUEST['category_id'];
+$category_description = "";
+
+$category_id = (int) $_REQUEST['category_id'];
 $category_name = $_REQUEST['category_name'];
-$category_description = $_REQUEST['category_description'];
+if($_REQUEST['category_description']) $category_description = $_REQUEST['category_description'];
 $category_code = $_REQUEST['category_code'];
 
 $array = array(
@@ -33,15 +34,15 @@ $array = array(
 
 $result = $obj->update($array);
 
-if($result){
+if($result == True){
 	$res = array(
 		"code" => "200",
-		"message" => "Successfully updated"
+		"message" => "Successfully edited"
 	);
 } else {
 	$res = array(
 		"code" => "400",
-		"message" => "Fail to update"
+		"message" => "Failed to edit"
 	);
 }
 

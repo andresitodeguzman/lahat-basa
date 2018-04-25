@@ -135,7 +135,7 @@ class Employee {
 
     // Delete in DB
     $stmt = $this->mysqli->prepare("DELETE FROM `employee` WHERE `employee_id` = ?");
-    $stmt->bind_param("s", $this->employee_id);
+    $stmt->bind_param("i", $this->employee_id);
     
     if($stmt->execute()){
       return True;
@@ -147,7 +147,120 @@ class Employee {
   }
   
   final public function  getByUsername(String $employee_username){
-    return True;
+    // Handle Param
+    $this->employee_username = $employee_username;
+
+    // Query in DB
+    $stmt = $this->mysqli->prepare("SELECT `employee_id`, `employee_name`, `employee_username`, `employee_image` FROM `employee` WHERE `employee_username` = ? LIMIT 1");
+    $stmt->bind_param("s", $this->employee_username);
+    $stmt->execute();
+    
+    $stmt->bind_result($employee_id, $employee_name, $employee_username, $employee_image);
+          
+    $employee_info = array();  
+    
+    while($stmt->fetch()){
+      $employee_info = array(
+        "employee_id"=>$employee_id,
+        "employee_name"=>$employee_name,
+        "employee_username"=>$employee_username,
+        "employee_image"=>$employee_image
+      );
+    }
+
+    $result = $employee_info;
+
+    // Return Result
+    return $result;
+  }
+  
+  final public function updateSignIn(Array $e_array){
+    $this->employee_id = $e_array['employee_id'];
+    $this->employee_username = $e_array['employee_username'];
+    $this->employee_password = $e_array['employee_password'];
+    
+    $employee = $this->get($this->employee_id);
+    
+    if($employee['employee_username'] == $this->employee_username){
+      
+      if(strlen($this->employee_password) < 8){
+          return "Password too short";
+        } else {
+          // Hash password
+          $this->employee_password = password_hash($this->employee_password, PASSWORD_DEFAULT);
+          
+          $stmt = $this->mysqli->prepare("UPDATE `employee` SET employee_password=? WHERE employee_id=?");
+          $stmt->bind_param("si",$this->employee_password, $this->employee_id);
+          
+          if($stmt->execute()){
+            return True;
+          } else {
+            return False;
+          }
+        }
+      
+    } else {
+      if($this->usernameExists($this->employee_username)){
+        return "Username already Taken"; 
+      } else {
+        if(strlen($this->employee_password) < 8){
+          return "Password too short";
+        } else {
+          // Hash password
+          $this->employee_password = password_hash($this->employee_password, PASSWORD_DEFAULT);
+          
+          $stmt = $this->mysqli->prepare("UPDATE `employee` SET employee_username=?, employee_password=? WHERE employee_id=?");
+          $stmt->bind_param("ssi",$this->employee_username, $this->employee_password, $this->employee_id);
+          
+          if($stmt->execute()){
+            return True;
+          } else {
+            return False;
+          }
+        }
+      }
+    }
+    
+  }
+  
+  final public function update(Array $e_array){
+    $this->employee_id = $e_array['employee_id'];
+    $this->employee_name = $e_array['employee_name'];
+    $this->employee_username = $e_array['employee_username'];
+    if($e_array['employee_image']) $this->employee_image = $e_array['employee_image'];
+    
+    $employee = $this->get($this->employee_id);
+    
+    if($employee['employee_username'] == $this->employee_username){
+       
+      $stmt = $this->mysqli->prepare("UPDATE `employee` SET employee_name=?, employee_image=? WHERE employee_id=?");
+      $stmt->bind_param("ssi", $this->employee_name, $this->employee_image, $this->employee_id);
+      
+      if($stmt->execute()){
+         return True;
+      } else {
+        return False;
+      }
+      
+      
+    } else {
+      
+      if($this->usernameExists($this->employee_username)){
+        return "Username already taken";
+      } else {
+        
+        $stmt = $this->mysqli->prepare("UPDATE `employee` SET employee_username=?, employee_name=?, employee_image=? WHERE employee_id=?");
+        $stmt->bind_param("sssi", $this->employee_username, $this->employee_name, $this->employee_image, $this->employee_id);
+        
+        if($stmt->execute()){
+          return True;
+        } else {
+          return False;
+        }
+        
+      }
+      
+    }
   }
 
 }

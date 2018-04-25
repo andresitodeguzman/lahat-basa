@@ -18,7 +18,7 @@ if(empty($_REQUEST['category_id'])) throwError("Empty id");
 
 $category_id = $_REQUEST['category_id'];
 
-$result = $obj->delete($array);
+$result = (Int) $obj->delete($category_id);
 
 if($result){
 	$res = array(

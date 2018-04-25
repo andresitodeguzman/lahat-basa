@@ -347,7 +347,7 @@ require_once("../_system/config.php");
         <div class="cards-container">
           <div id="employeeList"></div>
         </div>
-      </div>
+      </div><br><br><br><br>
 
       <div class="fixed-action-btn">
         <a id="btnAdd" class="btn-floating btn-large blue-grey darken-2 waves-effect waves-light btn-floating z-depth-3 modal-trigger" href="#" data-target="addEmployeeModal">

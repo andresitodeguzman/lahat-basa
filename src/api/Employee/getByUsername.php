@@ -4,21 +4,21 @@
  * 2018
  * 
  * API
- * Category
- * get
+ * Employee
+ * getByUsername
  */
 
 require_once("../../_system/keys.php");
 require_once("../_secure.php");
 require_once("../_boot.php");
 
-if(empty($_REQUEST['category_id'])) throwError("Empty id");
+if(empty($_REQUEST['employee_username'])) throwError("Empty Username");
 
-$id = $_REQUEST['category_id'];
+$employee_username = (String) $_REQUEST['employee_username'];
 
-$obj = new AllWet\Category($mysqli);
+$obj = new AllWet\Employee($mysqli);
 
-$data = $obj->get($id);
+$data = $obj->getByUsername($employee_username);
 
 
 if(empty($data)){

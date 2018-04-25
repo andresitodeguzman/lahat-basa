@@ -5,20 +5,20 @@
  * 
  * API
  * Category
- * get
+ * getByCategoryCode
  */
 
 require_once("../../_system/keys.php");
 require_once("../_secure.php");
 require_once("../_boot.php");
 
-if(empty($_REQUEST['category_id'])) throwError("Empty id");
+if(empty($_REQUEST['category_code'])) throwError("Empty Code");
 
-$id = $_REQUEST['category_id'];
+$id = $_REQUEST['category_code'];
 
 $obj = new AllWet\Category($mysqli);
 
-$data = $obj->get($id);
+$data = $obj->getByCode($id);
 
 
 if(empty($data)){

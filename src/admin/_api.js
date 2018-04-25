@@ -7,13 +7,13 @@ let employeeDelete = '/api/Employee/delete.php';
 
 let transactionGetApi = '/sample_data/transaction.getall.php';
 
-let productGetAllApi = '/sample_data/product.getall.php';
+let productGetAllApi = '/api/Product/getAll.php';
 let productDelete = '/';
 let productAdd = '/';
 
 let transitemGetByProductIdApi = '/sample_data/transitem.getByProductId.php';
 
-let categoryGetAll = '/sample_data/category.getall.php';
-let categoryUpdate = '/';
-let categoryDelete = '/';
-let categoryAdd = '/';
+let categoryGetAll = '/api/Category/getAll.php';
+let categoryUpdate = '/api/Category/update.php';
+let categoryDelete = '/api/Category/delete.php';
+let categoryAdd = '/api/Category/add.php';

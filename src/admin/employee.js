@@ -61,7 +61,7 @@ var renderEmployee = ()=>{
             <a href="#" data-target="modalEditEmployee${eid}" class="black-text modal-trigger">
               <i class="material-icons">edit</i>
             </a>
-            <a href="#" onclick="deleteEmployee${eid}" class="red-text">
+            <a href="#" onclick="deleteEmployee${eid}()" class="red-text">
               <i class="material-icons">delete</i>
             </a>
           </div>
@@ -123,11 +123,38 @@ var renderEmployee = ()=>{
 
 
           var saveEditEmployee${eid} = ()=>{
-            alert("ok");
+            var en${eid} = $("#employeeName${eid}").val();
+            var eu${eid} = $("#employeeUsername${eid}").val();
+            var ep${eid} = $("#employeePassword${eid}").val();
+            var ei${eid} = $("#employeeImage${eid}").val();
+            
+            if(!eu${eid}){
+              M.toast({html:"Username is Required",durationLength:3000});
+            } else {
+              if(!en${eid}){
+                M.toast({html:"Username is Required",durationLength:3000});
+              } else {
+                alert("ok");  
+              }
+            }
           };
 
           var deleteEmployee${eid} = ()=>{
-
+            $.ajax({
+              type:'POST',
+              url:'/api/Employee/delete.php',
+              data: {
+                employee_id: ${eid}
+              },
+              success: result=>{
+                if(result.code){
+                  M.toast({html:result.message,durationLength:3000});
+                  setEmployee(); 
+                }
+              }
+             }).fail(()=>{
+                M.toast({html:"An Error Occurred",durationLength:3000});
+             });
           };
         </script>
       `;
@@ -179,18 +206,20 @@ var addEmployee = ()=>{
             },
             success: result=>{
               try {
-                if(result.code){
-                  M.toast({html:code.message, durationLength:3000});
-                  $("#employeeName").val(" ");
-                  $("#employeeUsername").val(" ");
-                  $("#employeePassword").val(" ");
-                  $("#employeeImage").val(" ");
+                if(result.code){                  
+                  M.toast({html:result.message, durationLength:3000});
+                  $("#employeeName").val("");
+                  $("#employeeUsername").val("");
+                  $("#employeePassword").val("");                  
+                  $("#employeeImage").val("");
+                  setEmployee();
                   showInput();
                 } else {
                   M.toast({html: "An Error Occurred", durationLength:3000});
                   showInput();  
                 }
               } catch(e) {
+                console.log(e);
                 M.toast({html: "An Error Occurred", durationLength:3000});
                 showInput();
               }
