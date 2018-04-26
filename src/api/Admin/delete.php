@@ -18,7 +18,7 @@ if(empty($_REQUEST['admin_id'])) throwError("Empty id");
 
 $admin_id = $_REQUEST['admin_id'];
 
-$result = $obj->delete($array);
+$result = $obj->delete($admin_id);
 
 if($result == True){
 	$res = array(

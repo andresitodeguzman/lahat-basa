@@ -158,7 +158,7 @@ class Category {
     $this->category_code = $c_array['category_code'];
     if($c_array['category_description']) $this->category_description = $c_array['category_description'];
     
-    $category_info = $this->get($category_id);
+    $category_info = $this->get($this->category_id);
     
     if($category_info['category_code'] == $this->category_code){
         

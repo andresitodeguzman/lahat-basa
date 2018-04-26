@@ -18,9 +18,9 @@ if(empty($_REQUEST['product_id'])) throwError("Empty id");
 
 $product_id = $_REQUEST['product_id'];
 
-$result = $obj->delete($array);
+$result = $obj->delete($product_id);
 
-if($result){
+if($result == True){
 	$res = array(
 		"code" => "200",
 		"message" => "Successfully deleted"

@@ -145,7 +145,7 @@ var renderCategories = () => {
 
 						var cn${cid} = $("#categoryName${cid}").val();
 						var cc${cid} = $("#categoryCode${cid}").val();
-						var cd${cid} = $("#category_description${cid}").val();
+						var cd${cid} = $("#categoryDescription${cid}").val();
 						
             var reshowCategoryEditInput${cid} = ()=>{
               $("#editCategoryPreloader${cid}").hide();
@@ -165,7 +165,7 @@ var renderCategories = () => {
 									cache:'false',
 									url: "${catup}",
 									data: {
-										category_id: ${cid},
+										category_id: '${cid}',
 										category_name: cn${cid},
 										category_code: cc${cid},
 										category_description: cd${cid}

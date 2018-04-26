@@ -22,11 +22,9 @@ $(document).ready(()=>{
 
 // API URLS
 let transactionGetApi = '/sample_data/transaction.getall.php'; 
-let productGetAllApi = '/sample_data/product.getall.php';
-//let productGetAllApi = '/api/Product/getAll.php';
+let productGetAllApi = '/api/Product/getAll.php';
 let transitemGetByProductIdApi = '/sample_data/transitem.getByProductId.php';
-let categoryGetAll = '/sample_data/category.getall.php';
-//let categoryGetAll = '/api/Category/getAll.php';
+let categoryGetAll = '/api/Category/getAll.php';
 
 // Global Cards
 let errorCard = `

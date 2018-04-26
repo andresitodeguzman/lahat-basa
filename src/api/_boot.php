@@ -12,14 +12,15 @@ spl_autoload_register(function($class_name){
     include('../../class/'.$class_name.'.class.php');
 });*/
 
+require_once("../../class/AllWet/Admin.class.php");
+require_once("../../class/AllWet/Customer.class.php");
 require_once("../../class/AllWet/Employee.class.php");
 require_once("../../class/AllWet/Product.class.php");
 require_once("../../class/AllWet/Category.class.php");
-
-/*require_once("../../class/AllWet/Admin.class.php");
-require_once("../../class/AllWet/Customer.class.php");
-require_once("../../class/AllWet/Transaction.class.php");
 require_once("../../class/AllWet/TransItem.class.php");
+
+/*
+require_once("../../class/AllWet/Transaction.class.php");
 */
 
 $time_zone = "Asia/Manila";
