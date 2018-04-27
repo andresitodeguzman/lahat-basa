@@ -5,7 +5,7 @@
  * 
  * API
  * Transaction
- * getAll
+ * getByCustomerId
  */
 
 require_once("../../_system/keys.php");
@@ -13,9 +13,13 @@ require_once("../_secure.php");
 require_once("../_boot.php");
 
 $obj = new AllWet\Transaction($mysqli);
-$customer = new AllWet\Customer($mysqli);
 
-$data = $obj->getAll();
+if(empty($_REQUEST['customer_id'])) throwError("Empty Customer id");
+
+$id = $_REQUEST['customer_id'];
+
+$data = $obj->getByCustomerId($id);
+
 
 if(empty($data)){
     $data = json_encode(array());
@@ -24,4 +28,5 @@ if(empty($data)){
 }
 
 echo $data;
+
 ?>

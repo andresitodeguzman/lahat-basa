@@ -5,7 +5,7 @@
  * 
  * API
  * Transaction
- * delete
+ * updateStatus
  */
 
 require_once("../../_system/keys.php");
@@ -15,20 +15,27 @@ require_once("../_boot.php");
 $obj = new AllWet\Transaction($mysqli);
 
 if(empty($_REQUEST['transaction_id'])) throwError("Empty id");
+if(empty($_REQUEST['transaction_status'])) throwError("Empty status");
 
 $transaction_id = $_REQUEST['transaction_id'];
+$transaction_status = $_REQUEST['transaction_status'];
 
-$result = $obj->delete($transaction_id);
+$array = array(
+  "transaction_id"=>$transaction_id,
+	"transaction_status" => $transaction_status	
+);
 
-if($result){
+$result = $obj->updateStatus($array);
+
+if($result === True){
 	$res = array(
 		"code" => "200",
-		"message" => "Successfully deleted"
+		"message" => "Successfully updated"
 	);
 } else {
 	$res = array(
 		"code" => "400",
-		"message" => "Fail to delete"
+		"message" => "Fail to update"
 	);
 }
 

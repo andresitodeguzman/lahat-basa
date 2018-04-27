@@ -88,7 +88,7 @@ class Product {
     return $product_info;
   }
   
-  final private function getByProductCode(String $product_code){
+  final public function getByProductCode(String $product_code){
     $this->product_code = $product_code;
     
     $stmt = $this->mysqli->prepare("SELECT * FROM `product` WHERE `product_code`=? LIMIT 1");
@@ -111,6 +111,33 @@ class Product {
         "product_image"=>$product_image
       );
       $product_info = $prep_arr;
+    }
+    
+    return $product_info;
+  }
+  
+  final public function getByCategoryId(Int $category_id){
+    $this->category_id = $category_id;
+    
+    $stmt = $this->mysqli->prepare("SELECT * FROM `product` WHERE `category_id`=?");
+    $stmt->bind_param("s", $this->category_id);
+    $stmt->execute();
+    $stmt->bind_result($product_id, $product_code, $product_name, $product_description, $product_available, $category_id, $product_price, $product_image);
+    
+    $product_info = array();
+    
+    while($stmt->fetch()){
+      $prep_arr = array(
+        "product_id"=>$product_id,
+        "product_code"=>$product_code,
+        "product_name"=>$product_name,
+        "product_description"=>$product_description,
+        "product_available"=>$product_available,
+        "category_id"=>$category_id,
+        "product_price"=>$product_price,
+        "product_image"=>$product_image
+      );
+      array_push($product_info, $prep_arr);
     }
     
     return $product_info;
@@ -167,6 +194,41 @@ class Product {
       return True;
     } else {
       return False;
+    }
+  }
+  
+  final public function update(Array $p_array){
+    $product_id = $p_array['product_id'];
+    $product_name = $p_array['product_name'];
+    $product_code = $p_array['product_code'];
+    if($p_array['product_description']) $this->product_description = $p_array['product_description'];
+    $this->product_available = $p_array['product_available'];
+    $this->category_id = $p_array['category_id'];
+    $this->product_price = $p_array['product_price'];
+    $this->product_image = $p_array['product_image'];
+    
+    $product_info = $this->get($this->product_id);
+    
+    if($product_info['product_code'] == $this->product_code){
+      $stmt = $this->mysqli->prepare("UPDATE `product` SET `product_name`=?, `product_description`=?, `product_available`=?, `category_id`=?, `product_price`=?, `product_image`=? WHERE `product_id`=?");
+      $stmt->bind_param("sssissi", $this->product_name, $this->product_description, $this->product_available, $this->category_id, $this->product_price, $this->product_image, $this->product_id);
+      if($stmt->execute()){
+        return True;
+      } else {
+        return False;
+      }
+    } else {
+      if($this->codeExists($this->product_code) === True){
+        return "Product code already in use";
+      } else {
+        $stmt = $this->mysqli->prepare("UPDATE `product` SET `product_name`=?, `product_code`=?, `product_description`=?, `product_available`=?, `category_id`=?, `product_price`=?, `product_image`=? WHERE `product_id`=?");
+        $stmt->bind_param("ssssissi", $this->product_name, $this->product_code, $this->product_description, $this->product_available, $this->category_id, $this->product_price, $this->product_image, $this->product_id);
+        if($stmt->execute()){
+          return True;
+        } else {
+          return False;
+        }
+      }
     }
   }
 

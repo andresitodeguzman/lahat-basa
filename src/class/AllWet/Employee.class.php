@@ -262,6 +262,30 @@ class Employee {
       
     }
   }
+  
+  final public function verifySignIn(Array $e_array){
+    $this->employee_username = $e_array['employee_username'];
+    $this->employee_password = $e_array['employee_password'];
+    
+    $stmt = $this->mysqli->prepare("SELECT `employee_id`, `employee_username`, `employee_password` FROM `employee` WHERE `employee_username`=?");
+    $stmt->bind_param("s", $this->employee_username);
+    $stmt->execute();
+    $stmt->bind_result($employee_id, $employee_username, $employee_password);
+    $stmt->fetch();
+    
+    $wrongInfo = "Username or Password is Incorrect";
+    
+    if($employee_username){
+      $c_p = password_verify($this->employee_password, $employee_password);
+      if($c_p){
+        return True;
+      } else {
+        return $wrongInfo;
+      }
+    } else {
+      return $wrongInfo;
+    }
+  }
 
 }
 ?>

@@ -4,18 +4,21 @@
  * 2018
  * 
  * API
- * Transaction
- * getAll
+ * Transitem
+ * getByTransactionId
  */
 
 require_once("../../_system/keys.php");
 require_once("../_secure.php");
 require_once("../_boot.php");
 
-$obj = new AllWet\Transaction($mysqli);
-$customer = new AllWet\Customer($mysqli);
+$obj = new AllWet\TransItem($mysqli);
 
-$data = $obj->getAll();
+if(empty($_REQUEST['transaction_id'])) throwError("Empty Transaction ID");
+
+$id = $_REQUEST['transaction_id'];
+
+$data = $obj->getByTransactionId($id);
 
 if(empty($data)){
     $data = json_encode(array());
@@ -24,4 +27,5 @@ if(empty($data)){
 }
 
 echo $data;
+
 ?>

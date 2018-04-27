@@ -18,7 +18,7 @@ if(empty($_REQUEST['transitem_id'])) throwError("Empty id");
 
 $transitem_id = $_REQUEST['transitem_id'];
 
-$result = $obj->delete($array);
+$result = $obj->delete($transitem_id);
 
 if($result == True){
 	$res = array(

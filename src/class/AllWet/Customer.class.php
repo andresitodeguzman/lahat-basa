@@ -168,6 +168,55 @@ class Customer {
       return False;
     }
   }
+  
+  final public function numberExists(String $customer_number){
+    $this->customer_number = $customer_number;
+    
+    $stmt = $this->mysqli->prepare("SELECT `customer_number` FROM `customer` WHERE `customer_number`=? LIMIT 1");
+    $stmt->bind_param("s", $this->customer_number);
+    $stmt->execute();
+    $stmt->bind_result($customer_number);
+    $stmt->fetch();
+    
+    if($customer_number === $this->customer_number){
+      return True;
+    } else {
+      return False;
+    }
+  }
+  
+  final public function add(Array $c_array){
+    $this->customer_number = $c_array['customer_number'];
+    $this->customer_name = $c_array['customer_name'];
+    $this->customer_longitude = $c_array['customer_longitude'];
+    $this->customer_latitude = $c_array['customer_latitude'];
+    $this->customer_address = $c_array['customer_address'];
+    $this->customer_image = $c_array['customer_image'];
+    $this->customer_access_token = $c_array['customer_access_token'];
+
+    $stmt = $this->mysqli->prepare("INSERT INTO `customer` (`customer_number`, `customer_name`, `customer_longitude`, `customer_latitude`, `customer_address`, `customer_image`, `customer_access_token`) VALUES (?,?,?,?,?,?,?)");
+    $stmt->bind_param("sssssss", $this->customer_number, $this->customer_name, $this->customer_longitude, $this->customer_latitude, $this->customer_address, $this->customer_image, $this->customer_access_token);
+    
+    if($stmt->execute()){
+      return True;
+    } else {
+      return False;
+    }
+  }
+  
+  final public function updateAccessToken(Int $customer_id, String $customer_access_token){
+    $this->customer_id = $customer_id;
+    $this->customer_access_token = $customer_access_token;
+
+    $stmt = $this->mysqli->prepare("UPDATE `customer` SET `customer_access_token` = ? WHERE `customer_id` = ?");
+    $stmt->bind_param("ss", $this->customer_access_token, $this->customer_id);
+    
+    if($stmt->execute()){
+      return True;
+    } else {
+      return False;
+    }
+  }
 
 }
 ?>

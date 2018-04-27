@@ -4,23 +4,23 @@
  * 2018
  * 
  * API
- * Transaction
- * delete
+ * transitem
+ * deleteByTransactionId
  */
 
 require_once("../../_system/keys.php");
 require_once("../_secure.php");
 require_once("../_boot.php");
 
-$obj = new AllWet\Transaction($mysqli);
+$obj = new AllWet\TransItem($mysqli);
 
-if(empty($_REQUEST['transaction_id'])) throwError("Empty id");
+if(empty($_REQUEST['transaction_id'])) throwError("Empty Transaction id");
 
 $transaction_id = $_REQUEST['transaction_id'];
 
-$result = $obj->delete($transaction_id);
+$result = $obj->deleteByTransactionId($transaction_id);
 
-if($result){
+if($result == True){
 	$res = array(
 		"code" => "200",
 		"message" => "Successfully deleted"
@@ -28,7 +28,7 @@ if($result){
 } else {
 	$res = array(
 		"code" => "400",
-		"message" => "Fail to delete"
+		"message" => "Failed to delete"
 	);
 }
 
