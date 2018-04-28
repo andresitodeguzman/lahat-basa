@@ -12,10 +12,7 @@ var setForDelivery = () => {
   $.ajax({
     type: 'GET',
     cache: 'false',
-    url: transactionGetApi,
-    data: {
-      a: 1
-    },
+    url: transactionGetAll,
     success: result => {
       try {
         localStorage.setItem("all-wet-for-delivery", JSON.stringify(result));

@@ -142,6 +142,12 @@ var renderProduct = () => {
                 <label for="productName${id}" class="active">Name</label>
               </div>
               <div class="input-field">
+                <p class="grey-text">Category</p>
+                <select id="categoryId${id}" class="catSelect${id}">
+                  <option disabled>Category</option>
+                </select>
+              </div>
+              <div class="input-field">
                 <input type="text" id="productImage${id}" value="${i}">
                 <label for="productImage${id}" class="active">Image URL (Relative to Home)</label>
               </div>
@@ -176,10 +182,22 @@ var renderProduct = () => {
 					$(document).ready(()=>{
 						$(".modal").modal();
 						$('select').formSelect();
+            setCategoryIdSelect${id}();
 						$("#productAvailable${id}").val("${a}");
+            $("#categoryId${id}").val("${cat}");
             $("#editProductPreloader${id}").hide();
 					});
 					
+          var setCategoryIdSelect${id} = ()=>{
+            var result = JSON.parse(localStorage.getItem("all-wet-categories"));
+            $.each(result, (index,value)=>{
+              var cid = value['category_id'];
+              var cn = value['category_name'];
+              tmpl = "<option value='"+cid+"'>"+cn+"</option>";
+              $("#categoryId${id}").append(tmpl);
+            });
+          };
+
 					$("#deleteProductButton${id}").click(()=>{
 						
 						$.ajax({
