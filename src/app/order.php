@@ -109,14 +109,14 @@ require_once("../_system/config.php");
                         </a>
                     </div>
                     <div class="col s6">
-                        <a id="otherLoc" class="btn btn-large btn-block waves-effect waves-light blue darken-2">
+                        <a id="otherLoc" class="btn btn-large btn-block waves-effect waves-light blue darken-2" onclick="otherLoc()">
                             No, Deliver my order somewhere
                         </a>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col s12">
-                        <a id="otherLoc" class="btn btn-large btn-block waves-effect waves-light blue">
+                        <a id="savedLoc" class="btn btn-large btn-block waves-effect waves-light blue">
                             I'll use my Saved Address Instead
                         </a>
                     </div>
@@ -134,7 +134,7 @@ require_once("../_system/config.php");
                     <textarea id="manualAddress" class="materialize-textarea"></textarea>
                 </div><br>
                 <br>
-                <button id="submitManualLocation" class="btn btn-large btn-block blue darken-4 waves-effect waves-light">Ok, Done!</button>
+                <button id="submitManualLocation" class="btn btn-large btn-block blue darken-4 waves-effect waves-light" onclick="processAddressCoordinates()">Ok, Done!</button>
             </div><br><br><br><br>
         </div>
         <!-- .enterAddressActivity -->
@@ -143,10 +143,13 @@ require_once("../_system/config.php");
         <div class="activity" id="orderActivity">
             <div class="container">
                 <h3 class="white-text">What do you want to order?</h3><br>
+                <ul class="tabs tabs-fixed-width z-depth-1" id="categoryTabs">
+                </ul><br>
+                <div class="cards-container" id="productsList"></div>
             </div><br><br><br><br>
             <div class="fixed-action-btn">
-                <a id="btnAdd" class="btn-floating btn-large white waves-effect waves-light" href="/app/order.php">
-                    <i class="material-icons blue-text text-darken-3">arrow_forward</i>
+                <a id="btnAdd" class="btn-floating btn-large blue darken-4 waves-effect waves-light z-depth-5 hoverable" href="/app/order.php">
+                    <i class="material-icons">arrow_forward</i>
                 </a>
             </div>
         </div>

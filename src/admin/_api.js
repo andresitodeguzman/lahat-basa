@@ -10,6 +10,7 @@ let transactionGetAll = '/api/Transaction/getAll.php';
 let productGetAllApi = '/api/Product/getAll.php';
 let productDelete = '/api/Product/delete.php';
 let productAdd = '/api/Product/add.php';
+let productUpdateCategoryId = '/api/Product/updateCategoryId.php';
 
 let transitemGetByProductIdApi = '/api/TransItem/getByProductId.php';
 

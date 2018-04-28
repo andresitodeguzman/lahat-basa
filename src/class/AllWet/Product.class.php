@@ -232,5 +232,19 @@ class Product {
     }
   }
 
+  final public function updateCategoryId(Array $p_array){
+    $this->product_id = $p_array['product_id'];
+    $this->category_id = $p_array['category_id'];
+
+    $stmt = $this->mysqli->prepare("UPDATE `product` SET category_id=? WHERE product_id=?");
+    $stmt->bind_param("ii", $this->category_id, $this->product_id);
+
+    if($stmt->execute()){
+      return True;
+    } else {
+      return False;
+    }
+  }
+
 }
 ?>

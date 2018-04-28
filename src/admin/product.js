@@ -112,9 +112,24 @@ var renderProduct = () => {
 					</div>
 					<div class="card-action">
 						<a href="#" class="black-text modal-trigger" data-target="editModalProduct${id}"><i class="material-icons">edit</i></a>
+            <a href="#" class="black-text modal-trigger" data-target="editCategoryModalProduct${id}"><i class="material-icons">label</i></a>
 						<a href="#" id="deleteProductButton${id}" class="red-text"><i class="material-icons">delete</i></a>
 					</div>
 				</div>
+
+        <div class="modal modal-fixed-footer" id="editCategoryModalProduct${id}">
+          <div class="modal-content">
+            <h5>Edit Category of ${n}</h5><br>
+            <ul class="collection" id="categoryProductList${id}">
+              <li class="collection-item">
+                <center>Loading</center>
+              </li>
+            </ul>
+          </div>
+          <div class="modal-footer">
+
+          </div>
+        </div>
 
 				<div class="modal modal-fixed-footer" id="editModalProduct${id}">
 					<div class="modal-content">
@@ -140,12 +155,6 @@ var renderProduct = () => {
               <div class="input-field">
                 <input type="text" id="productName${id}" value="${n}">
                 <label for="productName${id}" class="active">Name</label>
-              </div>
-              <div class="input-field">
-                <p class="grey-text">Category</p>
-                <select id="categoryId${id}" class="catSelect${id}">
-                  <option disabled>Category</option>
-                </select>
               </div>
               <div class="input-field">
                 <input type="text" id="productImage${id}" value="${i}">
@@ -182,20 +191,28 @@ var renderProduct = () => {
 					$(document).ready(()=>{
 						$(".modal").modal();
 						$('select').formSelect();
-            setCategoryIdSelect${id}();
+            setProductCategory${id}();
 						$("#productAvailable${id}").val("${a}");
-            $("#categoryId${id}").val("${cat}");
             $("#editProductPreloader${id}").hide();
 					});
 					
-          var setCategoryIdSelect${id} = ()=>{
+          var setProductCategory${id} = ()=>{
+            $("#categoryProductList${id}").html(" ");
             var result = JSON.parse(localStorage.getItem("all-wet-categories"));
             $.each(result, (index,value)=>{
-              var cid = value['category_id'];
+              var ci = value['category_id'];
               var cn = value['category_name'];
-              tmpl = "<option value='"+cid+"'>"+cn+"</option>";
-              $("#categoryId${id}").append(tmpl);
+
+              if(ci != '${cat}'){
+                var cl = '<a href="#" onclick="updateCategoryProduct(\"${id}\",\"'+ci+'\")">Set as Category</a>';
+              } else {
+                var cl = "";
+              }
+
+              var tmpl = "<li class='collection-item'>"+cn+"<br>"+cl+"</li>";
+              $("#categoryProductList${id}").append(tmpl);
             });
+
           };
 
 					$("#deleteProductButton${id}").click(()=>{
@@ -205,7 +222,7 @@ var renderProduct = () => {
 							cache: 'false',
 							url: '${dlpdapi}',
 							success: result => {
-								setCategories();
+								setCategory();
 							}
 						}).fail(()=>{
 							M.toast({html:"An Error Occured", durationLength:3000});
@@ -284,6 +301,7 @@ var renderProduct = () => {
     });
 
   } catch (e) {
+    console.log(e);
     $("#productsList").html(errorCard);
   }
 }
@@ -298,7 +316,7 @@ var addProduct = ()=>{
   var pc = $("#productCode").val();
   var pp = $("#productPrice").val();
   var pa = $("#productAvailable").val();
-  
+
   var showAddProductInput = ()=>{
     $("#preloaderAddProduct").hide();
     $(".addProductActivity").show();
@@ -317,13 +335,14 @@ var addProduct = ()=>{
         showAddProductInput();
       } else {
         $.ajax({
-          type:'POST',
+          type:'GET',
           cache:'false',
           url: productAdd,
           data: {
             product_name: pn,
             product_image: pi,
             product_description: pd,
+            category_id:'',
             product_code: pc,
             product_price: pp,
             product_available: pa
@@ -335,16 +354,18 @@ var addProduct = ()=>{
                 showAddProductInput();
               } else {
                 M.toast({html:"An Error Occured", durationLength:3000});
-                $("#productName").val(" ");
-                $("#productImage").val(" ");
-                $("#productDescription").val(" ");
-                $("#productCode").val(" ");
-                $("#productPrice").val(" ");
-                $("#productAvailable").val(" ");
+                $("#productName").val("");
+                $("#categoryId").val("");
+                $("#productImage").val("");
+                $("#productDescription").val("");
+                $("#productCode").val("");
+                $("#productPrice").val("");
+                $("#productAvailable").val("");
+                setProducts();
                 showAddProductInput();
               }
             } catch(e){
-              M.toast({html:"An Error Occured", durationLength:3000});
+              M.toast({html:"An Error Occurred", durationLength:3000});
               showAddProductInput();
             }
           }
@@ -356,3 +377,22 @@ var addProduct = ()=>{
     }
   }
 };
+
+var updateCategoryProduct = (pi, ci)=>{
+  $.ajax({
+    type:'POST',
+    cache:'false',
+    url: productUpdateCategoryId,
+    data:{
+      product_id: pi,
+      category_id: ci
+    },
+    success: result=>{
+      if(result.code){
+        setProducts();
+      }
+    }
+  }).fail(()=>{
+    M.toast({html:"An Error Occurred",durationLength:3000});
+  });
+}

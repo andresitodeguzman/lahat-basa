@@ -11,9 +11,6 @@ var setCategory = () => {
     type: 'GET',
     cache: 'false',
     url: categoryGetAll,
-    data: {
-      a: 1
-    },
     success: result => {
       try {
         localStorage.setItem("all-wet-categories", JSON.stringify(result));
@@ -45,6 +42,8 @@ var renderCategories = () => {
 
     $("#categoryList").html(" ");
 
+    $("#categoryId").html("<option disabled>Category</option>");
+
     $.each(result, (index, value) => {
       var catup = categoryUpdate;
       var dlapi = categoryDelete;
@@ -58,6 +57,10 @@ var renderCategories = () => {
 				<li class="tab">
 					<a href="#" onclick="productFilter('cat${cid}')">${cn}</a>
 				</li>`;
+
+      var tmplOptProd = `
+        <option value=""${cid}>${cn}</option>
+      `;
 
       var tmplCat = `
 				<div class="card hoverable" id="categoryCard${cid}">
@@ -196,6 +199,7 @@ var renderCategories = () => {
 
       $("#categoryTabs").append(tmpl);
       $("#categoryList").append(tmplCat);
+      $("#categoryId").append(tmplOptProd);
     });
   } catch (e) {
     M.toast({

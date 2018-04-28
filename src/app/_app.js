@@ -21,9 +21,9 @@ $(document).ready(()=>{
 });
 
 // API URLS
-let transactionGetApi = '/sample_data/transaction.getall.php'; 
+let transactionGetApi = '/api/Transaction/getByCustomerId.php'; 
 let productGetAllApi = '/api/Product/getAll.php';
-let transitemGetByProductIdApi = '/sample_data/transitem.getByProductId.php';
+let transitemGetByProductIdApi = '/api/TransItem/getByProductId.php';
 let categoryGetAll = '/api/Category/getAll.php';
 
 // Global Cards

@@ -15,10 +15,11 @@ $(document).ready(()=>{
 });
 
 // API URLS
-let transactionGetApi = '/sample_data/transaction.getall.php'; 
+let transactionGetApi = '/api/Transaction/getAll.php'; 
 let productGetAllApi = '/api/Product/getAll.php';
-let transitemGetByProductIdApi = '/sample_data/transitem.getByProductId.php';
+let transitemGetByProductIdApi = '/api/TransItem/getByProductId.php';
 let categoryGetAll = '/api/Category/getAll.php';
+let employeeUpdate = '/api/Employee/update.php';
 
 // Global Variables
 let errorCard = `
@@ -338,3 +339,28 @@ var renderProduct = ()=>{
 		$("#productsList").html(errorCard);
 	}
 }
+
+
+var editAccount = ()=>{
+	var n = $("#employeeName").val();
+	var u = $("#employeeUsername").val();
+	var p = $("#employeePassword").val();
+
+	$.ajax({
+		type:'POST',
+		cache: 'false',
+		url: employeeUpdate,
+		data:{
+			employee_name: n,
+			employee_username: u,
+			employee_password: p
+		},
+		success: result=>{
+			if(result.code){
+				M.toast({html:result.message,durationLength:3000});
+			}
+		}
+	}).fail(()=>{
+		M.toast({html:"An Error Occurred", durationLength:3000});
+	});
+};
