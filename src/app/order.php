@@ -28,6 +28,26 @@ require_once("../_system/config.php");
     </head>
     <body class="blue darken-3">
 
+        <!--splashscreen-->
+        <div class="splashscreen valign-wrapper blue darken-3" id="splashscreen">
+            <h3 class="valign center-block white-text">
+                <noscript>
+                <b class="white-text">
+                    <center>
+                        <h4>Sorry!</h4>
+                        <h5>This application requires Javascript to be turned on.</h5>
+                    </center>
+                </b>
+            </noscript>
+                <center>
+                    <h4>
+                        <b>All Wet</b> Order
+                    </h4>
+                </center>
+            </h3>
+        </div>
+        <!--.splashscreen-->
+
         <!-- NAV -->
         <nav class="transparent z-depth-0">
             <a href="/app" class="right">
@@ -78,6 +98,14 @@ require_once("../_system/config.php");
                 <p class="white-text">
                     GPS or network signal might not be good
                 </p>
+                <br><br>
+                <div class="row">
+                    <div class="col s12">
+                        <a id="otherLoc" class="btn btn-large btn-block waves-effect waves-light blue darken-2" onclick="otherLoc()">
+                            I'll just type where
+                        </a>
+                    </div>
+                </div>
             </div><br><br><br><br>
         </div>
         <!-- .locationProblemActivity -->
@@ -93,6 +121,14 @@ require_once("../_system/config.php");
                 <p class="white-text">
                     We got your coordinates but we cannot contact Google to know what street or place you're in.
                 </p>
+                <br><br>
+                <div class="row">
+                    <div class="col s12">
+                        <a id="otherLoc" class="btn btn-large btn-block waves-effect waves-light blue darken-2" onclick="otherLoc()">
+                            I'll just type where
+                        </a>
+                    </div>
+                </div>
             </div><br><br><br><br>
         </div>
         <!-- .locationServiceErrorActivity -->
@@ -103,16 +139,18 @@ require_once("../_system/config.php");
                 <div id="locationResult"></div>
                 <br><br>
                 <div class="row">
-                    <div class="col s6">
-                        <a id="useLoc" class="btn btn-large btn-block waves-effect waves-light blue darken-4">
+                    <div class="col s12">
+                        <a id="useLoc" class="btn btn-large btn-block waves-effect waves-light blue darken-4" onclick="setOrderActivity()">
                             Yes! Deliver my order here!
                         </a>
-                    </div>
-                    <div class="col s6">
+                    </div><br><br>
+                </div>
+                <div class="row">
+                    <div class="col s12">
                         <a id="otherLoc" class="btn btn-large btn-block waves-effect waves-light blue darken-2" onclick="otherLoc()">
                             No, Deliver my order somewhere
                         </a>
-                    </div>
+                    </div><br><br>
                 </div>
                 <div class="row">
                     <div class="col s12">
@@ -144,16 +182,43 @@ require_once("../_system/config.php");
             <div class="container">
                 <h3 class="white-text">What do you want to order?</h3><br>
                 <ul class="tabs tabs-fixed-width z-depth-1" id="categoryTabs">
+                    <li class="tab active blue-text text-darken-4">Please Wait</li>
                 </ul><br>
                 <div class="cards-container" id="productsList"></div>
             </div><br><br><br><br>
             <div class="fixed-action-btn">
-                <a id="btnAdd" class="btn-floating btn-large blue darken-4 waves-effect waves-light z-depth-5 hoverable" href="/app/order.php">
-                    <i class="material-icons">arrow_forward</i>
+                <a id="btnAdd" class="btn-floating btn-large blue lighten-4 waves-effect waves-light z-depth-5 hoverable" href="#" onclick="showRundown()">
+                    <i class="material-icons blue-text text-darken-4">arrow_forward</i>
                 </a>
             </div>
         </div>
         <!-- .orderActivity -->
+
+        <!-- rundownActivity -->
+        <div class="activity" id="rundownActivity">
+            <div class="container">
+                <h3 class="white-text">
+                    Here is the Rundown of your Order <span id="totalAmountRundown"></span>
+                </h3><br>
+                <div id="rundownList" class="cards-container">
+                    <div class="card">
+                        <div class="card-content">
+                            <center>Please Wait</center>
+                        </div>
+                    </div>
+                </div>
+                <br><br>
+                <div class="row">
+                    <a class="btn btn-large blue darken-4 btn-block waves-effect waves-light" onclick="showPaymentActivity()">
+                        Proceed to Payment
+                    </a><br><br>
+                    <a class="btn btn-large blue darken-2 btn-block waves-effect waves-light" onclick="setOrderActivity()">
+                        Go Back
+                    </a>    
+                </div>
+            </div><br><br><br><br>
+        </div>
+        <!-- .rundownActivity -->
 
         <!-- paymentActivity -->
         <div class="activity" id="paymentActivity">
@@ -161,11 +226,14 @@ require_once("../_system/config.php");
                 <h3 class="white-text">
                     Choose your Payment Method
                 </h3><br>
-                <a class="btn btn-large blue darken-4 btn-block waves-effect waves-light">
+                <a class="btn btn-large blue darken-4 btn-block waves-effect waves-light" onclick="payWithCash()">
                     Cash on Delivery
                 </a><br><br>
-                <a class="btn btn-large blue darken-2 btn-block waves-effect waves-light">
+                <a class="btn btn-large blue darken-2 btn-block waves-effect waves-light" onclick="payWithCard()" id="payWithCardButton">
                     Pay with Credit Card
+                </a><br><br><br><br>
+                <a class="btn btn-large blue darken-1 btn-block waves-effect waves-light" onclick="showRundown()">
+                    Go Back
                 </a>
             </div><br><br><br><br>
         </div>
