@@ -46,15 +46,16 @@ $array = array(
 
 $result = $obj->add($array);
 
-if($result === True){
-	$res = array(
-		"code" => "200",
-		"message" => "Successfully Added"
-	);
-} else {
+if($result === False){
 	$res = array(
 		"code" => "400",
 		"message" => $result
+	);
+} else {
+	$res = array(
+		"code" => "200",
+		"message" => "Successfully Added",
+		"transaction_id"=>$result
 	);
  }
 

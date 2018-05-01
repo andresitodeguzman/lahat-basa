@@ -3,10 +3,12 @@ $(document).ready(()=>{
 	loginCheck();
 	clear();
 
-	splash(500);
+	splash(1000);
 
 	locateLocation();
 	$('select').formSelect();
+
+	setInterval(recheckLoginStatus(),120000);
 });
 
 var checkLoginStatus = ()=>{
@@ -16,8 +18,37 @@ var checkLoginStatus = ()=>{
 var loginCheck = ()=>{
 	let status = checkLoginStatus();
 	if(status != "true"){
-		window.location.replace('/');
+		window.location.replace("/");
+	} else {
+		var at = localStorage.getItem("all-wet-account-type");
+		if(at !== "customer"){
+			window.location.replace("/");
+		}
 	}
+};
+
+var recheckLoginStatus = ()=>{
+	$.ajax({
+		type:'GET',
+		url:'/authenticate/signInStatus.php',
+		cache:'false',
+		success: result=>{
+			try {
+				if(result.is_signed_in == 'False'){
+					localStorage.clear();
+					window.location.replace("/");
+				} else {
+					if(result.account_type !== "customer"){
+						window.location.replace("/");
+					}
+				}
+			} catch(e){
+				console.log(e);
+			}
+		}
+	}).fail(()=>{
+		console.log("Cannot check sign-in status");
+	});
 };
 
 var init = ()=>{
@@ -46,6 +77,11 @@ var otherLoc = ()=>{
 var locateLocation = ()=>{
 	$("#locationLoaderActivity").fadeIn();
 	if("geolocation" in navigator){
+		var opts = {
+			enableHighAccuracy: true,
+			timeout: 30000
+		};
+
 		navigator.geolocation.getCurrentPosition(pos=>{
 			var coo = pos.coords;
 			var ltlo = `${coo.latitude},${coo.longitude}`;
@@ -90,7 +126,7 @@ var locateLocation = ()=>{
 				clear();
 				$("#locationProblemActivity").fadeIn();
 			}
-		});
+		},opts);
 	} else {
 		clear();
 		$("#locationProblemActivity").fadeIn();
@@ -125,33 +161,45 @@ var overrideLocation = ()=>{
 };
 
 var processAddressCoordinates = ()=>{
-	setOrderActivity();
-
 	var exactloc = $("#manualAddress").val();
-	sessionStorage.setItem("exact_location",exactloc);
-	$.ajax({
-		type:'GET',
-		cache: 'false',
-		data: {
-			address:exactloc
-		},
-		url: 'https://maps.google.com/maps/api/geocode/json?key=AIzaSyBDOL-nNs8SKrlnkr97ByrLwJZ6PHLXeas',
-		success: result=>{
-			console.log(result['results']);
-			var lat = result['results'][0]['geometry']['location']['lat'];
-			var lon = result['results'][0]['geometry']['location']['lng'];
-			var cty = result['results'][0]['address_components'][1]['long_name'];
-			var adr = result['results'][0]['formatted_address'];
+	if(!exactloc){
+		M.toast({html:"Please Enter a Location", durationLength:3000});
+	} else {
+			setOrderActivity();
+			sessionStorage.setItem("exact_location",exactloc);
+			$.ajax({
+				type:'GET',
+				cache: 'false',
+				data: {
+					address:exactloc
+				},
+				url: 'https://maps.google.com/maps/api/geocode/json?key=AIzaSyBDOL-nNs8SKrlnkr97ByrLwJZ6PHLXeas',
+				success: result=>{
+					console.log(result['results']);
 
-			sessionStorage.setItem("latitude",lat);
-			sessionStorage.setItem("longitude",lon);
-			sessionStorage.setItem("formatted_address",adr);
-			sessionStorage.setItem("city",cty);
-		}
-	}).fail(()=>{
-		M.toast({html:"Cannot get coordinates of location", durationLength:3000});
-	});
+					var lat = "";
+					var lon = "";
+					var cty = "";
+					var adr = "";
 
+					try {
+						var lat = result['results'][0]['geometry']['location']['lat'];
+						var lon = result['results'][0]['geometry']['location']['lng'];
+						var cty = result['results'][0]['address_components'][1]['long_name'];
+						var adr = result['results'][0]['formatted_address'];
+					} catch(e){
+						console.log(e);
+					}
+
+					sessionStorage.setItem("latitude",lat);
+					sessionStorage.setItem("longitude",lon);
+					sessionStorage.setItem("formatted_address",adr);
+					sessionStorage.setItem("city",cty);
+				}
+			}).fail(()=>{
+				M.toast({html:"Cannot get coordinates of location", durationLength:3000});
+			});
+	}
 }
 
 var returnToOrderActivity = ()=>{
@@ -379,7 +427,7 @@ var updateItem = (pid,qty, pr)=>{
 	}
 
 	sessionStorage.setItem("all-wet-order-items",JSON.stringify(items));
-  $("#totSlider"+pid).val(qty);
+	$("#totSlider"+pid).val(qty);
 };
 
 var showRundown = ()=>{
@@ -473,6 +521,13 @@ var renderRundown = ()=>{
 			</div>
 			<script>
 			$("#qtys${pid}").change(()=>{
+				qtyChange${pid}();
+			});
+			$("#qtys${pid}").click(()=>{
+				qtyChange${pid}();
+			});
+
+			var qtyChange${pid} = ()=>{
 				var q = $("#qtys${pid}").val();
 
 				if(q==0){
@@ -521,7 +576,7 @@ var renderRundown = ()=>{
 				}
 
 				setTotalPriceRundown();
-			});
+			};
 		</script>
 		`;
 
@@ -559,6 +614,8 @@ var showPaymentActivity = ()=>{
 };
 
 var payWithCash = ()=>{
+	sessionStorage.setItem("all-wet-order-payment-method","Cash on Delivery");
+	processTransaction();
 	showCompleteActivity();
 };
 
@@ -566,7 +623,7 @@ var payWithCard = ()=>{
 	var supportedInstruments = [{
 		supportedMethods:['basic-card'],
 		data:{
-			supportedNetworks:['visa','mastercard']
+			supportedNetworks:['visa','mastercard','amex']
 		}
 	}];
 
@@ -586,6 +643,8 @@ var payWithCard = ()=>{
 			processPaymentDetails(uiResult).then(uiResult=>{
 				uiResult.complete('success');
 				M.toast({html:"Payment Successful!", durationLength:3000});
+				sessionStorage.setItem("all-wet-order-payment-method","Credit Card");
+				processTransaction();
 				showCompleteActivity();
 			});
 		}).catch(e=>{
@@ -600,6 +659,92 @@ var payWithCard = ()=>{
 			}),2000;
 		});
 	};
+};
+
+var processTransaction = ()=>{
+	var ci = localStorage.getItem("all-wet-customer-id");
+	var tc = JSON.parse(sessionStorage.getItem("all-wet-order-items")).length;
+	var tp = sessionStorage.getItem("all-wet-rundown-total");
+	var pm = sessionStorage.getItem("all-wet-order-payment-method");
+	var st = "For Delivery";
+	var lt = sessionStorage.getItem("latitude");
+	var lo = sessionStorage.getItem("longitude");
+	var adr = sessionStorage.getItem("exact_location");	
+	if(adr > 5){
+		var adr = sessionStorage.getItem("formatted_address");
+	}
+	var itms = JSON.parse(sessionStorage.getItem("all-wet-order-items"));
+
+	var ar = {
+		"customer_id":ci,
+		"transaction_count":tc,
+		"transaction_price":tp,
+		"transaction_payment_method":pm,
+		"transaction_status":st,
+		"transaction_latitude":lt,
+		"transaction_longitude":lo,
+		"transaction_address":adr,
+		"transaction_items":itms
+	};
+
+	sendTransaction(ar);
+};
+
+var sendTransaction = (trans)=>{
+	$.ajax({
+		type:'POST',
+		cache:'false',
+		url:'/api/Transaction/add.php',
+		data:{
+			"customer_id": trans.customer_id,
+			"transaction_count": trans.transaction_count,
+			"transaction_price": trans.transaction_price,
+			"transaction_payment_method": trans.transaction_payment_method,
+			"transaction_status": trans.transaction_status,
+			"transaction_latitude": trans.transaction_latitude,
+			"transaction_longitude": trans.transaction_longitude,
+			"transaction_address": trans.transaction_address
+		},
+		success: result=>{
+			var tid = result.transaction_id;
+			var ti = JSON.stringify(trans.transaction_items);
+			$.ajax({
+				type:'POST',
+				cache:'false',
+				url:'/api/TransItem/add.multiple.php',
+				data: {
+					"transaction_id":tid,
+					"transaction_items":ti
+				},
+				success: result=>{
+					console.log(result);
+				}
+
+			}).fail(()=>{
+				M.toast({html:"Error sending items you ordered, contact All Wet for help", durationLength:3000});
+			});
+		}
+	}).fail(()=>{
+		M.toast({html:"Failed to send order, it will be sent automatically when you go online", durationLength:3000});
+		addToQueue(trans);
+	});
+}
+
+var getQueue = ()=>{
+	if(localStorage.getItem("all-wet-order-queue")){
+		var queue = JSON.parse(localStorage.getItem("all-wet-order-queue"));
+	} else {
+		var queue = [];
+		localStorage.setItem("all-wet-order-queue",JSON.stringify(queue));
+	}
+
+	return queue;
+}
+
+var addToQueue = (trans)=>{
+	var queue = getQueue();
+	queue.push(trans);
+	localStorage.setItem("all-wet-order-queue",JSON.stringify(queue));
 };
 
 var showCompleteActivity = ()=>{

@@ -17,13 +17,14 @@ $(document).ready(()=>{
 	$("#myorderActivity").fadeIn();
 	$("#btnAdd").slideDown();
 
+	setInterval(recheckLoginStatus(),300000);
 	
 });
 
 // API URLS
 let transactionGetApi = '/api/Transaction/getByCustomerId.php'; 
 let productGetAllApi = '/api/Product/getAll.php';
-let transitemGetByProductIdApi = '/api/TransItem/getByProductId.php';
+let transitemGetByTransactionIdApi = '/api/TransItem/getByTransactionId.php';
 let categoryGetAll = '/api/Category/getAll.php';
 
 // Global Cards
@@ -107,8 +108,37 @@ var checkLoginStatus = ()=>{
 var loginCheck = ()=>{
 	let status = checkLoginStatus();
 	if(status != "true"){
-		window.location.replace("/authenticate");
+		window.location.replace("/");
+	} else {
+		var at = localStorage.getItem("all-wet-account-type");
+		if(at !== "customer"){
+			window.location.replace("/");
+		}
 	}
+};
+
+var recheckLoginStatus = ()=>{
+	$.ajax({
+		type:'GET',
+		url:'/authenticate/signInStatus.php',
+		cache:'false',
+		success: result=>{
+			try {
+				if(result.is_signed_in == 'False'){
+					localStorage.clear();
+					window.location.replace("/");
+				} else {
+					if(result.account_type !== "customer"){
+						window.location.replace("/");
+					}
+				}
+			} catch(e){
+				console.log(e);
+			}
+		}
+	}).fail(()=>{
+		console.log("Cannot check sign-in status");
+	});
 };
 
 var getCustomerId = ()=>{
@@ -228,13 +258,12 @@ var renderMyOrder = ()=>{
 			$.ajax({
 				type:'GET',
 				cache: 'false',
-				url: transitemGetByProductIdApi,
+				url: transitemGetByTransactionIdApi,
 				data: {
 					transaction_id: tid
 				},
 				success: result => {
-
-					try{
+					try{						
 						if(result.code == 400){
 							$(`#${tid}items`).html(`<li class="collection-item"><center>Error Processing Items</center></li>`);
 						} else {

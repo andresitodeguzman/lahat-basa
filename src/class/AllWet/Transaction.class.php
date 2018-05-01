@@ -162,7 +162,7 @@ class Transaction{
     $stmt->bind_param("ssssssssss", $this->transaction_date, $this->transaction_time, $this->customer_id, $this->transaction_count, $this->transaction_price, $this->transaction_payment_method, $this->transaction_status, $this->transaction_longitude, $this->transaction_latitude, $this->transaction_address);
     
     if($stmt->execute()){
-      return True;
+      return $this->mysqli->insert_id;
     } else {
       return False;
     }

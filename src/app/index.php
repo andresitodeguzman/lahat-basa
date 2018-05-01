@@ -63,8 +63,9 @@ require_once("../_system/config.php");
 			</div>
 
 			<li><a href="#" onclick="orderShow()"><i class="material-icons">view_list</i> My Order</a></li>
-			<li><a href="#" onclick="productsShow()"><i class="material-icons">local_mall</i> Products</a></li>
+			<li><a href="#" onclick="queueShow()"><i class="material-icons">file_upload</i> Order Queue</a></li>
 			<li class="divider"></li>
+			<li><a href="#" onclick="productsShow()"><i class="material-icons">local_mall</i> Products</a></li>
 			<li><a href="#" onclick="editAccountShow()"><i class="material-icons">info</i> Edit Account</a></li>
 			<li class="divider"></li>
 			<li><a href="/authenticate/logout.php"><i class="material-icons">person</i> Log-out</a></li>

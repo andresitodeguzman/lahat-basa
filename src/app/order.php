@@ -83,6 +83,14 @@ require_once("../_system/config.php");
                 <p class="white-text">
                     Allow us to know where we'll deliver your order
                 </p>
+                <br><br>
+                <div class="row">
+                    <div class="col s12">
+                        <a id="otherLoc" class="btn btn-large btn-block waves-effect waves-light blue darken-4" onclick="otherLoc()">
+                            I'll just type where
+                        </a>
+                    </div>
+                </div>
             </div><br><br><br><br>
         </div>
         <!-- .locationErrorActivity -->
@@ -101,7 +109,7 @@ require_once("../_system/config.php");
                 <br><br>
                 <div class="row">
                     <div class="col s12">
-                        <a id="otherLoc" class="btn btn-large btn-block waves-effect waves-light blue darken-2" onclick="otherLoc()">
+                        <a id="otherLoc" class="btn btn-large btn-block waves-effect waves-light blue darken-4" onclick="otherLoc()">
                             I'll just type where
                         </a>
                     </div>
@@ -124,7 +132,7 @@ require_once("../_system/config.php");
                 <br><br>
                 <div class="row">
                     <div class="col s12">
-                        <a id="otherLoc" class="btn btn-large btn-block waves-effect waves-light blue darken-2" onclick="otherLoc()">
+                        <a id="otherLoc" class="btn btn-large btn-block waves-effect waves-light blue darken-4" onclick="otherLoc()">
                             I'll just type where
                         </a>
                     </div>
@@ -141,21 +149,21 @@ require_once("../_system/config.php");
                 <div class="row">
                     <div class="col s12">
                         <a id="useLoc" class="btn btn-large btn-block waves-effect waves-light blue darken-4" onclick="setOrderActivity()">
-                            Yes! Deliver my order here!
+                            Yes! Deliver here!
                         </a>
                     </div><br><br>
                 </div>
                 <div class="row">
                     <div class="col s12">
                         <a id="otherLoc" class="btn btn-large btn-block waves-effect waves-light blue darken-2" onclick="otherLoc()">
-                            No, Deliver my order somewhere
+                            No, Somewhere Else
                         </a>
                     </div><br><br>
                 </div>
                 <div class="row">
                     <div class="col s12">
                         <a id="savedLoc" class="btn btn-large btn-block waves-effect waves-light blue">
-                            I'll use my Saved Address Instead
+                            Use my Saved Address
                         </a>
                     </div>
                 </div>
@@ -166,7 +174,7 @@ require_once("../_system/config.php");
         <!-- enterAddressActivity -->
         <div class="activity" id="enterAddressActivity">
             <div class="container">
-                <h3 class="white-text">Where do you want your order to be delivered?</h3>
+                <h3 class="white-text">Where Do You Want Your Order to be Delivered?</h3>
                 <br>
                 <div class="input-field">
                     <textarea id="manualAddress" class="materialize-textarea"></textarea>
@@ -248,9 +256,12 @@ require_once("../_system/config.php");
                     Your order<br>
                     will be delivered shortly!
                 </h3>
+                <p class="white-text">
+                    Keep an eye on your phone, we might get in touch with you through text or call. 
+                </p>
                 <br><br>
                 <a class="btn btn-large blue darken-4 btn-block waves-effect waves-light" href="/app">
-                    Great! See my transactions
+                    Great! Return to Dashboard
                 </a><br><br>
             </div><br><br><br><br>
         </div>
