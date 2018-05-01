@@ -117,14 +117,11 @@ var checkLoginStatus = ()=>{
 
 var loginCheck = ()=>{
 	let status = checkLoginStatus();
-	alert(status);
 	if(status != "true"){
-		alert("a");
 		window.location.replace("/");
 	} else {
 		var at = localStorage.getItem("all-wet-account-type");
 		if(at !== "customer"){
-			alert("b");
 			window.location.replace("/");
 		}
 	}
