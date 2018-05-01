@@ -212,7 +212,7 @@ require_once("../_system/config.php");
                     <a class="btn btn-large blue darken-4 btn-block waves-effect waves-light" onclick="showPaymentActivity()">
                         Proceed to Payment
                     </a><br><br>
-                    <a class="btn btn-large blue darken-2 btn-block waves-effect waves-light" onclick="setOrderActivity()">
+                    <a class="btn btn-large blue darken-2 btn-block waves-effect waves-light" onclick="returnToOrderActivity()">
                         Go Back
                     </a>    
                 </div>

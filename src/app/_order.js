@@ -154,6 +154,11 @@ var processAddressCoordinates = ()=>{
 
 }
 
+var returnToOrderActivity = ()=>{
+  clear();
+	$("#orderActivity").fadeIn();  
+};
+
 var setOrderActivity = ()=>{
 	setCategories();
 	clear();
@@ -176,7 +181,7 @@ var setOrderActivity = ()=>{
 var renderProducts = ()=>{
 	try{
 		var result = JSON.parse(localStorage.getItem("all-wet-product"));
-
+    
 		$.each(result, (index,value)=>{
 			var id = value.product_id;
 			var c = value.product_code;
@@ -361,7 +366,7 @@ var updateItem = (pid,qty, pr)=>{
 	var index = items.map((element)=>{return element.product_id}).indexOf(pid);
 
 	if(index !== -1){
-		if(qty == 0){
+		if(qty == 0){      
 			items.splice(index,1);
 		} else {
 			items[index].transitem_quantity = qty;
@@ -374,7 +379,7 @@ var updateItem = (pid,qty, pr)=>{
 	}
 
 	sessionStorage.setItem("all-wet-order-items",JSON.stringify(items));
-
+  $("#totSlider"+pid).val(qty);
 };
 
 var showRundown = ()=>{
