@@ -34,11 +34,11 @@ $customer_access_token = $_REQUEST['customer_access_token'];
 
 $array = array(
 	"customer_id" => $customer_id,
-	"customer_code" => $customer_number,
+	"customer_number" => $customer_number,
 	"customer_name" => $customer_name,
 	"customer_longitude" => $customer_longitude,
 	"customer_latitude" => $customer_latitude,
-	"customer_price" => $customer_address,	
+	"customer_address" => $customer_address,	
 	"customer_image" => $customer_image,
 	"customer_available" => $customer_access_token
 );

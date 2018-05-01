@@ -29,7 +29,7 @@ var loginCheck = ()=>{
 
 var recheckLoginStatus = ()=>{
 	$.ajax({
-		type:'GET',
+		type:'POST',
 		url:'/authenticate/signInStatus.php',
 		cache:'false',
 		success: result=>{
@@ -87,7 +87,7 @@ var locateLocation = ()=>{
 			var ltlo = `${coo.latitude},${coo.longitude}`;
 
 			$.ajax({
-				type:'GET',
+				type:'POST',
 				url:'https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyBDOL-nNs8SKrlnkr97ByrLwJZ6PHLXeas',
 				data: {
 					latlng: ltlo
@@ -168,7 +168,7 @@ var processAddressCoordinates = ()=>{
 			setOrderActivity();
 			sessionStorage.setItem("exact_location",exactloc);
 			$.ajax({
-				type:'GET',
+				type:'POST',
 				cache: 'false',
 				data: {
 					address:exactloc
@@ -202,6 +202,50 @@ var processAddressCoordinates = ()=>{
 	}
 }
 
+setLocAsCustomerAddress = ()=>{
+	overrideLocation();
+	var customer = JSON.parse(localStorage.getItem("all-wet-customer-info"));
+	var adr = customer.customer_address;
+
+	sessionStorage.setItem("exact_location",adr);
+
+	setOrderActivity();
+
+	$.ajax({
+		type:'POST',
+		cache: 'false',
+		data: {
+			address:adr
+		},
+		url: 'https://maps.google.com/maps/api/geocode/json?key=AIzaSyBDOL-nNs8SKrlnkr97ByrLwJZ6PHLXeas',
+		success: result=>{
+		console.log(result['results']);
+
+			var lat = "";
+			var lon = "";
+			var cty = "";
+			var adr = "";
+
+			try {
+				var lat = result['results'][0]['geometry']['location']['lat'];
+				var lon = result['results'][0]['geometry']['location']['lng'];
+				var cty = result['results'][0]['address_components'][1]['long_name'];
+				var adr = result['results'][0]['formatted_address'];
+			} catch(e){
+				console.log(e);
+			}
+
+			sessionStorage.setItem("latitude",lat);
+			sessionStorage.setItem("longitude",lon);
+			sessionStorage.setItem("formatted_address",adr);
+			sessionStorage.setItem("city",cty);
+		}
+	}).fail(()=>{
+		M.toast({html:"Cannot get coordinates of location", durationLength:3000});
+	});
+
+}
+
 var returnToOrderActivity = ()=>{
   clear();
 	$("#orderActivity").fadeIn();  
@@ -213,7 +257,7 @@ var setOrderActivity = ()=>{
 	$("#orderActivity").fadeIn();
 
 	$.ajax({
-		type:'GET',
+		type:'POST',
 		cache:'false',
 		url:'/api/Product/getAll.php',
 		success: result=>{

@@ -10,14 +10,18 @@ $(document).ready(()=>{
 
 	init();
 
+	setCustomerInfo();
 	setMyOrders();
+	setQueue();
 	setProducts();
+
 
 	splash(1000);
 	$("#myorderActivity").fadeIn();
 	$("#btnAdd").slideDown();
 
 	setInterval(recheckLoginStatus(),300000);
+	setInterval(processQueue(),300000);
 	
 });
 
@@ -76,6 +80,12 @@ var orderShow = ()=>{
 	$("#btnAdd").slideDown();	
 }
 
+var queueShow = ()=>{
+	clear();
+	closeNav();
+	$("#queueActivity").fadeIn();
+};
+
 var productsShow = ()=>{
 	clear();
 	closeNav();
@@ -107,11 +117,14 @@ var checkLoginStatus = ()=>{
 
 var loginCheck = ()=>{
 	let status = checkLoginStatus();
+	alert(status);
 	if(status != "true"){
+		alert("a");
 		window.location.replace("/");
 	} else {
 		var at = localStorage.getItem("all-wet-account-type");
 		if(at !== "customer"){
+			alert("b");
 			window.location.replace("/");
 		}
 	}
@@ -119,7 +132,7 @@ var loginCheck = ()=>{
 
 var recheckLoginStatus = ()=>{
 	$.ajax({
-		type:'GET',
+		type:'POST',
 		url:'/authenticate/signInStatus.php',
 		cache:'false',
 		success: result=>{
@@ -156,10 +169,10 @@ var setMyOrders = ()=>{
 
 	$("#orderList").html(preloader);
 
-	//var cid = getCustomerId();
-	var cid = 1;
+	var cid = getCustomerId();
+	
 	$.ajax({
-		type:'GET',
+		type:'POST',
 		url: transactionGetApi,
 		cache: 'false',
 		data: {
@@ -195,108 +208,127 @@ var renderMyOrder = ()=>{
 		
 		$("#orderList").html(" ");
 
-		$.each(result, (index,order)=>{
-			var mpimg = " ";
-
-			var tid = order['transaction_id'];
-			var td = order['transaction_date'];
-			var tt= order['transaction_time'];
-			var cid = order['customer_id'];
-			var tc = order['transaction_count'];
-			var tp = order['transaction_price'];
-			var tpm = order['transaction_payment_method'];
-			var ts = order['transaction_status'];
-			var tlo = order['transaction_longitude'];
-			var tlt = order['transaction_latitude'];
-			var ta = order['transaction_address'];
-
-			if(tc <= 1) {
-				var qv = "item";
-			} else {
-				var qv = "items";
-			}
-
-			if(tlo){
-				var mpimg = `
-					<div class="card-img">
-						<img src="https://maps.googleapis.com/maps/api/staticmap?center=${tlt},${tlo}&zoom=17&size=800x300&markers=color:blue%7C${tlt},${tlo}&key=AIzaSyCuNfQSkwl85bk38k4de_QR-DwBGL-069o" width="100%">
-					</div>
-				`;
-			}
-
-			var tmpl = `
-				<div class="card hoverable" id="${tid}TransactionCard">
-					${mpimg}
+		if(result.length < 0){
+			var emptyCard = `
+				<div class="card">
 					<div class="card-content">
-						<span class="card-title">${ta}</span>
-						<p><font size="3pt" class="grey-text">${td} ${tt}</font></p>
-						<br>
-						<p style="line-height:1.5">
-							<i class="material-icons grey-text text-darken-1">local_offer</i> ₱${tp} for ${tc} ${qv}<br>
-							<i class="material-icons grey-text text-darken-1">payment</i> ${tpm}<br>
-							<i class="material-icons grey-text text-darken-1">linear_scale</i> ${ts}
-						</p>
-					</div>
-					<div class="card-action">
-						<a class="black-text activator" href="#${tid}ItemsModal">See Items</a>
-					</div>
-					<div class="card-reveal">
-						<span class="card-title grey-text text-darken-4">Items<i class="material-icons right">close</i></span>
-						<ul class="collection" id="${tid}items">
-							<li class="collection-item">
-								<center>
-									${preloader} 
-								</center>
-							</li>
-						</ul>
+						<center>
+							<style>
+								.material-icons.md-48 { font-size: 48px; }
+							</style>
+							<h5 class="grey-text">
+								<i class="material-icons md-48">tag_faces</i><br><br>
+								Tap the + icon to order
+							</h5>
+						</center>
 					</div>
 				</div>
 			`;
+			$("#orderList").html(emptyCard);
+		} else {
+			$.each(result, (index,order)=>{
+				var mpimg = " ";
 
-			$("#orderList").append(tmpl);
+				var tid = order['transaction_id'];
+				var td = order['transaction_date'];
+				var tt= order['transaction_time'];
+				var cid = order['customer_id'];
+				var tc = order['transaction_count'];
+				var tp = order['transaction_price'];
+				var tpm = order['transaction_payment_method'];
+				var ts = order['transaction_status'];
+				var tlo = order['transaction_longitude'];
+				var tlt = order['transaction_latitude'];
+				var ta = order['transaction_address'];
 
-			$.ajax({
-				type:'GET',
-				cache: 'false',
-				url: transitemGetByTransactionIdApi,
-				data: {
-					transaction_id: tid
-				},
-				success: result => {
-					try{						
-						if(result.code == 400){
+				if(tc <= 1) {
+					var qv = "item";
+				} else {
+					var qv = "items";
+				}
+
+				if(tlo){
+					var mpimg = `
+						<div class="card-img">
+							<img src="https://maps.googleapis.com/maps/api/staticmap?center=${tlt},${tlo}&zoom=17&size=800x300&markers=color:blue%7C${tlt},${tlo}&key=AIzaSyCuNfQSkwl85bk38k4de_QR-DwBGL-069o" width="100%">
+						</div>
+					`;
+				}
+
+				var tmpl = `
+					<div class="card hoverable" id="${tid}TransactionCard">
+						${mpimg}
+						<div class="card-content">
+							<span class="card-title">${ta}</span>
+							<p><font size="3pt" class="grey-text">${td} ${tt}</font></p>
+							<br>
+							<p style="line-height:1.5">
+								<i class="material-icons grey-text text-darken-1">local_offer</i> ₱${tp} for ${tc} ${qv}<br>
+								<i class="material-icons grey-text text-darken-1">payment</i> ${tpm}<br>
+								<i class="material-icons grey-text text-darken-1">linear_scale</i> ${ts}
+							</p>
+						</div>
+						<div class="card-action">
+							<a class="black-text activator" href="#${tid}ItemsModal">See Items</a>
+						</div>
+						<div class="card-reveal">
+							<span class="card-title grey-text text-darken-4">Items<i class="material-icons right">close</i></span>
+							<ul class="collection" id="${tid}items">
+								<li class="collection-item">
+									<center>
+										${preloader} 
+									</center>
+								</li>
+							</ul>
+						</div>
+					</div>
+				`;
+
+				$("#orderList").append(tmpl);
+
+				$.ajax({
+					type:'POST',
+					cache: 'false',
+					url: transitemGetByTransactionIdApi,
+					data: {
+						transaction_id: tid
+					},
+					success: result => {
+						try{						
+							if(result.code == 400){
+								$(`#${tid}items`).html(`<li class="collection-item"><center>Error Processing Items</center></li>`);
+							} else {
+								$(`#${tid}items`).html(" ");
+								$.each(result, (index,item)=>{
+									var pid = item['product_id'];
+									var pn = item['product_name'];
+									var tq = item['transitem_quantity'];
+
+									if(tq <= 1) {
+										var qv = "piece";
+									} else {
+										var qv = "pieces";
+									}
+
+									var templ = `
+										<li class="collection-item">
+											<b>${pn}</b> (${tq} ${qv})
+										</li>
+									`;
+									$(`#${tid}items`).append(templ);
+								});
+							}
+						}
+						catch(e){
 							$(`#${tid}items`).html(`<li class="collection-item"><center>Error Processing Items</center></li>`);
-						} else {
-							$(`#${tid}items`).html(" ");
-							$.each(result, (index,item)=>{
-								var pid = item['product_id'];
-								var pn = item['product_name'];
-								var tq = item['transitem_quantity'];
-
-								if(tq <= 1) {
-									var qv = "piece";
-								} else {
-									var qv = "pieces";
-								}
-
-								var templ = `
-									<li class="collection-item">
-										<b>${pn}</b> (${tq} ${qv})
-									</li>
-								`;
-								$(`#${tid}items`).append(templ);
-							});
 						}
 					}
-					catch(e){
-						$(`#${tid}items`).html(`<li class="collection-item"><center>Error Processing Items</center></li>`);
-					}
-				}
-			}).fail(()=>{
-				$(`#${tid}items`).html(`<li class="collection-item"><center>Error Fetching Items</center></li>`);
-			});
+				}).fail(()=>{
+					$(`#${tid}items`).html(`<li class="collection-item"><center>Error Fetching Items</center></li>`);
+				});
 
-		});
+			});
+		}
 
 	} catch(e){
 		console.log(`My Orders Error: ${e}`);
@@ -367,7 +399,7 @@ var setProducts = ()=>{
 	$("#productsList").html(preloader);
 
 	$.ajax({
-		type:'GET',
+		type:'POST',
 		cache: 'false',
 		url: productGetAllApi,
 		data: {
@@ -468,17 +500,181 @@ var editAccount = ()=>{
 		$.ajax({
 			type: 'POST',
 			cache: 'false',
-			url: 'api/Customer/update.php',
+			url: 'api/Customer/updateBasic.php',
 			data: {
 				customer_id: i,
 				customer_name: n,
 				customer_address: a
 			},
 			success: result=>{
-				M.toast({html:result, displayLength: 3000});
+				M.toast({html:result.message, displayLength: 3000});
+				getCustomerInfo();
+				setCustomerInfo();
 			}
 		}).fail(()=>{
 			M.toast({html:"Cannot connect to server", displayLength: 3000});
 		});
 	}
 };
+
+var setQueue = ()=>{
+	var emptyQueue = `
+		<div class="card hoverable col s12">
+			<div class="card-content">
+				<br>
+				<center>
+					<h5 class="grey-text">
+					<style>
+					.material-icons.md-48 { font-size: 48px; }
+					</style>
+					<i class="material-icons md-48">tag_faces</i><br><br>
+					Nothing in Queue
+					</h5>
+				</center>
+				<br>
+			</div>
+		</div>
+	`;
+	if(localStorage.getItem("all-wet-order-queue")){
+		var queue = JSON.parse(localStorage.getItem("all-wet-order-queue"));
+
+		if(queue.length < 1){
+			$("#queueList").html(emptyQueue);
+		} else {
+			$("#queueList").html(" ");
+			$.each(queue, (index,value)=>{
+				var adr = value.transaction_address;
+				var tc = value.transaction_count;
+				var tpm = value.transaction_payment_method;
+				var p = value.transaction_price;
+
+				if(tc <= 1) {
+					var qv = "item";
+				} else {
+					var qv = "items";
+				}
+
+				var tmpl = `
+					<div class="card hoverable">
+						<div class="card-content">
+							<span class="card-title">${adr}</span>
+							<br>
+							<p style="line-height:1.5">
+								<i class="material-icons grey-text text-darken-1">local_offer</i> ₱${p} for ${tc} ${qv}<br>
+								<i class="material-icons grey-text text-darken-1">payment</i> ${tpm}<br>
+							</p>
+						</div>
+					</div>
+				`;
+				$("#queueList").append(tmpl);
+			});
+		}
+		
+	} else {
+		$("#queueList").html(emptyQueue);
+	}
+};
+
+var processQueue = ()=>{
+	if(localStorage.getItem("all-wet-order-queue")){
+		try {
+			var queue = JSON.parse(localStorage.getItem("all-wet-order-queue"));
+			$.each(queue, (index,trans)=>{
+				$.ajax({
+					type:'POST',
+					cache:'false',
+					url:'/api/Transaction/add.php',
+					data:{
+						"customer_id": trans.customer_id,
+						"transaction_count": trans.transaction_count,
+						"transaction_price": trans.transaction_price,
+						"transaction_payment_method": trans.transaction_payment_method,
+						"transaction_status": trans.transaction_status,
+						"transaction_latitude": trans.transaction_latitude,
+						"transaction_longitude": trans.transaction_longitude,
+						"transaction_address": trans.transaction_address
+					},
+					success: result=>{
+						var tid = result.transaction_id;
+						var ti = JSON.stringify(trans.transaction_items);
+						$.ajax({
+							type:'POST',
+							cache:'false',
+							url:'/api/TransItem/add.multiple.php',
+							data: {
+								"transaction_id":tid,
+								"transaction_items":ti
+							},
+							success: result=>{
+								console.log(result);
+							}
+
+						}).fail(()=>{
+							M.toast({html:"Error sending items you ordered, contact All Wet for help", durationLength:3000});
+						});
+						removeFromQueue(index);
+						setQueue();
+					}
+				}).fail(()=>{
+					console.log({"error":"QUEUE_SENDING_ERROR"});
+					setQueue();
+				});
+			});
+		} catch(e){
+			console.log(e);
+		}		
+	}
+}
+
+var getQueue = ()=>{
+	if(localStorage.getItem("all-wet-order-queue")){
+		var queue = JSON.parse(localStorage.getItem("all-wet-order-queue"));
+	} else {
+		var queue = [];
+		localStorage.setItem("all-wet-order-queue",JSON.stringify(queue));
+	}
+
+	return queue;
+}
+
+var removeFromQueue = (index)=>{
+	var queue = getQueue();
+	try {
+		queue.splice(index,1);
+		localStorage.setItem("all-wet-order-queue",JSON.stringify(queue));
+	} catch(e){
+		console.log(e);
+	}
+}
+
+var getCustomerInfo = ()=>{
+	var cid = localStorage.getItem("all-wet-customer-id");
+	$.ajax({
+		type:'POST',
+		cache:'false',
+		url:'/api/Customer/get.php',
+		data:{
+			customer_id: cid
+		},
+		success: result => {
+			localStorage.setItem("all-wet-customer-info",JSON.stringify(result));
+			setCustomerInfo();
+		}
+	}).fail(()=>{
+		console.log("Failed to get customer information");
+	});
+}
+
+var setCustomerInfo = ()=>{
+	var customer = JSON.parse(localStorage.getItem("all-wet-customer-info"));
+	var cn = customer.customer_name;
+	var adr = customer.customer_address;
+	
+	if(cn){
+		$("#nameField").val(cn);
+	}
+	$("#addressField").val(adr);
+	M.updateTextFields();
+
+	$("#customerNamePlaceholder").html(cn);
+}

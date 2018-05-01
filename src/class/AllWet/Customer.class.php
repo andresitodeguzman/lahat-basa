@@ -218,5 +218,20 @@ class Customer {
     }
   }
 
+  final public function updateBasic(Array $c_array){
+    $this->customer_id = $c_array['customer_id'];
+    $this->customer_name = $c_array['customer_name'];
+    $this->customer_address = $c_array['customer_address'];
+
+    $stmt = $this->mysqli->prepare("UPDATE `customer` SET `customer_name`=?, `customer_address`=? WHERE `customer_id`=?");
+    $stmt->bind_param("ssi", $this->customer_name, $this->customer_address, $this->customer_id);
+
+    if($stmt->execute()){
+      return True;
+    } else {
+      return False;
+    }
+  }
+
 }
 ?>

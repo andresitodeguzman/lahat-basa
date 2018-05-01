@@ -53,6 +53,7 @@ if(!empty($result)){
 
     $customer_id = 0;
 
+    
     if(empty($customer_info)){
         $c_array = array(
             "customer_number"=>$subscriber_number,
@@ -92,6 +93,24 @@ if(!empty($result)){
             localStorage.setItem("all-wet-login",true);
             localStorage.setItem("all-wet-customer-id","<?=$customer_id?>");
             localStorage.setItem("all-wet-customer-number", "<?=$subscriber_number?>");
+
+            <?php
+            if($customer_info){
+                $customer_info = json_encode($customer_info);
+                echo "
+                    localStorage.setItem('all-wet-customer-info','$customer_info');
+                ";
+            } else {
+                echo "
+                    var setupUserInfo = ()=>{
+                        var info = [];
+                        localStorage.setItem('all-wet-customer-info',JSON.stringify(info));
+                    };
+
+                    setupUserInfo();
+                ";
+            }
+            ?>
 
             window.location.replace('/authenticate/redirectToApp.php');
         </script>

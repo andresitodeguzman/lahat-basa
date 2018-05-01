@@ -12,6 +12,8 @@
       return localStorage.getItem('all-wet-login');
   };
 
+
+
   var setButton = ()=>{
 
     let status = checkLoginStatus();
@@ -26,7 +28,16 @@
         </a>`;
 
     if(status == "true"){
-        $("#button").html(appButton);
+        var at = localStorage.getItem("all-wet-account-type");
+        if(at == 'customer'){
+          window.location.replace('/app');
+        }
+        if(at == 'employee'){
+          window.location.replace('/employee');
+        }
+        if(at == 'admin'){
+          window.location.replace('/admin');
+        }
     } else {
         $("#button").html(loginButton);
     }

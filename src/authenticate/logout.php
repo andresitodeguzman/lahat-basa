@@ -13,9 +13,8 @@ session_destroy();
 <html>
     <head>
         <script type="text/javascript">
-            localStorage.setItem("all-wet-login", false);
-            localStorage.setItem("all-wet-customer-id", "");
-
+            localStorage.clear();
+            sessionStorage.clear();
             window.location.replace('/');
         </script>
     </head>

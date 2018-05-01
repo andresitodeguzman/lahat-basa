@@ -48,7 +48,7 @@ require_once("../_system/config.php");
 					</div>
 					<a href="/app">
                     <span class="white-text name">
-                        <b>All Wet Customer</b>
+                        <b id="customerNamePlaceholder">All Wet Customer</b>
                     </span>
                 </a>
 					<a href="/app">
@@ -63,11 +63,13 @@ require_once("../_system/config.php");
 			</div>
 
 			<li><a href="#" onclick="orderShow()"><i class="material-icons">view_list</i> My Order</a></li>
-			<li><a href="#" onclick="queueShow()"><i class="material-icons">file_upload</i> Order Queue</a></li>
+			<li><a href="#" onclick="queueShow()"><i class="material-icons">queue</i> Order Queue</a></li>
 			<li class="divider"></li>
 			<li><a href="#" onclick="productsShow()"><i class="material-icons">local_mall</i> Products</a></li>
-			<li><a href="#" onclick="editAccountShow()"><i class="material-icons">info</i> Edit Account</a></li>
+			<li><a href="https://www.facebook.com/allwetstation/" target="_blank"><i class="material-icons">loyalty</i>Facebook Page</a></li>
 			<li class="divider"></li>
+			<li><a href="#" onclick="editAccountShow()"><i class="material-icons">settings</i> Edit Account</a></li>
+			<li><a href="#" onclick="editAccountShow()"><i class="material-icons">info</i> About App</a></li>
 			<li><a href="/authenticate/logout.php"><i class="material-icons">person</i> Log-out</a></li>
 
 		</ul>
@@ -105,6 +107,35 @@ require_once("../_system/config.php");
 			</div>
 		</div>
 		<!-- myorderActivity -->
+
+		<!-- queueActivity -->
+		<div class="activity col s12" id="queueActivity">
+			<!-- navbar -->
+			<div class="navbar-fixed" id="navbar">
+				<nav class="blue darken-3 z-depth-2">
+					<div class="nav-wrapper">
+						<a href="#" data-target="snav" class="show-on-large sidenav-trigger"><i class="material-icons">menu</i></a>
+						<a class="title" href="#"><b>All Wet</b></a>
+						<div class="right">
+							<a href="#" onclick="setQueue()"><i class="material-icons white-text">refresh</i></a>
+						</div>
+					</div>
+				</nav>
+			</div>
+			<!-- .navbar -->
+
+			<div class="container">
+				<h4 class="blue-text text-darken-3">Order Queue</h4>
+				<p class="grey-text">Orders that You Have Made While Offline</p>
+				<br>
+				<div class="cards-container">
+					<div id="queueList"></div>
+				</div>
+				<br><br><br><br>
+			</div>
+
+		</div>
+		<!-- .queueActivity -->
 
 		<!-- productsActivity -->
 		<div class="activity col s12" id="productsActivity">
@@ -157,11 +188,11 @@ require_once("../_system/config.php");
 				<div class="row">
 					<div class="input-field col s12">
 						<input type="text" id="nameField">
-						<label for="name">Name</label>
+						<label class="active" for="name">Name</label>
 					</div>
 					<div class="input-field col s12">
 						<input type="text" id="addressField">
-						<label for="address">Address</label>
+						<label class="active" for="address">Address</label>
 					</div>
 				</div>
 				<br><br>

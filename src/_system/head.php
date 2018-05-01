@@ -51,8 +51,6 @@ if(@empty($theme_color_hex)) $theme_color_hex = "";
 
 <!-- Service Worker -->
 <script type="text/javascript">
-/*'use strict';
-
 if('serviceWorker' in navigator){
 	navigator.serviceWorker.register('/serviceworker.js').then(reg=>{
 		console.log('SW Log: Registration was Successful');
@@ -62,7 +60,7 @@ if('serviceWorker' in navigator){
 	});
 } else {
 	console.log(`SW Log: [Error] Feature Not Available on this Browser`);
-}*/
+}
 </script>
 
 <style>
@@ -79,12 +77,6 @@ if('serviceWorker' in navigator){
     rel="stylesheet"
     href="/assets/materialize/css/materialize.min.css">
 <link
-    rel="stylesheet"
-    href="/assets/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-<link
-  rel="stylesheet"
-  href="/assets/material-refresh/css/material-refresh.min.css">
-<link
   rel="stylesheet"
   href="/assets/css/customstyle.css">
 
@@ -96,10 +88,6 @@ if('serviceWorker' in navigator){
 <script
     type="text/javascript"
     src="/assets/materialize/js/materialize.min.js">
-</script>
-<script
-    type="text/javascript"
-    src="/assets/material-refresh/js/material-refresh.min.js">
 </script>
 <script>
 /*
