@@ -100,6 +100,11 @@ var editAccountShow = ()=>{
 	$("meta[name='theme-color']").attr("content","#455a64");
 };
 
+var aboutAppShow = ()=>{
+	clear();
+	closeNav();
+	$("#aboutAppActivity").fadeIn();
+};
 
 // App Functions
 var init = ()=>{

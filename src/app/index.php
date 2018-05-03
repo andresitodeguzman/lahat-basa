@@ -69,7 +69,7 @@ require_once("../_system/config.php");
 			<li><a href="https://www.facebook.com/allwetstation/" target="_blank"><i class="material-icons">loyalty</i>Facebook Page</a></li>
 			<li class="divider"></li>
 			<li><a href="#" onclick="editAccountShow()"><i class="material-icons">settings</i> Edit Account</a></li>
-			<li><a href="#" onclick="editAccountShow()"><i class="material-icons">info</i> About App</a></li>
+			<li><a href="#" onclick="aboutAppShow()"><i class="material-icons">info</i> About App</a></li>
 			<li><a href="/authenticate/logout.php"><i class="material-icons">person</i> Log-out</a></li>
 
 		</ul>
@@ -201,6 +201,32 @@ require_once("../_system/config.php");
 			</div>
 		</div>
 		<!-- .editAccountActivity -->
+
+		<!-- aboutAppActivity -->
+		<div class="activity col s12" id="aboutAppActivity">
+			
+			<!-- navbar -->
+			<div class="navbar-fixed" id="navbar">
+				<nav class="blue darken-3 z-depth-2">
+					<div class="nav-wrapper">
+						<a href="#" data-target="snav" class="show-on-large sidenav-trigger"><i class="material-icons">menu</i></a>
+						<a class="title" href="#"><b>All Wet</b></a>
+					</div>
+				</nav>
+			</div>
+			<!-- .navbar -->
+
+			<div class="container">
+				<h4 class="blue-text text-darken-3">About App</h4>
+				<br><br>
+				<h5>
+					<img src="/assets/images/icon/icon-144x144.png"><br>
+					<b>All Wet</b><br>
+					version 1
+				</h5>
+			</div><br><br><br><br><br>
+		</div>
+		<!-- .aboutAppActivity -->
 
 
 	</body>
