@@ -83,24 +83,25 @@ var locateLocation = ()=>{
 		};
 
 		navigator.geolocation.getCurrentPosition(pos=>{
-			var coo = pos.coords;
+			var coo = pos.coords;      
 			var ltlo = `${coo.latitude},${coo.longitude}`;
 
 			$.ajax({
-				type:'POST',
+				type:'GET',
 				url:'https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyBDOL-nNs8SKrlnkr97ByrLwJZ6PHLXeas',
 				data: {
 					latlng: ltlo
 				},
 				success: result=>{
+          console.log(result);
 					var ad = result['results'][0]['formatted_address'];
-                    var exactLoc = result['results'][0]['address_components'][0]['long_name'];
-                    var city = result['results'][0]['address_components'][1]['long_name'];
+          var exactLoc = result['results'][0]['address_components'][0]['long_name'];
+          var city = result['results'][0]['address_components'][1]['long_name'];
 
 					sessionStorage.setItem("latitude",coo.latitude);
-                    sessionStorage.setItem("longitude",coo.longitude);
-                    sessionStorage.setItem("formatted_address",ad);
-                    sessionStorage.setItem("exact_location",exactLoc);
+          sessionStorage.setItem("longitude",coo.longitude);
+          sessionStorage.setItem("formatted_address",ad);
+          sessionStorage.setItem("exact_location",exactLoc);
 					sessionStorage.setItem("city",city);
 
 					console.log(result['results']);
@@ -168,7 +169,7 @@ var processAddressCoordinates = ()=>{
 			setOrderActivity();
 			sessionStorage.setItem("exact_location",exactloc);
 			$.ajax({
-				type:'POST',
+				type:'GET',
 				cache: 'false',
 				data: {
 					address:exactloc
@@ -197,7 +198,7 @@ var processAddressCoordinates = ()=>{
 					sessionStorage.setItem("city",cty);
 				}
 			}).fail(()=>{
-				M.toast({html:"Cannot get coordinates of location", durationLength:3000});
+        console.log("Cannot get coordinates of location");
 			});
 	}
 }
@@ -212,7 +213,7 @@ setLocAsCustomerAddress = ()=>{
 	setOrderActivity();
 
 	$.ajax({
-		type:'POST',
+		type:'GET',
 		cache: 'false',
 		data: {
 			address:adr
@@ -411,7 +412,6 @@ var setCategories = ()=>{
 		}
 	}).fail(()=>{
 		renderCategories();
-		M.toast({html:'Cannot get categories', displayLength:2000});
 	});
 };
 
@@ -693,7 +693,7 @@ var payWithCard = ()=>{
 			});
 		}).catch(e=>{
 			console.log(e);
-			M.toast({html:"An Error Occured While Processing Card Payment", durationLength:3000});
+			M.toast({html:"Cannot Proceed with Card Payment", durationLength:3000});
 		});
 
 	var processPaymentDetails = uiResult=>{
