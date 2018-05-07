@@ -221,9 +221,12 @@ require_once("../_system/config.php");
 				<br><br>
 				<h5>
 					<img src="/assets/images/icon/icon-144x144.png"><br>
-					<b>All Wet</b><br>
+					<b class="blue-text text-darken-3">All Wet</b><br>
 					version 1
-				</h5>
+				</h5><br>
+				<p>
+					
+				</p>
 			</div><br><br><br><br><br>
 		</div>
 		<!-- .aboutAppActivity -->

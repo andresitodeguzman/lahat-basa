@@ -86,14 +86,14 @@ require_once("../_system/config.php");
                 <br><br>
                 <div class="row">
                     <div class="col s12">
-                        <a id="otherLoc" class="btn btn-large btn-block waves-effect waves-light blue darken-4" onclick="otherLoc()">
+                        <a class="btn btn-large btn-block waves-effect waves-light blue darken-4" onclick="otherLoc()">
                             I'll just type where
                         </a>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col s12">
-                        <a id="savedLoc" class="btn btn-large btn-block waves-effect waves-light blue darken-2" onclick="setLocAsCustomerAddress()">
+                        <a class="btn btn-large btn-block waves-effect waves-light blue darken-2 savedAdr" onclick="setLocAsCustomerAddress()">
                             Use my Saved Address
                         </a>
                     </div>
@@ -116,14 +116,14 @@ require_once("../_system/config.php");
                 <br><br>
                 <div class="row">
                     <div class="col s12">
-                        <a id="otherLoc" class="btn btn-large btn-block waves-effect waves-light blue darken-4" onclick="otherLoc()">
+                        <a class="btn btn-large btn-block waves-effect waves-light blue darken-4" onclick="otherLoc()">
                             I'll just type where
                         </a>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col s12">
-                        <a id="savedLoc" class="btn btn-large btn-block waves-effect waves-light blue darken-2" onclick="setLocAsCustomerAddress()">
+                        <a class="btn btn-large btn-block waves-effect waves-light blue darken-2 savedAdr" onclick="setLocAsCustomerAddress()">
                             Use my Saved Address
                         </a>
                     </div>
@@ -146,14 +146,14 @@ require_once("../_system/config.php");
                 <br><br>
                 <div class="row">
                     <div class="col s12">
-                        <a id="otherLoc" class="btn btn-large btn-block waves-effect waves-light blue darken-4" onclick="otherLoc()">
+                        <a class="btn btn-large btn-block waves-effect waves-light blue darken-4" onclick="otherLoc()">
                             I'll just type where
                         </a>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col s12">
-                        <a id="savedLoc" class="btn btn-large btn-block waves-effect waves-light blue darken-2" onclick="setLocAsCustomerAddress()">
+                        <a clss="btn btn-large btn-block waves-effect waves-light blue darken-2 savedAdr" onclick="setLocAsCustomerAddress()">
                             Use my Saved Address
                         </a>
                     </div>
@@ -176,14 +176,14 @@ require_once("../_system/config.php");
                 </div>
                 <div class="row">
                     <div class="col s12">
-                        <a id="otherLoc" class="btn btn-large btn-block waves-effect waves-light blue darken-2" onclick="otherLoc()">
+                        <a class="btn btn-large btn-block waves-effect waves-light blue darken-2" onclick="otherLoc()">
                             No, Somewhere Else
                         </a>
                     </div><br><br>
                 </div>
                 <div class="row">
                     <div class="col s12">
-                        <a id="savedLoc" class="btn btn-large btn-block waves-effect waves-light blue" onclick="setLocAsCustomerAddress()">
+                        <a class="btn btn-large btn-block waves-effect waves-light blue savedAdr" onclick="setLocAsCustomerAddress()">
                             Use my Saved Address
                         </a>
                     </div>

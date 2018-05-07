@@ -6,6 +6,7 @@ $(document).ready(()=>{
 	splash(1000);
 
 	locateLocation();
+	setSavedLocationButton();
 	$('select').formSelect();
 
 	setInterval(recheckLoginStatus(),120000);
@@ -73,6 +74,26 @@ var otherLoc = ()=>{
 	$("#enterAddressActivity").fadeIn();
 };
 
+
+var setSavedLocationButton  = ()=>{
+
+	var hideButton = ()=>{
+		$(".saveAdr").hide();
+	};
+
+	if(localStorage.getItem("all-wet-customer-info")){
+		var customerInfo = JSON.parse(localStorage.getItem("all-wet-customer-info"));
+		try {
+			if(!customerInfo.customer_address){
+				hideButton();
+			}
+		} catch(e){
+			hideButton();
+		}
+	} else {
+		hideButton();
+	}
+};
 
 var locateLocation = ()=>{
 	$("#locationLoaderActivity").fadeIn();
@@ -242,7 +263,7 @@ setLocAsCustomerAddress = ()=>{
 			sessionStorage.setItem("city",cty);
 		}
 	}).fail(()=>{
-		M.toast({html:"Cannot get coordinates of location", durationLength:3000});
+		console.log({module:"setLocAsCustomerAddress",message:"Cannot get coordinates of location"});
 	});
 
 }
@@ -308,6 +329,12 @@ var renderProducts = ()=>{
 			var t8 = (+p * 8);
 			var t9 = (+p * 9);
 			var t10 = (+p * 10);
+			var t10 = (+p * 10);
+			var t11 = (+p * 11);
+			var t12 = (+p * 12);
+			var t13 = (+p * 13);
+			var t14 = (+p * 14);
+			var t15 = (+p * 15);
 
 			var tmpl = `
 				<div class="card hoverable product cat${cid}" width="100%">
@@ -328,7 +355,7 @@ var renderProducts = ()=>{
 						<div class="input-field col s12">
 							<span id="totSlider${id}">Quantity</span>
 							<p class="range-field">
-								<input type="range" min="0" max="10" id="qty${id}" value="0">
+								<input type="range" min="0" max="15" id="qty${id}" value="0">
 							</p>
 						</div>
 					</div>
@@ -380,6 +407,26 @@ var renderProducts = ()=>{
 						if(q==10){
 							$("#totSlider${id}").html("Ten (10) for ₱${t10}");
 							updateItem('${id}','10','${t10}');
+						}
+						if(q==11){
+							$("#totSlider${id}").html("Eleven (11) for ₱${t11}");
+							updateItem('${id}','11','${t11}');
+						}
+						if(q==12){
+							$("#totSlider${id}").html("Twelve (12) for ₱${t12}");
+							updateItem('${id}','12','${t12}');
+						}
+						if(q==13){
+							$("#totSlider${id}").html("Thirteen (13) for ₱${t13}");
+							updateItem('${id}','13','${t13}');
+						}
+						if(q==14){
+							$("#totSlider${id}").html("Fourteen (14) for ₱${t14}");
+							updateItem('${id}','14','${t14}');
+						}
+						if(q==15){
+							$("#totSlider${id}").html("Fifteen (15) for ₱${t15}");
+							updateItem('${id}','15','${t15}');
 						}
 					});
 				</script>
@@ -535,6 +582,11 @@ var renderRundown = ()=>{
 		var t8 = (+p * 8);
 		var t9 = (+p * 9);
 		var t10 = (+p * 10);
+		var t11 = (+p * 11);
+		var t12 = (+p * 12);
+		var t13 = (+p * 13);
+		var t14 = (+p * 14);
+		var t15 = (+p * 15);
 
 		var tmpl = `
 			<div class="card hoverable product cat${cid}" width="100%">
@@ -555,7 +607,7 @@ var renderRundown = ()=>{
 					<div class="input-field col s12">
 						<span id="totSliders${pid}">${qty} item(s) for ${pr}</span>
 						<p class="range-field">
-							<input type="range" min="1" max="10" id="qtys${pid}" value="${qty}">
+							<input type="range" min="1" max="15" id="qtys${pid}" value="${qty}">
 						</p>
 					</div>
 				</div>
@@ -617,6 +669,26 @@ var renderRundown = ()=>{
 				if(q==10){
 					$("#totSliders${pid}").html("10 items for ₱${t10}");
 					updateItem('${pid}','10','${t10}');
+				}
+				if(q==11){
+					$("#totSlider${id}").html("11 items for ₱${t11}");
+					updateItem('${id}','11','${t11}');
+				}
+				if(q==12){
+					$("#totSlider${id}").html("12 items for ₱${t12}");
+					updateItem('${id}','12','${t12}');
+				}
+				if(q==13){
+					$("#totSlider${id}").html("13 items for ₱${t13}");
+					updateItem('${id}','13','${t13}');
+				}
+				if(q==14){
+					$("#totSlider${id}").html("14 items for ₱${t14}");
+					updateItem('${id}','14','${t14}');
+				}
+				if(q==15){
+					$("#totSlider${id}").html("15 items for ₱${t15}");
+					updateItem('${id}','15','${t15}');
 				}
 
 				setTotalPriceRundown();

@@ -152,7 +152,7 @@ var recheckLoginStatus = ()=>{
 			}
 		}
 	}).fail(()=>{
-		console.log("Cannot check sign-in status");
+		console.log({module:"recheckLoginStatus",message:"Cannot check sign-in status"});
 	});
 };
 
@@ -195,12 +195,13 @@ var setMyOrders = ()=>{
 			catch(e) {
 				console.log(`My Orders Error: ${e}`);
 				$("#orderList").html(errorCard);
+				console.log({module:"setMyOrders",message:"Error Fetching Data"});
 				M.toast({html:"An error fetching data",displayLength:3000});
 			}
 		}
 	}).fail(()=>{
 		renderMyOrder();
-		M.toast({html:"Cannot get new orders",displayLength:3000});
+		console.log({module:"setMyOrders",message:"Cannot get new orders"});
 	});
 };
 
@@ -358,7 +359,7 @@ var setCategories = ()=>{
 		}
 	}).fail(()=>{
 		renderCategories();
-		M.toast({html:'Cannot get categories', displayLength:2000});
+		console.log({module:"setCategories",message:"Cannot get categories"});
 	});
 };
 
@@ -382,6 +383,7 @@ var renderCategories = ()=>{
 			$("#categoryTabs").append(tmpl);
 		});
 	} catch(e){
+		console.log({module:"renderCategories",message:"Cannot process categories"});
 		M.toast({html:"Fatal error: Cannot processs categories"});
 	}
 }
@@ -415,12 +417,13 @@ var setProducts = ()=>{
 			catch(e){
 				console.log(`Products Error: ${e}`);
 				$("#productsList").html(errorCard);
+				console.log({module:"setProducts",message:"An error occured while fetching data"});
 				M.toast({html:"An error occured while fetching data",displayLength:3000});
 			}
 		}
 	}).fail(()=>{
 		renderProduct();
-		M.toast({html:"Cannot get new products",displayLength:3000});
+		console.log({module:"setProducts",message:"Cannot get new products"});
 	});
 
 }
@@ -618,7 +621,7 @@ var processQueue = ()=>{
 						setQueue();
 					}
 				}).fail(()=>{
-					console.log({"error":"QUEUE_SENDING_ERROR"});
+					console.log({module:"processQueue",message:"Queue Sending Error"});
 					setQueue();
 				});
 			});
@@ -663,6 +666,7 @@ var getCustomerInfo = ()=>{
 			setCustomerInfo();
 		}
 	}).fail(()=>{
+		console.log({module:"getCustomerInfo",message:"Failed to get customer information"});
 		console.log("Failed to get customer information");
 	});
 }
