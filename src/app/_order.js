@@ -589,7 +589,7 @@ var renderRundown = ()=>{
 		var t15 = (+p * 15);
 
 		var tmpl = `
-			<div class="card hoverable product cat${cid}" width="100%">
+			<div class="card hoverable product cat${cid} col s12">
 				<div class="card-img">
 					${img}
 				</div>
@@ -671,24 +671,24 @@ var renderRundown = ()=>{
 					updateItem('${pid}','10','${t10}');
 				}
 				if(q==11){
-					$("#totSlider${id}").html("11 items for ₱${t11}");
-					updateItem('${id}','11','${t11}');
+					$("#totSlider${pid}").html("11 items for ₱${t11}");
+					updateItem('${pid}','11','${t11}');
 				}
 				if(q==12){
-					$("#totSlider${id}").html("12 items for ₱${t12}");
-					updateItem('${id}','12','${t12}');
+					$("#totSlider${pid}").html("12 items for ₱${t12}");
+					updateItem('${pid}','12','${t12}');
 				}
 				if(q==13){
-					$("#totSlider${id}").html("13 items for ₱${t13}");
-					updateItem('${id}','13','${t13}');
+					$("#totSlider${pid}").html("13 items for ₱${t13}");
+					updateItem('${pid}','13','${t13}');
 				}
 				if(q==14){
-					$("#totSlider${id}").html("14 items for ₱${t14}");
-					updateItem('${id}','14','${t14}');
+					$("#totSlider${pid}").html("14 items for ₱${t14}");
+					updateItem('${pid}','14','${t14}');
 				}
 				if(q==15){
-					$("#totSlider${id}").html("15 items for ₱${t15}");
-					updateItem('${id}','15','${t15}');
+					$("#totSlider${pid}").html("15 items for ₱${t15}");
+					updateItem('${pid}','15','${t15}');
 				}
 
 				setTotalPriceRundown();
