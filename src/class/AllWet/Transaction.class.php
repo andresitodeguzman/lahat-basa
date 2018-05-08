@@ -33,7 +33,7 @@ class Transaction{
   final public function getAll(){
     $transaction_array = array();
     
-    $query = "SELECT * FROM `transaction`";
+    $query = "SELECT * FROM `transaction` WHERE `transaction_status` <> 'DELIVERED'";
     
     if($result = $this->mysqli->query($query)){
       while($trans = $result->fetch_array()){

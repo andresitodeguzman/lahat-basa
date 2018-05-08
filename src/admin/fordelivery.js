@@ -111,3 +111,23 @@ var renderForDelivery = () => {
     $("#forDeliveryList").html(errorCard);
   }
 };
+
+var setAsDelivered = tid=>{
+  $.ajax({
+    type:'GET',
+    cache: 'false',
+    url: '/api/Transaction/updateStatus.php',
+    data: {
+      transaction_id: tid,
+      transaction_status: 'DELIVERED'
+    },
+    success: result=>{
+      if(result.code == 200){
+        M.toast({html:"Successfully Set as Delivered", durationLength:3000});
+        setForDelivery();
+      }
+    }
+  }).fail(()=>{
+    M.toast({html:"An Error Occurred", durationLength:3000});
+  });  
+}

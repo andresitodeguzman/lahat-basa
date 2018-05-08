@@ -28,7 +28,7 @@ class Employee {
     // Create Empty Placeholder
     $employee_array = array();
     
-    $query = "SELECT `employee_id`, `employee_name`, `employee_username`, `employee_image`, `employee_salary` FROM `employee` LIMIT 50 ORDER BY `employee_name` ASC";
+    $query = "SELECT `employee_id`, `employee_name`, `employee_username`, `employee_image`, `employee_salary` FROM `employee` LIMIT 50";
     
     if($result = $this->mysqli->query($query)){
       while($emp = $result->fetch_array()){
