@@ -5,7 +5,7 @@ require_once("../_system/config.php");
 <!Doctype html>
 <html>
 <head>
-	<title>All Wet - Admin Sign-In</title>
+	<title>All Wet - Employee Sign-In</title>
 	<?php require_once("../_system/head.php") ?>
 	<script src="/authenticate/_scripts/employee.js"></script>
 </head>

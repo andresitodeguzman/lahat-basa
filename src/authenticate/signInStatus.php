@@ -22,7 +22,7 @@ if(empty($_SESSION['logged_in'])){
 
 if(@$_SESSION['logged_in']){
 	$account_type = "customer";
-	if($_SESSION['account_type']) $account_type = $_SESSION['account_type'];
+	if(@$_SESSION['account_type']) $account_type = $_SESSION['account_type'];
 
 	$arr = array(
 		"code"=>"200",

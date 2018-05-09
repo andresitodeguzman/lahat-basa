@@ -337,7 +337,7 @@ var renderProducts = ()=>{
 			var t15 = (+p * 15);
 
 			var tmpl = `
-				<div class="card hoverable product cat${cid}" width="100%">
+				<div class="card hoverable product cat${cid} col s12">
 					<div class="card-img">
 						${img}
 					</div>

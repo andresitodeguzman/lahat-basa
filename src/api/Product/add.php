@@ -7,6 +7,8 @@
  * Product
  * add
  */
+
+$perm = 5;
  
 require_once("../../_system/keys.php");
 require_once("../_secure.php");

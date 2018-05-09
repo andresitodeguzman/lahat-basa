@@ -1,6 +1,11 @@
 $(document).ready(()=>{
 	$("meta[name='theme-color']").attr("content","#455a64");
 	$("#loader").hide();
+}).keypress(e=>{
+  var key = e.which;
+  if(key == 13){
+    signIn();
+  }
 });
 
 var signInApi = '/authenticate/process/admin.php';

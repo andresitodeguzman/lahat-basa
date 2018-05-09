@@ -257,6 +257,22 @@ var renderMyOrder = ()=>{
 						</div>
 					`;
 				}
+        
+        let preloader = `
+          <center>
+            <div class="preloader-wrapper big active">
+              <div class="spinner-layer spinner-blue-only">
+                <div class="circle-clipper left">
+                  <div class="circle"></div>
+                </div><div class="gap-patch">
+                  <div class="circle"></div>
+                </div><div class="circle-clipper right">
+                  <div class="circle"></div>
+                </div>
+              </div>
+            </div>
+          </center>
+        `;
 
 				var tmpl = `
 					<div class="card hoverable" id="${tid}TransactionCard">
@@ -297,34 +313,30 @@ var renderMyOrder = ()=>{
 						transaction_id: tid
 					},
 					success: result => {
-						try{						
-							if(result.code == 400){
-								$(`#${tid}items`).html(`<li class="collection-item"><center>Error Processing Items</center></li>`);
-							} else {
-								$(`#${tid}items`).html(" ");
-								$.each(result, (index,item)=>{
-									var pid = item['product_id'];
-									var pn = item['product_name'];
-									var tq = item['transitem_quantity'];
-
-									if(tq <= 1) {
-										var qv = "piece";
-									} else {
-										var qv = "pieces";
-									}
-
-									var templ = `
-										<li class="collection-item">
-											<b>${pn}</b> (${tq} ${qv})
-										</li>
-									`;
-									$(`#${tid}items`).append(templ);
-								});
-							}
-						}
-						catch(e){
-							$(`#${tid}items`).html(`<li class="collection-item"><center>Error Processing Items</center></li>`);
-						}
+						if(result.message == 400){
+              $(`#${tid}items`).html(`<li class="collection-item"><center>Error Processing Items</center></li>`);
+            } else {
+              $(`#${tid}items`).html(" ");
+              $.each(result, (index, item)=>{
+                var pid = item.product_id;
+                var pn = item.product_name;
+                var tq = item.transitem_quantity;
+                
+                if(tq <= 1) {
+                  var qv = "piece";
+                } else {
+                  var qv = "pieces";
+                }
+                
+                var tmpl = `
+                  <li class="collection-item black-text">
+                    <b>${pn}</b> (${tq} ${qv})
+                  </li>
+                `;
+                
+                $(`#${tid}items`).append(tmpl);
+              });
+            }
 					}
 				}).fail(()=>{
 					$(`#${tid}items`).html(`<li class="collection-item"><center>Error Fetching Items</center></li>`);
@@ -338,7 +350,6 @@ var renderMyOrder = ()=>{
 		$("#orderList").html(errorCard);
 	}
 };
-
 
 var setCategories = ()=>{
 	$.ajax({
