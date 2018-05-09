@@ -36,7 +36,42 @@ var closeNav = () => {
   $(".sidenav").sidenav('close');
 }
 
-// App Functions
-var loginCheck = () => {
-  return true;
+var checkLoginStatus = ()=>{
+	return localStorage.getItem('all-wet-login');
+};
+
+var loginCheck = ()=>{
+	let status = checkLoginStatus();
+	if(status != "true"){
+		window.location.replace("/");
+	} else {
+		var at = localStorage.getItem("all-wet-account-type");
+		if(at !== "admin"){
+			window.location.replace("/");
+		}
+	}
+};
+
+var recheckLoginStatus = ()=>{
+	$.ajax({
+		type:'POST',
+		url:'/authenticate/signInStatus.php',
+		cache:'false',
+		success: result=>{
+			try {
+				if(result.is_signed_in == 'False'){
+					localStorage.clear();
+					window.location.replace("/");
+				} else {
+					if(result.account_type !== "admin"){
+						window.location.replace("/");
+					}
+				}
+			} catch(e){
+				console.log(e);
+			}
+		}
+	}).fail(()=>{
+		console.log({module:"recheckLoginStatus",message:"Cannot check sign-in status"});
+	});
 };

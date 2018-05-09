@@ -3,15 +3,18 @@ $(document).ready(()=>{
 	clear();
 
 	$(".sidenav").sidenav();
-    $('.modal').modal();
-    
-    loginCheck();
+  $('.modal').modal();
 
-    setForDelivery();
-    setProducts();
+ loginCheck();
+  
+  setForDelivery();
+  setProducts();
 
-    splash(1000);
-    forDeliveryShow();
+  splash(1000);
+  forDeliveryShow();
+  
+  setInterval(recheckLoginStatus(),300000);
+	setInterval(processQueue(),300000);
 });
 
 // API URLS
@@ -79,8 +82,44 @@ var editAccountShow = ()=>{
 
 
 // App Functions
+var checkLoginStatus = ()=>{
+	return localStorage.getItem('all-wet-login');
+};
+
 var loginCheck = ()=>{
-    return true;
+	let status = checkLoginStatus();
+	if(status != "true"){
+		window.location.replace("/");
+	} else {
+		var at = localStorage.getItem("all-wet-account-type");
+		if(at !== "employee"){
+			window.location.replace("/");
+		}
+	}
+};
+
+var recheckLoginStatus = ()=>{
+	$.ajax({
+		type:'POST',
+		url:'/authenticate/signInStatus.php',
+		cache:'false',
+		success: result=>{
+			try {
+				if(result.is_signed_in == 'False'){
+					localStorage.clear();
+					window.location.replace("/");
+				} else {
+					if(result.account_type !== "employee"){
+						window.location.replace("/");
+					}
+				}
+			} catch(e){
+				console.log(e);
+			}
+		}
+	}).fail(()=>{
+		console.log({module:"recheckLoginStatus",message:"Cannot check sign-in status"});
+	});
 };
 
 var setForDelivery = ()=>{
