@@ -40,11 +40,10 @@ var renderEmployee = ()=>{
           </div>
         </div>
       `;
-      $("#employeeList").html(tmpl)
+      $("#employeeList").html(tmpl);
     } else {
       $("#employeeList").html(" ");
       $.each(result,(index,value)=>{
-        console.log(value);
         var eid = value.employee_id;
         var en = value.employee_name;
         var eu = value.employee_username;
@@ -102,7 +101,7 @@ var renderEmployee = ()=>{
 
               <div class="editEmployeeActivity${eid}">
                 <div class="input-field">
-                  <input type="text" id="employeeName${eid}" value="${eid}">
+                  <input type="text" id="employeeName${eid}" value="${en}">
                   <label for="employeeName${eid}" class="active">Name</label> 
                 </div>
                 <div class="input-field">
@@ -138,7 +137,7 @@ var renderEmployee = ()=>{
 
             var saveEditEmployee${eid} = ()=>{
               $("#preloaderAddEmployee${eid}").show();
-              $("#editEmployeeActivity${eid}").hide();
+              $(".editEmployeeActivity${eid}").hide();
 
               var en${eid} = $("#employeeName${eid}").val();
               var eu${eid} = $("#employeeUsername${eid}").val();
@@ -149,18 +148,19 @@ var renderEmployee = ()=>{
               if(!eu${eid}){
                 M.toast({html:"Username is Required",durationLength:3000});
                 $("#preloaderAddEmployee${eid}").hide();
-                $("#editEmployeeActivity${eid}").show();
+                $(".editEmployeeActivity${eid}").show();
               } else {
                 if(!en${eid}){
                   M.toast({html:"Username is Required",durationLength:3000});
                   $("#preloaderAddEmployee${eid}").hide();
-                  $("#editEmployeeActivity${eid}").show();
+                  $(".editEmployeeActivity${eid}").show();
                 } else {
                   $.ajax({
                     type:'POST',
                     cache:'false',
-                    url:'/api/Employee/add.php',
+                    url:'/api/Employee/update.php',
                     data:  {
+                      employee_id: '${eid}',
                       employee_name: en${eid},
                       employee_username: eu${eid},
                       employee_password: ep${eid},
@@ -176,11 +176,11 @@ var renderEmployee = ()=>{
                      }
 
                     $("#preloaderAddEmployee${eid}").hide();
-                    $("#editEmployeeActivity${eid}").show();
+                    $(".editEmployeeActivity${eid}").show();
                     }
                   }).fail(()=>{
                     $("#preloaderAddEmployee${eid}").hide();
-                    $("#editEmployeeActivity${eid}").show();
+                    $(".editEmployeeActivity${eid}").show();
                     M.toast({html:"An Error Occurred", durationLength:3000});
                   });
                 }
@@ -230,6 +230,7 @@ var addEmployee = ()=>{
     var eu = $("#employeeUsername").val();
     var ep = $("#employeePassword").val();
     var ei = $("#employeeImage").val();
+    var es = $("#employeeSalary").val();
 
     if(!eu){
       M.toast({html:"Username is Required", durationLength:3000});
@@ -251,7 +252,8 @@ var addEmployee = ()=>{
               employee_name: en,
               employee_username: eu,
               employee_password: ep,
-              employee_image: ei
+              employee_image: ei,
+              employee_salary: es
             },
             success: result=>{
               try {
@@ -283,7 +285,7 @@ var addEmployee = ()=>{
 
   } catch(e){
     console.log(e);
-    M.toast({html:"An Error Occured", durationLength:3000});
+    M.toast({html:"An Error Occurred", durationLength:3000});
     showInput();
   }
 };

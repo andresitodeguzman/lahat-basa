@@ -27,7 +27,7 @@ $obj = new AllWet\Employee($mysqli);
 $arr = array(
   "employee_id"=>$employee_id,
   "employee_username"=>$employee_username,
-  "employee_passwo"
+  "employee_password"=>$employee_password
 );
 
 $data = $obj->getByUsername($employee_username);

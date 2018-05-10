@@ -1,4 +1,7 @@
 // API URLS
+let adminGetAll = '/api/Admin/getAll.php';
+let adminAdd = '/api/Admin/add.php';
+
 let customerGetAll = '/api/Customer/getAll.php';
 
 let employeeGetAll = '/api/Employee/getAll.php';

@@ -15,7 +15,8 @@ require_once("../_system/config.php");
 		<center>
 			<h4 class="white-text"><b>All Wet</b> Employee</h4>
 		</center>
-		<br>
+		<br><br>
+    <div class="container">
 		<div class="card z-depth-4">
 			
 			<div class="card-content" id="loader">
@@ -48,7 +49,9 @@ require_once("../_system/config.php");
 			<div class="card-action">
 				<a href="#" onclick="signIn()" class="blue-grey-text text-darken-2">Sign-In</a>
 			</div>
-		</div><br><br><br><br><br>
+		</div>
+    </div>
+    <br><br><br><br><br>
 	</div>
 </body>
 </html>

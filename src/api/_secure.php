@@ -43,7 +43,11 @@ switch($perm){
     break;
     
   case 4:
-    if($account_type !== 'admin' XOR 'employee') die($unauth);
+    if($account_type !== 'admin'){
+     if($account_type !== 'employee'){
+      die($unauth); 
+     }
+    }
     break;
 
   case 5:

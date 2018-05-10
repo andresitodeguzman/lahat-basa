@@ -204,7 +204,8 @@ var renderProduct = () => {
               var cn = value['category_name'];
 
               if(ci != '${cat}'){
-                var cl = '<a href="#" onclick="updateCategoryProduct(\"${id}\",\"'+ci+'\")">Set as Category</a>';
+                //var cl = '<a href="#" onclick="updateCategoryProduct(/"${id}\",\"'+ci+'\")">Set as Category</a>';
+                var cl = "<a href="#" onclick='updateCategoryProduct(${id},"+ci+")'>Set as Category</a>";
               } else {
                 var cl = "";
               }
@@ -354,13 +355,13 @@ var addProduct = ()=>{
                 showAddProductInput();
               } else {
                 M.toast({html:"An Error Occured", durationLength:3000});
-                $("#productName").val("");
-                $("#categoryId").val("");
-                $("#productImage").val("");
-                $("#productDescription").val("");
-                $("#productCode").val("");
-                $("#productPrice").val("");
-                $("#productAvailable").val("");
+                $("#productName").val('');
+                $("#categoryId").val('');
+                $("#productImage").val('');
+                $("#productDescription").val('');
+                $("#productCode").val('');
+                $("#productPrice").val('');
+                $("#productAvailable").val('');
                 setProducts();
                 showAddProductInput();
               }

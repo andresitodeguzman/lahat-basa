@@ -23,6 +23,7 @@ require_once("../_system/config.php");
         "product",
         "customer",
         "employee",
+        "admin",
         "salesreport",
         "self",
         "_init"
@@ -89,6 +90,7 @@ require_once("../_system/config.php");
       <li class="divider"></li>
       <li><a href="#" onclick="customerShow()"><i class="material-icons">people</i> Customers</a></li>
       <li><a href="#" onclick="employeeShow()"><i class="material-icons">people_outline</i> Employees</a></li>
+      <li><a href="#" onclick="adminShow()"><i class="material-icons">people_outline</i> Admin</a></li>
       <li class="divider"></li>
       <li><a href="#" onclick="salesReportShow()"><i class="material-icons">pie_chart</i> Sales Report</a></li>
       <li class="divider"></li>
@@ -395,6 +397,10 @@ require_once("../_system/config.php");
             <input type="text" id="employeeImage">
             <label for="employeeImage">Image (Relative from Home)</label> 
           </div>
+          <div class="input-field">
+            <input type="text" id="employeeSalary">
+            <label for="employeeSalary">Salary (in Pesos)</label> 
+          </div>
         </div>
      </div>
 
@@ -404,6 +410,34 @@ require_once("../_system/config.php");
       </div>
    </div>
     <!-- .employeeActivity -->
+    
+    <!-- adminActivity -->
+    <div class="activity col s12" id="adminActivity">
+      <!-- navbar -->
+      <div class="navbar-fixed" id="navbar">
+        <nav class="blue-grey darken-2 z-depth-2">
+          <div class="nav-wrapper">
+            <a href="#" data-target="snav" class="show-on-large sidenav-trigger"><i class="material-icons">menu</i></a>
+            <a class="title" href="#"><b>All Wet</b> Admin</a>
+            <div class="right">
+              <a href="#" onclick="setAdmin()"><i class="material-icons white-text">refresh</i></a>
+            </div>
+          </div>
+        </nav>
+      </div>
+      <!-- .navbar -->
+      
+      <div class="container">
+        <h4 class="blue-grey-text text-darken-3">
+          Admin
+        </h4><br>
+        <div class="cards-container">
+          <div id="adminList"></div>
+        </div>
+      </div><br><br><br><br>
+      
+    </div>
+    <!-- .adminActivity -->
     
     <!-- salesReportActivity -->
     <div class="activity col s12" id="salesReportActivity">

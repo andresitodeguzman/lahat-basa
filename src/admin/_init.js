@@ -11,6 +11,7 @@ $(document).ready(() => {
   setProducts();
   setCustomer();
   setEmployee();
+  setAdmin();
 
   splash(1000);
   forDeliveryShow();
