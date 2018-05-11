@@ -16,6 +16,8 @@ Timeline
 - 2/9/2018 - GitHub Repository was created
 - 2/21/2018 - Prototype presented in Class
 - 3/2/2018 - Start of Development
+- 5/16/2018 - Submission of CD with Source Code
+- 5/23/2018 - Final Presentation
 
 ## Repository Information
 This repository is created to serve as a backup repository and reference for future projects. The software is provided without warranty.

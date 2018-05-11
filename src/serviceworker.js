@@ -1,10 +1,10 @@
 /**
- * All Wet
+ * PWA Kit
  * 2018
+ * https://github.com/andresitodeguzman/pwa-kit
  * 
  * Service Worker
  *
- * Patterned from https://github.com/hcmedutech/website
  */
 
 'use strict';
@@ -79,6 +79,7 @@ self.addEventListener('install', event=>{
 });
 
 
+/*
 // Fetch Event
 self.addEventListener('fetch',event=>{
     event.respondWith(
@@ -89,6 +90,7 @@ self.addEventListener('fetch',event=>{
         })
     );
 });
+*/
 
 self.addEventListener('fetch', event=>{
     event.respondWith(

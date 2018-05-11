@@ -222,7 +222,23 @@ require_once("../_system/config.php");
 				<h5>
 					<img src="/assets/images/icon/icon-144x144.png"><br>
 					<b class="blue-text text-darken-3">All Wet</b><br>
-					version 1
+					<span>2018</span><br>
+					<br>
+					ITCS106 - Software Engineering<br>
+					<br>
+					All Wet Purified Water Station Web Application Technology With SMS Technology<br>
+					<br>
+					Donato, Janssen<br>
+					Espiritu, Romar<br>
+					Mendoza, Ermuel Kevin<br>
+					Tarriman, Michael John<br>
+					<br>
+					<br>
+					Open Source Licenses<br>
+					<br>
+					<?php
+						include_once("../licenses.php");
+					?>
 				</h5><br>
 				<p>
 					
