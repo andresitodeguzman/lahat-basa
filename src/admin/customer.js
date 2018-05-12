@@ -7,7 +7,7 @@ var customerShow = ()=>{
 var setCustomer = ()=>{
   $("#customerList").html(preloader);
 
-  if(Navigator.onLine){
+  if(navigator.onLine){
     $.ajax({
       type:'GET',
       cache:'false',

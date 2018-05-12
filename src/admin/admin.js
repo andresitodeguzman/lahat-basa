@@ -7,7 +7,7 @@ var adminShow = ()=>{
 var setAdmin = ()=>{
   $("#adminList").html(preloader);
 
-  if(Navigator.onLine){
+  if(navigator.onLine){
     $.ajax({
        type:'GET',
        cache:'false',

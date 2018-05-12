@@ -80,6 +80,12 @@ var orderShow = ()=>{
 	$("#btnAdd").slideDown();	
 }
 
+var deliveredShow = ()=>{
+	clear();
+	closeNav();
+	$("#deliveredActivity").fadeIn();
+};
+
 var queueShow = ()=>{
 	clear();
 	closeNav();
@@ -170,11 +176,12 @@ var setMyOrders = ()=>{
 	`;
 
 	$("#orderList").html(preloader);
+	$("#deliveredList").html(preloader);
 
 	var cid = getCustomerId();
-	
-	if(Navigator.onLine){
-		$.ajax({
+
+	var doAjax = ()=>{
+				$.ajax({
 			type:'POST',
 			url: transactionGetApi,
 			cache: 'false',
@@ -204,6 +211,11 @@ var setMyOrders = ()=>{
 			renderMyOrder();
 			console.log({module:"setMyOrders",message:"Cannot get new orders"});
 		});
+
+	};
+
+	if(navigator.onLine){
+		doAjax();
 	} else {
 		renderMyOrder();
 	}
@@ -215,6 +227,7 @@ var renderMyOrder = ()=>{
 		var result = JSON.parse(localStorage.getItem("all-wet-myorders"));
 		
 		$("#orderList").html(" ");
+		$("#deliveredList").html(" ");
 
 		if(result.length < 0){
 			var emptyCard = `
@@ -233,6 +246,7 @@ var renderMyOrder = ()=>{
 				</div>
 			`;
 			$("#orderList").html(emptyCard);
+			$("#deliveredList").html(emptyCard);
 		} else {
 			$.each(result, (index,order)=>{
 				var mpimg = " ";
@@ -297,7 +311,7 @@ var renderMyOrder = ()=>{
 						</div>
 						<div class="card-reveal">
 							<span class="card-title grey-text text-darken-4">Items<i class="material-icons right">close</i></span>
-							<ul class="collection" id="${tid}items">
+							<ul class="collection" id="items${tid}">
 								<li class="collection-item">
 									<center>
 										${preloader} 
@@ -308,7 +322,12 @@ var renderMyOrder = ()=>{
 					</div>
 				`;
 
-				$("#orderList").append(tmpl);
+				if(ts == 'DELIVERED'){
+					$("#deliveredList").append(tmpl);
+				} else {
+					$("#orderList").append(tmpl);	
+				}
+				
 
 				$.ajax({
 					type:'POST',
@@ -319,32 +338,33 @@ var renderMyOrder = ()=>{
 					},
 					success: result => {
 						if(result.message == 400){
-              $(`#${tid}items`).html(`<li class="collection-item"><center>Error Processing Items</center></li>`);
-            } else {
-              $(`#${tid}items`).html(" ");
-              $.each(result, (index, item)=>{
-                var pid = item.product_id;
-                var pn = item.product_name;
-                var tq = item.transitem_quantity;
-                
-                if(tq <= 1) {
-                  var qv = "piece";
-                } else {
-                  var qv = "pieces";
-                }
-                
-                var tmpl = `
-                  <li class="collection-item black-text">
-                    <b>${pn}</b> (${tq} ${qv})
-                  </li>
-                `;
-                
-                $(`#${tid}items`).append(tmpl);
-              });
-            }
+			              $(`#items${tid}`).html(`<li class="collection-item"><center>Error Processing Items</center></li>`);
+			            } else {
+			              $(`#items${tid}`).html(" ");
+			              $.each(result, (index, item)=>{
+			              	console.log(item);
+			                var pid = item.product_id;
+			                var pn = item.product_name;
+			                var tq = item.transitem_quantity;
+			                
+			                if(tq <= 1) {
+			                  var qv = "piece";
+			                } else {
+			                  var qv = "pieces";
+			                }
+			                
+			                var tmpl = `
+			                  <li class="collection-item black-text">
+			                    <b>${pn}</b> (${tq} ${qv})
+			                  </li>
+			                `;
+
+			                $(`#items${tid}`).append(tmpl);
+			              });
+				        }
 					}
 				}).fail(()=>{
-					$(`#${tid}items`).html(`<li class="collection-item"><center>Error Fetching Items</center></li>`);
+					$(`#items${tid}`).html(`<li class="collection-item"><center>Error Fetching Items</center></li>`);
 				});
 
 			});
@@ -357,7 +377,7 @@ var renderMyOrder = ()=>{
 };
 
 var setCategories = ()=>{
-	if(Navigator.onLine){
+	if(navigator.onLine){
 		$.ajax({
 			type: 'GET',
 			cache: 'false',
@@ -422,7 +442,7 @@ var setProducts = ()=>{
 
 	$("#productsList").html(preloader);
 
-	if(Navigator.onLine){
+	if(navigator.onLine){
 		$.ajax({
 			type:'POST',
 			cache: 'false',

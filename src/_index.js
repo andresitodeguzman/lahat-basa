@@ -1,5 +1,5 @@
   $(document).ready(()=>{
-    $('.parallax').parallax();
+    //$('.parallax').parallax();
     $('.dropdown-trigger').dropdown();
     $('.container').hide();
     

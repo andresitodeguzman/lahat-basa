@@ -8,7 +8,7 @@ var categoryShow = () => {
 var setCategory = () => {
   $("#categoryList").html(preloader);
 
-  if(Navigator.onLine){
+  if(navigator.onLine){
     $.ajax({
       type: 'GET',
       cache: 'false',

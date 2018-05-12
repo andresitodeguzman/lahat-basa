@@ -63,7 +63,8 @@ require_once("../_system/config.php");
 			</div>
 
 			<li><a href="#" onclick="orderShow()"><i class="material-icons">view_list</i> My Order</a></li>
-			<li><a href="#" onclick="queueShow()"><i class="material-icons">queue</i> Order Queue</a></li>
+			<li><a href="#" onclick="deliveredShow()"><i class="material-icons">view_list</i> Past Orders</a></li>
+			<li><a href="#" onclick="queueShow()"><i class="material-icons">queue</i> Order Queue</a></li>			
 			<li class="divider"></li>
 			<li><a href="#" onclick="productsShow()"><i class="material-icons">local_mall</i> Products</a></li>
 			<li><a href="https://www.facebook.com/allwetstation/" target="_blank"><i class="material-icons">loyalty</i>Facebook Page</a></li>
@@ -107,6 +108,34 @@ require_once("../_system/config.php");
 			</div>
 		</div>
 		<!-- myorderActivity -->
+
+		<!-- deliveredActivity -->
+		<div class="activity col s12" id="deliveredActivity">
+
+			<!-- navbar -->
+			<div class="navbar-fixed" id="navbar">
+				<nav class="blue darken-3 z-depth-2">
+					<div class="nav-wrapper">
+						<a href="#" data-target="snav" class="show-on-large sidenav-trigger"><i class="material-icons">menu</i></a>
+						<a class="title" href="#"><b>All Wet</b></a>
+						<div class="right">
+							<a href="#" onclick="setMyOrders()"><i class="material-icons white-text">refresh</i></a>
+						</div>
+					</div>
+				</nav>
+			</div>
+			<!-- .navbar -->
+
+			<div class="container">
+				<h4 class="blue-text text-darken-3">Past Orders</h4>
+				<br>
+				<div class="cards-container">
+					<div id="deliveredList"></div>
+				</div>
+				<br><br><br><br>
+			</div>
+		</div>
+		<!-- deliveredActivity -->
 
 		<!-- queueActivity -->
 		<div class="activity col s12" id="queueActivity">

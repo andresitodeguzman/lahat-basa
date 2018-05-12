@@ -26,7 +26,7 @@ $data = $obj->getByCustomerId($id);
 if(empty($data)){
     $data = json_encode(array());
 } else {
-    $data = json_encode($data);
+    $data = json_encode(array_reverse($data));
 }
 
 echo $data;

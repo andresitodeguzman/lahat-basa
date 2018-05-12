@@ -7,7 +7,7 @@ var employeeShow = ()=>{
 var setEmployee = ()=>{
   $("#employeeList").html(preloader);
 
-  if(Navigator.onLine){
+  if(navigator.onLine){
     $.ajax({
       type:'GET',
       cache: 'false',

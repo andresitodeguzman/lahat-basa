@@ -27,6 +27,29 @@ require_once("_system/config.php");
       .right {
         margin-right: 1.5% !important;
       }
+
+      .fullscreen-bg {
+          position: fixed;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          overflow: hidden;
+          z-index: -100;
+        }
+
+        .fullscreen-bg__video {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+        }
+
+
+        video {
+            object-fit: cover !important;
+        }
     </style>
     <script src="/_index.js" type="text/javascript"></script>
 </head>
@@ -47,7 +70,12 @@ require_once("_system/config.php");
         </ul>
         
         <div class="parallax">
-            <img src="/assets/images/heroimg2.jpg" alt="Background Image">
+            <div class="fullscreen-bg">
+                <video loop muted autoplay poster="/assets/images/heroimg2.jpg" class="fullscreen-bg__video">
+                    <source src="assets/videos/bgvideo.mp4" type="video/mp4">
+                </video>
+            </div>
+            <!--img src="/assets/images/heroimg2.jpg" alt="Background Image"-->
         </div>
         <div class="container">
             <center>
@@ -59,5 +87,6 @@ require_once("_system/config.php");
             </center>
         </div>
     </div>
+    
 </body>
 </html>

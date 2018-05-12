@@ -62,7 +62,8 @@ let assetsList = [
     '/assets/images/icon/icon-96x96.png',
     '/assets/js/jquery-3.3.1.min.js',
     '/assets/materialize/css/materialize.min.css',
-    '/assets/materialize/js/materialize.min.js'
+    '/assets/materialize/js/materialize.min.js',
+    '/assets/videos/bgvideo.mp4'
 ];
 
 // Install Event
