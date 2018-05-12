@@ -19,21 +19,20 @@ $obj = new AllWet\Admin($mysqli);
 if(empty($_REQUEST['admin_id'])) throwError("Empty id");
 if(empty($_REQUEST['admin_name'])) throwError("Empty name");
 if(empty($_REQUEST['admin_username'])) throwError("Empty username");
-if(empty($_REQUEST['admin_password'])) throwError("Empty password");
-if(empty($_REQUEST['admin_image'])) throwError("Empty image");
-
+if(empty($_REQUEST['admin_image'])) $admin_image = "";
+if(empty($_REQUEST['admin_password'])) $admin_password="";
 $admin_id = $_REQUEST['admin_id'];
 $admin_name = $_REQUEST['admin_name'];
 $admin_username = $_REQUEST['admin_username'];
-$admin_password = $_REQUEST['admin_password'];
-$admin_image = $_REQUEST['admin_image'];
+if(!empty($_REQUEST['admin_image'])) $admin_image = $_REQUEST['admin_image'];
+if(!empty($_REQUEST['admin_password'])) $admin_password=$_REQUEST['admin_password'];
 
 $array = array(
 	"admin_id" => $admin_id,
 	"admin_name" => $admin_name,
 	"admin_username" => $admin_username,
-	"admin_password" => $admin_password,
-	"admin_image" => $admin_image
+	"admin_image" => $admin_image,
+	"admin_password"=>$admin_password
 );
 
 $result = $obj->update($array);
@@ -46,7 +45,7 @@ if($result){
 } else {
 	$res = array(
 		"code" => "400",
-		"message" => "Failed to update"
+		"message" => "Failed to update" 
 	);
 }
 

@@ -173,36 +173,41 @@ var setMyOrders = ()=>{
 
 	var cid = getCustomerId();
 	
-	$.ajax({
-		type:'POST',
-		url: transactionGetApi,
-		cache: 'false',
-		data: {
-			customer_id: cid
-		},
-		success: result=>{
-			try{
-				
-				localStorage.setItem("all-wet-myorders",JSON.stringify(result));
+	if(Navigator.onLine){
+		$.ajax({
+			type:'POST',
+			url: transactionGetApi,
+			cache: 'false',
+			data: {
+				customer_id: cid
+			},
+			success: result=>{
+				try{
+					
+					localStorage.setItem("all-wet-myorders",JSON.stringify(result));
 
-				if(result.code == "400"){
-					$("#orderList").html(empty);
-				} else {
-					renderMyOrder();
+					if(result.code == "400"){
+						$("#orderList").html(empty);
+					} else {
+						renderMyOrder();
+					}
+
 				}
-
+				catch(e) {
+					console.log(`My Orders Error: ${e}`);
+					$("#orderList").html(errorCard);
+					console.log({module:"setMyOrders",message:"Error Fetching Data"});
+					M.toast({html:"An error fetching data",displayLength:3000});
+				}
 			}
-			catch(e) {
-				console.log(`My Orders Error: ${e}`);
-				$("#orderList").html(errorCard);
-				console.log({module:"setMyOrders",message:"Error Fetching Data"});
-				M.toast({html:"An error fetching data",displayLength:3000});
-			}
-		}
-	}).fail(()=>{
+		}).fail(()=>{
+			renderMyOrder();
+			console.log({module:"setMyOrders",message:"Cannot get new orders"});
+		});
+	} else {
 		renderMyOrder();
-		console.log({module:"setMyOrders",message:"Cannot get new orders"});
-	});
+	}
+	
 };
 
 var renderMyOrder = ()=>{
@@ -352,26 +357,30 @@ var renderMyOrder = ()=>{
 };
 
 var setCategories = ()=>{
-	$.ajax({
-		type: 'GET',
-		cache: 'false',
-		url: categoryGetAll,
-		data: {
-			a: 1
-		},
-		success: result=>{
-			try{
-				localStorage.setItem("all-wet-categories",JSON.stringify(result));
-				renderCategories();
-			} catch(e){
-				console.log(`Categories Error: ${e}`);
-				M.toast({html:"An error occured while fetching data",displayLength:3000});
+	if(Navigator.onLine){
+		$.ajax({
+			type: 'GET',
+			cache: 'false',
+			url: categoryGetAll,
+			data: {
+				a: 1
+			},
+			success: result=>{
+				try{
+					localStorage.setItem("all-wet-categories",JSON.stringify(result));
+					renderCategories();
+				} catch(e){
+					console.log(`Categories Error: ${e}`);
+					M.toast({html:"An error occured while fetching data",displayLength:3000});
+				}
 			}
-		}
-	}).fail(()=>{
+		}).fail(()=>{
+			renderCategories();
+			console.log({module:"setCategories",message:"Cannot get categories"});
+		});
+	} else {
 		renderCategories();
-		console.log({module:"setCategories",message:"Cannot get categories"});
-	});
+	}
 };
 
 var renderCategories = ()=>{
@@ -413,29 +422,33 @@ var setProducts = ()=>{
 
 	$("#productsList").html(preloader);
 
-	$.ajax({
-		type:'POST',
-		cache: 'false',
-		url: productGetAllApi,
-		data: {
-			a: 1
-		},
-		success: result=>{
-			try{
-				localStorage.setItem("all-wet-product",JSON.stringify(result));
-				renderProduct();
+	if(Navigator.onLine){
+		$.ajax({
+			type:'POST',
+			cache: 'false',
+			url: productGetAllApi,
+			data: {
+				a: 1
+			},
+			success: result=>{
+				try{
+					localStorage.setItem("all-wet-product",JSON.stringify(result));
+					renderProduct();
+				}
+				catch(e){
+					console.log(`Products Error: ${e}`);
+					$("#productsList").html(errorCard);
+					console.log({module:"setProducts",message:"An error occured while fetching data"});
+					M.toast({html:"An error occured while fetching data",displayLength:3000});
+				}
 			}
-			catch(e){
-				console.log(`Products Error: ${e}`);
-				$("#productsList").html(errorCard);
-				console.log({module:"setProducts",message:"An error occured while fetching data"});
-				M.toast({html:"An error occured while fetching data",displayLength:3000});
-			}
-		}
-	}).fail(()=>{
+		}).fail(()=>{
+			renderProduct();
+			console.log({module:"setProducts",message:"Cannot get new products"});
+		});
+	} else {
 		renderProduct();
-		console.log({module:"setProducts",message:"Cannot get new products"});
-	});
+	}
 
 }
 

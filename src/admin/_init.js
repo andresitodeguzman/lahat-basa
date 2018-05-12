@@ -17,5 +17,4 @@ $(document).ready(() => {
   forDeliveryShow();
   
   setInterval(recheckLoginStatus(),300000);
-	setInterval(processQueue(),300000);
 });

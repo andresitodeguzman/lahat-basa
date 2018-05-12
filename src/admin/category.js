@@ -7,30 +7,35 @@ var categoryShow = () => {
 
 var setCategory = () => {
   $("#categoryList").html(preloader);
-  $.ajax({
-    type: 'GET',
-    cache: 'false',
-    url: categoryGetAll,
-    success: result => {
-      try {
-        localStorage.setItem("all-wet-categories", JSON.stringify(result));
-        renderCategories();
-      } catch (e) {
-        console.log(`Categories Error: ${e}`);
-        $("#categoryList").html(errorCard);
-        M.toast({
-          html: "An error occured while fetching data",
-          displayLength: 3000
-        });
+
+  if(Navigator.onLine){
+    $.ajax({
+      type: 'GET',
+      cache: 'false',
+      url: categoryGetAll,
+      success: result => {
+        try {
+          localStorage.setItem("all-wet-categories", JSON.stringify(result));
+          renderCategories();
+        } catch (e) {
+          console.log(`Categories Error: ${e}`);
+          $("#categoryList").html(errorCard);
+          M.toast({
+            html: "An error occured while fetching data",
+            displayLength: 3000
+          });
+        }
       }
-    }
-  }).fail(() => {
-    renderCategories();
-    M.toast({
-      html: 'Cannot get categories',
-      displayLength: 2000
+    }).fail(() => {
+      renderCategories();
+      M.toast({
+        html: 'Cannot get categories',
+        displayLength: 2000
+      });
     });
-  });
+  } else {
+    renderCategories();
+  }
 };
 
 var renderCategories = () => {

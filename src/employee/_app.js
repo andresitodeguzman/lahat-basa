@@ -3,17 +3,16 @@ $(document).ready(()=>{
 	clear();
 
 	$(".sidenav").sidenav();
-  $('.modal').modal();
+	$('.modal').modal();
+	loginCheck();
 
- loginCheck();
-  
-  setForDelivery();
-  setProducts();
+	setForDelivery();
+	setProducts();
 
-  splash(1000);
-  forDeliveryShow();
-  
-  setInterval(recheckLoginStatus(),300000);
+	splash(1000);
+	forDeliveryShow();
+
+	setInterval(recheckLoginStatus(),300000);
 	setInterval(processQueue(),300000);
 });
 
@@ -126,26 +125,31 @@ var setForDelivery = ()=>{
 
     $("#forDeliveryList").html(preloader);
 
-    $.ajax({
-        type:'GET',
-        cache: 'false',
-        url: transactionGetApi,
-        data: {
-            a:1
-        },
-        success: result => {
-            try {
-                localStorage.setItem("all-wet-for-delivery",JSON.stringify(result));
-                renderForDelivery();
-            } catch(e) {
-                $("#forDeliveryList").html(errorCard);
-                M.toast({html:"Error processing request", displayLength:3000});
-            }
-        }
-    }).fail(()=>{
-        renderForDelivery();
-        M.toast({html: "Cannot get new for delivery list", displayLength:3000});
-    });
+    if(Navigator.onLine){
+    	$.ajax({
+	        type:'GET',
+	        cache: 'false',
+	        url: transactionGetApi,
+	        data: {
+	            a:1
+	        },
+	        success: result => {
+	            try {
+	                localStorage.setItem("all-wet-for-delivery",JSON.stringify(result));
+	                renderForDelivery();
+	            } catch(e) {
+	                $("#forDeliveryList").html(errorCard);
+	                M.toast({html:"Error processing request", displayLength:3000});
+	            }
+	        }
+	    }).fail(()=>{
+	        renderForDelivery();
+	        M.toast({html: "Cannot get new for delivery list", displayLength:3000});
+	    });
+    } else {
+    	renderForDelivery();
+    }
+    
 }
 
 var renderForDelivery = ()=>{
@@ -227,26 +231,31 @@ var renderForDelivery = ()=>{
 };
 
 var setCategories = ()=>{
-	$.ajax({
-		type: 'GET',
-		cache: 'false',
-		url: categoryGetAll,
-		data: {
-			a: 1
-		},
-		success: result=>{
-			try{
-				localStorage.setItem("all-wet-categories",JSON.stringify(result));
-				renderCategories();
-			} catch(e){
-				console.log(`Categories Error: ${e}`);
-				M.toast({html:"An error occured while fetching data",displayLength:3000});
+	if(Navigator.onLine){
+		$.ajax({
+			type: 'GET',
+			cache: 'false',
+			url: categoryGetAll,
+			data: {
+				a: 1
+			},
+			success: result=>{
+				try{
+					localStorage.setItem("all-wet-categories",JSON.stringify(result));
+					renderCategories();
+				} catch(e){
+					console.log(`Categories Error: ${e}`);
+					M.toast({html:"An error occured while fetching data",displayLength:3000});
+				}
 			}
-		}
-	}).fail(()=>{
+		}).fail(()=>{
+			renderCategories();
+			M.toast({html:'Cannot get categories', displayLength:2000});
+		});
+	} else {
 		renderCategories();
-		M.toast({html:'Cannot get categories', displayLength:2000});
-	});
+	}
+	
 };
 
 var renderCategories = ()=>{
@@ -288,28 +297,32 @@ var setProducts = ()=>{
 
 	$("#productsList").html(preloader);
 
-	$.ajax({
-		type:'GET',
-		cache: 'false',
-		url: productGetAllApi,
-		data: {
-			a: 1
-		},
-		success: result=>{
-			try{
-				localStorage.setItem("all-wet-product",JSON.stringify(result));
-				renderProduct();
+	if(Navigator.onLine){
+		$.ajax({
+			type:'GET',
+			cache: 'false',
+			url: productGetAllApi,
+			data: {
+				a: 1
+			},
+			success: result=>{
+				try{
+					localStorage.setItem("all-wet-product",JSON.stringify(result));
+					renderProduct();
+				}
+				catch(e){
+					console.log(`Products Error: ${e}`);
+					$("#productsList").html(errorCard);
+					M.toast({html:"An error fetching data",displayLength:3000});
+				}
 			}
-			catch(e){
-				console.log(`Products Error: ${e}`);
-				$("#productsList").html(errorCard);
-				M.toast({html:"An error fetching data",displayLength:3000});
-			}
-		}
-	}).fail(()=>{
+		}).fail(()=>{
+			renderProduct();
+			M.toast({html:"Cannot get new products",displayLength:3000});
+		});
+	} else {
 		renderProduct();
-		M.toast({html:"Cannot get new products",displayLength:3000});
-	});
+	}
 
 }
 

@@ -31,6 +31,7 @@ var clear = () => {
   $("#preloaderAddCategory").hide();
   $("#preloaderAddProduct").hide();
   $("#preloaderAddEmployee").hide();
+  $("#preloaderAddAdmin").hide();
 }
 var closeNav = () => {
   $(".sidenav").sidenav('close');

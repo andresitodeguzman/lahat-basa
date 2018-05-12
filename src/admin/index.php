@@ -435,6 +435,67 @@ require_once("../_system/config.php");
           <div id="adminList"></div>
         </div>
       </div><br><br><br><br>
+
+      <div class="fixed-action-btn">
+        <a id="btnAdd" class="btn-floating btn-large blue-grey darken-2 waves-effect waves-light btn-floating z-depth-3 modal-trigger" href="#" data-target="addAdminModal">
+          <i class="material-icons">add</i>
+        </a>
+      </div>
+
+      <div class="modal modal-fixed-footer" id="addAdminModal">
+        <div class="modal-content">
+        
+         <h5>Add Admin</h5><br>
+         
+         <div id="preloaderAddAdmin">
+            <center>
+              <div class="preloader-wrapper big active">
+                <div class="spinner-layer spinner-blue-only">
+                  <div class="circle-clipper left">
+                    <div class="circle"></div>
+                  </div>
+                  <div class="gap-patch">
+                    <div class="circle"></div>
+                  </div>
+                  <div class="circle-clipper right">
+                    <div class="circle"></div>
+                  </div>
+                </div>
+              </div>
+            </center>
+          </div>
+
+          <div class="addAdminActivity">
+
+            <div class="input-field">
+              <input type="text" id="adminName">
+              <label for="adminName">Name</label>
+            </div>
+
+            <div class="input-field">
+              <input type="text" id="adminUsername">
+              <label for="adminUsername">Username</label>
+            </div>
+
+            <div class="input-field">
+              <input type="password" id="adminPassword">
+              <label for="adminPassword">Password</label>
+            </div>
+
+            <div class="input-field">
+              <input type="text" id="adminImage">
+              <label for="adminImage">Image</label>
+            </div>
+
+          </div>
+        </div>
+ 
+        <div class="modal-footer addEmployeeActivity">
+            <a href="#" id="addAdminButton" onclick="addAdmin()" class="modal-action waves-effect btn-flat">Add</a>
+            <a href="#" class="modal-action modal-close waves-effect waves-red btn-flat">Close</a>
+        </div>
+
+      </div>
       
     </div>
     <!-- .adminActivity -->

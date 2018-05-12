@@ -6,27 +6,32 @@ var employeeShow = ()=>{
 
 var setEmployee = ()=>{
   $("#employeeList").html(preloader);
-  $.ajax({
-    type:'GET',
-    cache: 'false',
-    url: employeeGetAll,
-    data: {
-      a:1
-    },
-    success: result=>{
-      try {
-        localStorage.setItem("all-wet-employee",JSON.stringify(result));
-        renderEmployee();
-      } catch(e) {
-        console.log(e);
-        renderEmployee();
-        M.toast({html: "An Error Occurred", durationLength:3000});
+
+  if(Navigator.onLine){
+    $.ajax({
+      type:'GET',
+      cache: 'false',
+      url: employeeGetAll,
+      data: {
+        a:1
+      },
+      success: result=>{
+        try {
+          localStorage.setItem("all-wet-employee",JSON.stringify(result));
+          renderEmployee();
+        } catch(e) {
+          console.log(e);
+          renderEmployee();
+          M.toast({html: "An Error Occurred", durationLength:3000});
+        }
       }
-    }
-  }).fail(()=>{
+    }).fail(()=>{
+      renderEmployee();
+      M.toast({html:"Cannot get new employees", durationLength:3000});
+    });
+  } else {
     renderEmployee();
-    M.toast({html:"Cannot get new employees", durationLength:3000});
-  });
+  }
 };
 
 var renderEmployee = ()=>{

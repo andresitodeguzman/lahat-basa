@@ -114,15 +114,14 @@ var locateLocation = ()=>{
 					latlng: ltlo
 				},
 				success: result=>{
-          console.log(result);
 					var ad = result['results'][0]['formatted_address'];
-          var exactLoc = result['results'][0]['address_components'][0]['long_name'];
-          var city = result['results'][0]['address_components'][1]['long_name'];
+			        var exactLoc = result['results'][0]['address_components'][0]['long_name'];
+    	      		var city = result['results'][0]['address_components'][1]['long_name'];
 
 					sessionStorage.setItem("latitude",coo.latitude);
-          sessionStorage.setItem("longitude",coo.longitude);
-          sessionStorage.setItem("formatted_address",ad);
-          sessionStorage.setItem("exact_location",exactLoc);
+		          	sessionStorage.setItem("longitude",coo.longitude);
+		          	sessionStorage.setItem("formatted_address",ad);
+		          	sessionStorage.setItem("exact_location",exactLoc);
 					sessionStorage.setItem("city",city);
 
 					console.log(result['results']);
@@ -278,18 +277,21 @@ var setOrderActivity = ()=>{
 	clear();
 	$("#orderActivity").fadeIn();
 
-	$.ajax({
-		type:'POST',
-		cache:'false',
-		url:'/api/Product/getAll.php',
-		success: result=>{
-			localStorage.setItem("all-wet-product",JSON.stringify(result));
+	if(Navigator.onLine){
+		$.ajax({
+			type:'POST',
+			cache:'false',
+			url:'/api/Product/getAll.php',
+			success: result=>{
+				localStorage.setItem("all-wet-product",JSON.stringify(result));
+				renderProducts();
+			}
+		}).fail(()=>{
 			renderProducts();
-		}
-	}).fail(()=>{
+		});
+	} else {
 		renderProducts();
-	});
-
+	}
 };
 
 var renderProducts = ()=>{
@@ -441,25 +443,26 @@ var renderProducts = ()=>{
 }
 
 var setCategories = ()=>{
-	$.ajax({
-		type: 'GET',
-		cache: 'false',
-		url: '/api/Category/getAll.php',
-		data: {
-			a: 1
-		},
-		success: result=>{
-			try{
-				localStorage.setItem("all-wet-categories",JSON.stringify(result));
-				renderCategories();
-			} catch(e){
-				console.log(`Categories Error: ${e}`);
-				M.toast({html:"An error occured while fetching data",displayLength:3000});
+	if(navigator.onLine){
+		$.ajax({
+			type: 'GET',
+			cache: 'false',
+			url: '/api/Category/getAll.php',
+			success: result=>{
+				try{
+					localStorage.setItem("all-wet-categories",JSON.stringify(result));
+					renderCategories();
+				} catch(e){
+					console.log(`Categories Error: ${e}`);
+					M.toast({html:"An error occured while fetching data",displayLength:3000});
+				}
 			}
-		}
-	}).fail(()=>{
+		}).fail(()=>{
+			renderCategories();
+		});
+	} else {
 		renderCategories();
-	});
+	}
 };
 
 var renderCategories = ()=>{

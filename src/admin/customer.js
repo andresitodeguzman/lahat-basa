@@ -6,27 +6,29 @@ var customerShow = ()=>{
 
 var setCustomer = ()=>{
   $("#customerList").html(preloader);
-  $.ajax({
-    type:'GET',
-    cache:'false',
-    url: customerGetAll,
-    data: {
-      a:1
-    },
-    success: result=>{
-         try {
-           localStorage.setItem("all-wet-customer",JSON.stringify(result));
-           renderCustomer();
-         } catch(e){
-           console.log(e);
-           renderCustomer();
-           M.toast({html:"Cannot get new customers", durationLength:3000});
-         }
-     }
-  }).fail(()=>{
+
+  if(Navigator.onLine){
+    $.ajax({
+      type:'GET',
+      cache:'false',
+      url: customerGetAll,
+      success: result=>{
+           try {
+             localStorage.setItem("all-wet-customer",JSON.stringify(result));
+             renderCustomer();
+           } catch(e){
+             console.log(e);
+             renderCustomer();
+             M.toast({html:"Cannot get new customers", durationLength:3000});
+           }
+       }
+    }).fail(()=>{
+      renderCustomer();
+      M.toast({html: "Cannot get new customers", durationLength:3000});
+    });
+  } else {
     renderCustomer();
-    M.toast({html: "Cannot get new customers", durationLength:3000});
-  });
+  }
 };
 
 var renderCustomer = ()=>{

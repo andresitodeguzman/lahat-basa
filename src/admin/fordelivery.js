@@ -9,29 +9,34 @@ var setForDelivery = () => {
 
   $("#forDeliveryList").html(preloader);
 
-  $.ajax({
-    type: 'GET',
-    cache: 'false',
-    url: transactionGetAll,
-    success: result => {
-      try {
-        localStorage.setItem("all-wet-for-delivery", JSON.stringify(result));
-        renderForDelivery();
-      } catch (e) {
-        $("#forDeliveryList").html(errorCard);
-        M.toast({
-          html: "Error processing request",
-          displayLength: 3000
-        });
+  if(Navigator.onLine){
+    $.ajax({
+      type: 'GET',
+      cache: 'false',
+      url: transactionGetAll,
+      success: result => {
+        try {
+          localStorage.setItem("all-wet-for-delivery", JSON.stringify(result));
+          renderForDelivery();
+        } catch (e) {
+          $("#forDeliveryList").html(errorCard);
+          M.toast({
+            html: "Error processing request",
+            displayLength: 3000
+          });
+        }
       }
-    }
-  }).fail(() => {
-    renderForDelivery();
-    M.toast({
-      html: "Cannot get new 'for delivery' list",
-      displayLength: 3000
+    }).fail(() => {
+      renderForDelivery();
+      M.toast({
+        html: "Cannot get new 'for delivery' list",
+        displayLength: 3000
+      });
     });
-  });
+  } else {
+    renderForDelivery();
+  }
+  
 }
 
 var renderForDelivery = () => {
