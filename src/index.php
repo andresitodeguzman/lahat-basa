@@ -50,6 +50,10 @@ require_once("_system/config.php");
         video {
             object-fit: cover !important;
         }
+
+        .btn {
+            border-radius: 30px;
+        }
     </style>
     <script src="/_index.js" type="text/javascript"></script>
 </head>
@@ -75,18 +79,17 @@ require_once("_system/config.php");
                     <source src="assets/videos/bgvideo.mp4" type="video/mp4">
                 </video>
             </div>
-            <!--img src="/assets/images/heroimg2.jpg" alt="Background Image"-->
         </div>
         <div class="container">
             <center>
                 <h2 class="white-text"><b>All Wet</b></h2>
                 <h5 class="white-text">
                     Purified Drinking Water
-                </h5><br><br>
+                </h5><br><br><br>
                 <div id="button"></div>
             </center>
         </div>
     </div>
-    
+    <br><br><br>
 </body>
 </html>
