@@ -37,6 +37,8 @@ require_once("_system/config.php");
 		<h3 class="grey-text">
 			<center>
 				You are Offline
+				<br><br>
+				<a class="btn btn-large blue-grey lighten-2 waves-effect waves-light" href="#reload" onclick="location.reload()">Reload</a>
 			</center>
 		</h3>
 	</div>
