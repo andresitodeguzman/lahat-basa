@@ -39,7 +39,7 @@ if($obj->verifySignIn($sign_arr) === True){
   $_SESSION['account_type'] = "employee";
   $_SESSION['logged_in'] = True;
   $_SESSION['employee_id'] = $employee_data['employee_id'];
-  $_SESSION['employee_username'] = $admin_data['employee_username'];
+  $_SESSION['employee_username'] = $employee_data['employee_username'];
   
   header("Content-Type: application/json");
   
