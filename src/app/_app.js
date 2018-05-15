@@ -620,6 +620,14 @@ var setQueue = ()=>{
 				var tpm = value.transaction_payment_method;
 				var p = value.transaction_price;
 
+				if(tpm === "CASH_ON_DELIVERY"){
+					var tpm = "Cash on Delivery";
+				}
+
+				if(tpm === "CREDIT_CARD"){
+					var tpm = "Credit Card";
+				}
+
 				if(tc <= 1) {
 					var qv = "item";
 				} else {

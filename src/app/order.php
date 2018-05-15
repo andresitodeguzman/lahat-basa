@@ -50,7 +50,7 @@ require_once("../_system/config.php");
 
         <!-- NAV -->
         <nav class="transparent z-depth-0">
-            <a href="/app" class="right">
+            <a href="/app/" class="right">
                 <i class="material-icons">close</i>
             </a>
         </nav>
@@ -281,7 +281,7 @@ require_once("../_system/config.php");
                     Keep an eye on your phone, we might get in touch with you through text or call. 
                 </p>
                 <br><br>
-                <a class="btn btn-large blue darken-4 btn-block waves-effect waves-light" href="/app">
+                <a class="btn btn-large blue darken-4 btn-block waves-effect waves-light" href="/app/">
                     Great! Return to Dashboard
                 </a><br><br>
             </div><br><br><br><br>

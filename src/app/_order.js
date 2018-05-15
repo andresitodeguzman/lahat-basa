@@ -438,7 +438,7 @@ var renderProducts = ()=>{
 		});
 
 	} catch(e){
-		M.toast({html:"Cannot display products", completeCallback: ()=>{window.location.replace('/app');}});
+		M.toast({html:"Cannot display products", completeCallback: ()=>{window.location.replace('/app/');}});
 	}
 }
 
