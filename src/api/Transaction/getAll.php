@@ -8,7 +8,7 @@
  * getAll
  */
 
-$perm = 5;
+$perm = 4;
 
 require_once("../../_system/keys.php");
 require_once("../_secure.php");

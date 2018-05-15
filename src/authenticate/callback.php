@@ -19,69 +19,84 @@ require_once("../_system/db.php");
 require_once("../class/AllWet/Customer.class.php");
 
 
-$code = "";
-
-if(empty($_REQUEST['code'])) die("An Error Occured During Login");
-
-if(!empty($_REQUEST['code'])) $code = $_REQUEST['code'];
-
-$stmt = http_build_query(array(
-    "app_id" => $glb_app_id,
-    "app_secret" => $glb_app_secret,
-    "code" => $code
-));
-
-$curl = curl_init();
-curl_setopt($curl, CURLOPT_URL, "https://developer.globelabs.com.ph/oauth/access_token");
-curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($curl, CURLOPT_POST, 1);
-curl_setopt($curl, CURLOPT_POSTFIELDS, $stmt);
-$result = curl_exec($curl);
-curl_close($curl);
-
-$result = json_decode($result,true);
-
-if(empty($result)) die("An Error Occured During Login");
-if(!empty($result)){
-
-    $access_token = $result['access_token'];
-    $subscriber_number = $result['subscriber_number'];
+if(!empty($_POST['unsubscribed'])){
+    $unsubscribed = $_POST['unsubscribed'];
+    $subscriber_number = $unsubscribed['subscriber_number'];
 
     $customer = new AllWet\Customer($mysqli);
-    
+
     $customer_info = $customer->getByCustomerNumber($subscriber_number);
 
-    $customer_id = 0;
+    $customer_id = $customer_info['customer_id'];
 
-    
-    if(empty($customer_info)){
-        $c_array = array(
-            "customer_number"=>$subscriber_number,
-            "customer_name"=> "",
-            "customer_longitude"=>"",
-            "customer_latitude"=>"",
-            "customer_address"=>"",
-            "customer_image"=>"",
-            "customer_access_token"=>$access_token
-        );
-        $customer->add($c_array);
+    $customer->delete($customer_id);
 
+    die(json_encode(array("code"=>"200","message"=>"Customer deleted")));    
+} else {
+    $code = "";
+
+    if(empty($_REQUEST['code'])) die("An Error Occured During Login");
+
+    if(!empty($_REQUEST['code'])) $code = $_REQUEST['code'];
+
+    $stmt = http_build_query(array(
+        "app_id" => $glb_app_id,
+        "app_secret" => $glb_app_secret,
+        "code" => $code
+    ));
+
+    $curl = curl_init();
+    curl_setopt($curl, CURLOPT_URL, "https://developer.globelabs.com.ph/oauth/access_token");
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($curl, CURLOPT_POST, 1);
+    curl_setopt($curl, CURLOPT_POSTFIELDS, $stmt);
+    $result = curl_exec($curl);
+    curl_close($curl);
+
+    $result = json_decode($result,true);
+
+    if(empty($result)) die("An Error Occured During Login");
+    if(!empty($result)){
+
+        $access_token = $result['access_token'];
+        $subscriber_number = $result['subscriber_number'];
+
+        $customer = new AllWet\Customer($mysqli);
+        
         $customer_info = $customer->getByCustomerNumber($subscriber_number);
-        $customer_id = $customer_info['customer_id'];
 
-    } else {
-        $customer_id = $customer_info['customer_id'];
+        $customer_id = 0;
 
-        if($access_token != $customer_info['customer_access_token']){
-            $customer->updateAccessToken($customer_id, $access_token);
+        
+        if(empty($customer_info)){
+            $c_array = array(
+                "customer_number"=>$subscriber_number,
+                "customer_name"=> "",
+                "customer_longitude"=>"",
+                "customer_latitude"=>"",
+                "customer_address"=>"",
+                "customer_image"=>"",
+                "customer_access_token"=>$access_token
+            );
+            $customer->add($c_array);
+
+            $customer_info = $customer->getByCustomerNumber($subscriber_number);
+            $customer_id = $customer_info['customer_id'];
+
+        } else {
+            $customer_id = $customer_info['customer_id'];
+
+            if($access_token != $customer_info['customer_access_token']){
+                $customer->updateAccessToken($customer_id, $access_token);
+            }
         }
+
+        $_SESSION['account_type'] = "customer";
+        $_SESSION['customer_id'] = $customer_id;
+        $_SESSION['logged_in'] =  True;
+        $_SESSION['customer_number'] = $subscriber_number;
+
     }
-
-    $_SESSION['account_type'] = "customer";
-    $_SESSION['customer_id'] = $customer_id;
-    $_SESSION['logged_in'] =  True;
-    $_SESSION['customer_number'] = $subscriber_number;
-
 }
 
 ?>

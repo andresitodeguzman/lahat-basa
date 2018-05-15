@@ -19,6 +19,7 @@ require_once("../../class/AllWet/Product.class.php");
 require_once("../../class/AllWet/Category.class.php");
 require_once("../../class/AllWet/TransItem.class.php");
 require_once("../../class/AllWet/Transaction.class.php");
+require_once("../../class/Globe/SMS.class.php");
 
 $time_zone = "Asia/Manila";
 date_default_timezone_set($time_zone);

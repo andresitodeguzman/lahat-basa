@@ -30,13 +30,13 @@
     if(status == "true"){
         var at = localStorage.getItem("all-wet-account-type");
         if(at == 'customer'){
-          window.location.replace('/app');
+          window.location.replace('/app/');
         }
         if(at == 'employee'){
-          window.location.replace('/employee');
+          window.location.replace('/employee/');
         }
         if(at == 'admin'){
-          window.location.replace('/admin');
+          window.location.replace('/admin/');
         }
     } else {
         $("#button").html(loginButton);

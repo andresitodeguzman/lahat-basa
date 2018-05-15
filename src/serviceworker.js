@@ -14,6 +14,8 @@ let cacheWhiteList = ['1'];
 let assetsList = [
     '/manifest.json',
     '/',
+    '/offline.php',
+    '/offline.json',
     '/index.php',
     '/_index.js',
     '/app',
@@ -80,19 +82,6 @@ self.addEventListener('install', event=>{
 });
 
 
-/*
-// Fetch Event
-self.addEventListener('fetch',event=>{
-    event.respondWith(
-        caches.open(cn).then(cache=>{
-            return cache.match(event.request).then(response=>{
-                return response || fetch(event.request);
-            });
-        })
-    );
-});
-*/
-
 self.addEventListener('fetch', event=>{
     event.respondWith(
         caches.match(event.request)
@@ -101,7 +90,18 @@ self.addEventListener('fetch', event=>{
                 return response || fetch(event.request);
             })
             .catch(r=>{
-                console.log(r);
+                let method = event.request.method;
+                let urlContainsApi = event.request.url.indexOf("api");
+
+
+                if(method !== 'POST'){
+                    if(urlContainsApi > -1){
+                        return caches.match('/offline.json');
+                    } else {
+                        return caches.match('/offline.php');
+                    }
+                }
+
             })
     );
 });

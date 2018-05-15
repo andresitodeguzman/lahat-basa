@@ -733,7 +733,7 @@ var showPaymentActivity = ()=>{
 };
 
 var payWithCash = ()=>{
-	sessionStorage.setItem("all-wet-order-payment-method","Cash on Delivery");
+	sessionStorage.setItem("all-wet-order-payment-method","CASH_ON_DELIVERY");
 	processTransaction();
 	showCompleteActivity();
 };
@@ -762,7 +762,7 @@ var payWithCard = ()=>{
 			processPaymentDetails(uiResult).then(uiResult=>{
 				uiResult.complete('success');
 				M.toast({html:"Payment Successful!", durationLength:3000});
-				sessionStorage.setItem("all-wet-order-payment-method","Credit Card");
+				sessionStorage.setItem("all-wet-order-payment-method","CREDIT_CARD");
 				processTransaction();
 				showCompleteActivity();
 			});
@@ -785,7 +785,7 @@ var processTransaction = ()=>{
 	var tc = JSON.parse(sessionStorage.getItem("all-wet-order-items")).length;
 	var tp = sessionStorage.getItem("all-wet-rundown-total");
 	var pm = sessionStorage.getItem("all-wet-order-payment-method");
-	var st = "For Delivery";
+	var st = "FOR_DELIVERY";
 	var lt = sessionStorage.getItem("latitude");
 	var lo = sessionStorage.getItem("longitude");
 	var adr = sessionStorage.getItem("exact_location");	

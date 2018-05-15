@@ -13,11 +13,11 @@ $(document).ready(()=>{
 	forDeliveryShow();
 
 	setInterval(recheckLoginStatus(),300000);
-	setInterval(processQueue(),300000);
 });
 
 // API URLS
-let transactionGetApi = '/api/Transaction/getAll.php'; 
+let transactionGetApi = '/api/Transaction/getAll.php';
+let transactionUpdateStatus = '/api/Transaction/updateStatus.php';
 let productGetAllApi = '/api/Product/getAll.php';
 let transitemGetByProductIdApi = '/api/TransItem/getByProductId.php';
 let categoryGetAll = '/api/Category/getAll.php';
@@ -125,14 +125,11 @@ var setForDelivery = ()=>{
 
     $("#forDeliveryList").html(preloader);
 
-    if(Navigator.onLine){
+    if(navigator.onLine){
     	$.ajax({
 	        type:'GET',
 	        cache: 'false',
 	        url: transactionGetApi,
-	        data: {
-	            a:1
-	        },
 	        success: result => {
 	            try {
 	                localStorage.setItem("all-wet-for-delivery",JSON.stringify(result));
@@ -163,7 +160,6 @@ var renderForDelivery = ()=>{
 
     try {
         var result = JSON.parse(localStorage.getItem("all-wet-for-delivery"));
-
         if(result.code == 400){
             $("#forDeliveryList").html(empty);
         } else {
@@ -212,7 +208,7 @@ var renderForDelivery = ()=>{
 							</p>
                         </div>
                         <div class="card-action">
-                            <a href="#" onclick="setAsDelivered(${tid})" class="grey-text"><i class="material-icons">done</i></a>
+                            <a href="#" onclick="setAsDelivered('${tid}')" class="grey-text"><i class="material-icons">done</i></a>
                             <a href="https://www.google.com/maps/dir/?api=1&destination=${tlt},${tlo}" class="grey-text"><i class="material-icons">map</i></a>
                             <a href="#" class="grey-text"><i class="material-icons">call</i></a>
                         </div>
@@ -225,20 +221,17 @@ var renderForDelivery = ()=>{
 
         }
     } catch(e){
-        alert(e);
+    	console.log(e);
         $("#forDeliveryList").html(errorCard);
     }
 };
 
 var setCategories = ()=>{
-	if(Navigator.onLine){
+	if(navigator.onLine){
 		$.ajax({
 			type: 'GET',
 			cache: 'false',
 			url: categoryGetAll,
-			data: {
-				a: 1
-			},
 			success: result=>{
 				try{
 					localStorage.setItem("all-wet-categories",JSON.stringify(result));
@@ -297,7 +290,7 @@ var setProducts = ()=>{
 
 	$("#productsList").html(preloader);
 
-	if(Navigator.onLine){
+	if(navigator.onLine){
 		$.ajax({
 			type:'GET',
 			cache: 'false',
@@ -416,3 +409,24 @@ var editAccount = ()=>{
 		M.toast({html:"An Error Occurred", durationLength:3000});
 	});
 };
+
+var setAsDelivered = (id)=>{
+	$.ajax({
+		type:'POST',
+		url: transactionUpdateStatus,
+		data: {
+			transaction_id:id,
+			transaction_status:'DELIVERED',
+		},
+		cache:'false',
+		success: result=>{
+			if(result.code === 200){
+				setForDelivery();
+			} else {
+				M.toast({html:result.message, durationLength:3000});
+			}
+		}
+	}).fail(()=>{
+		M.toast({html:"An Error Occurred", durationLength:3000});
+	});
+}

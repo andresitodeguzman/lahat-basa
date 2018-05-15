@@ -25,16 +25,16 @@ if(@$_SESSION['logged_in']){
     // Switch along account type and redirect accordingly
     switch($at){
         case("admin"):
-            header("Location: ../admin");
+            header("Location: ../admin/");
             break;
         case("employee"):
-            header("Location: ../employee");
+            header("Location: ../employee/");
             break;
         case("customer"):
-            header("Location: ../app");
+            header("Location: ../app/");
             break;
         default:
-            header("Location: ../app");
+            header("Location: ../app/");
             break;
     }
     

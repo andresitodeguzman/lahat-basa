@@ -263,6 +263,29 @@ var renderMyOrder = ()=>{
 				var tlt = order['transaction_latitude'];
 				var ta = order['transaction_address'];
 
+				if(tpm === "CASH_ON_DELIVERY"){
+					var tpm = "Cash on Delivery";
+				}
+
+				if(tpm === "CREDIT_CARD"){
+					var tpm = "Credit Card";
+				}
+
+				if(ts === "PROCESS"){
+					var ts = "Processing Order";
+				}
+				if(ts === "FOR_DELIVERY"){
+					var ts = "For Delivery";
+				}
+
+				if(ts === "CANCELLED"){
+					var ts = "Cancelled Delivery";
+				}
+
+				if(ts === "DELIVERED"){
+					var ts = "Delivered";
+				}
+
 				if(tc <= 1) {
 					var qv = "item";
 				} else {

@@ -23,14 +23,14 @@ class SMS {
 	function __construct(String $app_id,String $app_secret,String $sender_address){
 		$this->app_id = $app_id;
 		$this->app_secret = $app_secret;
-		$this->sender_address = $sender_address
+		$this->sender_address = $sender_address;
 	}
 
 	final public function setAccessToken(String $access_token){
 		$this->access_token = $access_token;
 	}
 
-	final pubic function sendSMS(String $number, String $message){
+	final public function sendSMS(String $number, String $message){
 		$this->number = $number;
 		$this->message = $message;
 

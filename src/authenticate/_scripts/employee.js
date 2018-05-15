@@ -52,7 +52,7 @@ var signIn = ()=>{
 							 localStorage.setItem("all-wet-employee-name",en);
 							 localStorage.setItem("all-wet-employee-userame",eu);
 							
-							 window.location.replace("/employee");
+							 window.location.replace("/employee/");
 							
 						} else {
 							M.toast({html: result, durationLength:3000});

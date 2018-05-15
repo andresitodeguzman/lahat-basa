@@ -6,7 +6,7 @@ require_once("../_system/config.php");
 <html>
 <head>
 	<title>All Wet - Admin Sign-In</title>
-	<?php require_once("../_system/head.php") ?>
+	<?php require_once("../_system/head.php"); ?>
 	<script src="/authenticate/_scripts/admin.js"></script>
 </head>
 <body class="blue-grey darken-3">	

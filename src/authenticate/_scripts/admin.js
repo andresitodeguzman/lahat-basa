@@ -52,7 +52,7 @@ var signIn = ()=>{
 							 localStorage.setItem("all-wet-admin-name",an);
 							 localStorage.setItem("all-wet-admin-userame",au);
 							
-							 window.location.replace("/admin");
+							 window.location.replace("/admin/");
 							
 						} else {
 							M.toast({html: result, durationLength:3000});
