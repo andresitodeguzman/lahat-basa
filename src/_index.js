@@ -1,5 +1,4 @@
   $(document).ready(()=>{
-    //$('.parallax').parallax();
     $('.dropdown-trigger').dropdown();
     $('.container').hide();
     
@@ -28,16 +27,24 @@
         </a>`;
 
     if(status == "true"){
-        var at = localStorage.getItem("all-wet-account-type");
-        if(at == 'customer'){
-          window.location.replace('/app/');
+        var urlstring = window.location.href;
+        var url = new URL(urlstring);
+        var redirected = url.searchParams.get("rd");
+        
+        if(rd === true){
+          var at = localStorage.getItem("all-wet-account-type");
+          if(at == 'customer'){
+            window.location.replace('/app/');
+          }
+          if(at == 'employee'){
+            window.location.replace('/employee/');
+          }
+          if(at == 'admin'){
+            window.location.replace('/admin/');
+          }
         }
-        if(at == 'employee'){
-          window.location.replace('/employee/');
-        }
-        if(at == 'admin'){
-          window.location.replace('/admin/');
-        }
+      
+        
     } else {
         $("#button").html(loginButton);
     }

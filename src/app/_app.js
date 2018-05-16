@@ -129,11 +129,11 @@ var checkLoginStatus = ()=>{
 var loginCheck = ()=>{
 	let status = checkLoginStatus();
 	if(status != "true"){
-		window.location.replace("/");
+		window.location.replace("/authenticate/logout.php");
 	} else {
 		var at = localStorage.getItem("all-wet-account-type");
 		if(at !== "customer"){
-			window.location.replace("/");
+			window.location.replace("/?rd=true");
 		}
 	}
 };
@@ -147,10 +147,10 @@ var recheckLoginStatus = ()=>{
 			try {
 				if(result.is_signed_in == 'False'){
 					localStorage.clear();
-					window.location.replace("/");
+					window.location.replace("/authenticate/logout.php");
 				} else {
 					if(result.account_type !== "customer"){
-						window.location.replace("/");
+						window.location.replace("/?rd=true");
 					}
 				}
 			} catch(e){
