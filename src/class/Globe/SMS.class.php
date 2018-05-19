@@ -31,10 +31,11 @@ class SMS {
 	}
 
 	final public function sendSMS(String $number, String $message){
-		$this->number = $number;
+		$this->number = "0"+$number;
 		$this->message = $message;
 
 		$access_token = $this->access_token;
+		$sender_address = $this->sender_address;
 
 		$stmt = http_build_query(array(
 			"address"=>$number,

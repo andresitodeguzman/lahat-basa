@@ -62,11 +62,11 @@ class Customer {
   final public function get(Int $customer_id){
     $this->customer_id = $customer_id;
     
-    $stmt = $this->mysqli->prepare("SELECT `customer_id`, `customer_number`, `customer_name`, `customer_longitude`, `customer_latitude`, `customer_address`, `customer_image` FROM `customer` WHERE `customer_id`=? LIMIT 1");
+    $stmt = $this->mysqli->prepare("SELECT `customer_id`, `customer_number`, `customer_name`, `customer_longitude`, `customer_latitude`, `customer_address`, `customer_image`,`customer_access_token` FROM `customer` WHERE `customer_id`=? LIMIT 1");
     $stmt->bind_param("i", $this->customer_id);
     $stmt->execute();
     
-    $stmt->bind_result($customer_id, $customer_number, $customer_name, $customer_longitude, $customer_latitude, $customer_address, $customer_image);
+    $stmt->bind_result($customer_id, $customer_number, $customer_name, $customer_longitude, $customer_latitude, $customer_address, $customer_image,$customer_access_token);
     
     $customer_info = array();
     
@@ -78,7 +78,8 @@ class Customer {
         "customer_longitude"=>$customer_longitude,
         "customer_latitude"=>$customer_latitude,
         "customer_address"=>$customer_address,
-        "customer_image"=>$customer_image
+        "customer_image"=>$customer_image,
+        "customer_access_token"=>$customer_access_token
       );
     }
     
@@ -89,11 +90,11 @@ class Customer {
   final public function getByCustomerNumber(String $customer_number){
     $this->customer_number = $customer_number;
     
-    $stmt = $this->mysqli->prepare("SELECT `customer_id`, `customer_number`, `customer_name`, `customer_longitude`, `customer_latitude`, `customer_address`, `customer_image` FROM `customer` WHERE `customer_number`=? LIMIT 1");
+    $stmt = $this->mysqli->prepare("SELECT `customer_id`, `customer_number`, `customer_name`, `customer_longitude`, `customer_latitude`, `customer_address`, `customer_image`, `customer_access_token` FROM `customer` WHERE `customer_number`=? LIMIT 1");
     $stmt->bind_param("s", $this->customer_number);
     $stmt->execute();
     
-    $stmt->bind_result($customer_id, $customer_number, $customer_name, $customer_longitude, $customer_latitude, $customer_address, $customer_image);
+    $stmt->bind_result($customer_id, $customer_number, $customer_name, $customer_longitude, $customer_latitude, $customer_address, $customer_image,$customer_access_token);
     
     $customer_info = array();
     
@@ -105,7 +106,8 @@ class Customer {
         "customer_longitude"=>$customer_longitude,
         "customer_latitude"=>$customer_latitude,
         "customer_address"=>$customer_address,
-        "customer_image"=>$customer_image
+        "customer_image"=>$customer_image,
+        "customer_access_token"=>$customer_access_token
       );
     }
     

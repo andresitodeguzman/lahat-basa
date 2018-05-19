@@ -58,14 +58,18 @@ if($result === False){
 } else {
 	$customer_info = $customer->get($customer_id);
 	$customer_number = $customer_info['customer_number'];
+	$access_token = $customer_info['customer_access_token'];
 
 	if($transaction_payment_method == "CASH_ON_DELIVERY"){
-		$sms_body = "ALL WET: Good day! Your order of $transaction_count will be delivered shortly at $transaction_address. Please prepare the payment of PHP $transaction_price. Thank you! FREE SMS.";	
+		$sms_body = "ALL WET: Good day! Your order of $transaction_count item(s) will be delivered shortly at $transaction_address. Please prepare payment of PHP $transaction_price. Thank you! FREE SMS.";
 	} else {
-		$sms_body = "ALL WET: Good day! Your order of $transaction_count will be delivered shortly at $transaction_address. This transaction has been already been paid online. Thank you! FREE SMS.";
+		$sms_body = "ALL WET: Good day! Your order of $transaction_count item(s) will be delivered shortly at $transaction_address. Transaction already been paid online. Thank you! FREE SMS.";
 	}
-
-	$globe->sendSMS($customer_number, $sms_body);
+	if(!empty($access_token)){
+		$globe->setAccessToken($access_token);
+		$globe->sendSMS($customer_number, $sms_body);
+	}
+	
 
 
 	$res = array(
