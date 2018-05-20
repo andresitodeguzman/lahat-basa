@@ -106,8 +106,8 @@ class Employee {
     $this->employee_name = $e_array['employee_name'];
     $this->employee_username = $e_array['employee_username'];
     $this->employee_password = $e_array['employee_password'];
-    if($e_array['employee_image']) $this->employee_image = $e_array['employee_image'];
-    if($e_array['employee_salary']) $this->employee_salary = $e_array['employee_salary'];
+    if(@$e_array['employee_image']) $this->employee_image = $e_array['employee_image'];
+    if(@$e_array['employee_salary']) $this->employee_salary = $e_array['employee_salary'];
     
     // Check if username already exists
     if($this->usernameExists($this->employee_username)){
@@ -123,7 +123,7 @@ class Employee {
 
             // Insert into DB
             $stmt = $this->mysqli->prepare("INSERT INTO `employee` (employee_name,employee_username,employee_password,employee_image,employee_salary ) VALUES (?,?,?,?,?)");
-            $stmt->bind_param("ssss", $this->employee_name, $this->employee_username, $this->employee_password, $this->employee_image, $this->employee_salary);
+            $stmt->bind_param("sssss", $this->employee_name, $this->employee_username, $this->employee_password, $this->employee_image, $this->employee_salary);
             if($stmt->execute()){
               // Return true
               return True;              
@@ -233,15 +233,15 @@ class Employee {
     $this->employee_id = $e_array['employee_id'];
     $this->employee_name = $e_array['employee_name'];
     $this->employee_username = $e_array['employee_username'];
-    if($e_array['employee_image']) $this->employee_image = $e_array['employee_image'];
-    if($e_array['employee_salary']) $this->employee_salary = $e_array['employee_salary'];
+    if(!empty($e_array['employee_image'])) $this->employee_image = $e_array['employee_image'];
+    if(!empty($e_array['employee_salary'])) $this->employee_salary = $e_array['employee_salary'];
 
     $employee = $this->get($this->employee_id);
     
     if($employee['employee_username'] == $this->employee_username){
        
       $stmt = $this->mysqli->prepare("UPDATE `employee` SET employee_name=?, employee_image=?, employee_salary=? WHERE employee_id=?");
-      $stmt->bind_param("ssi", $this->employee_name, $this->employee_image, $this->employee_id, $this->employee_salary);
+      $stmt->bind_param("sssi", $this->employee_name, $this->employee_image, $this->employee_salary, $this->employee_id);
       
       if($stmt->execute()){
          return True;
@@ -256,8 +256,8 @@ class Employee {
         return "Username already taken";
       } else {
         
-        $stmt = $this->mysqli->prepare("UPDATE `employee` SET employee_username=?, employee_name=?, employee_image=? WHERE employee_id=?");
-        $stmt->bind_param("sssi", $this->employee_username, $this->employee_name, $this->employee_image, $this->employee_id);
+        $stmt = $this->mysqli->prepare("UPDATE `employee` SET employee_username=?, employee_name=?, employee_image=?, employee_salary=? WHERE employee_id=?");
+        $stmt->bind_param("ssssi", $this->employee_username, $this->employee_name, $this->employee_image, $this->employee_salary, $this->employee_id);
         
         if($stmt->execute()){
           return True;

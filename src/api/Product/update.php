@@ -22,17 +22,17 @@ if(empty($_REQUEST['product_name'])) throwError("Empty name");
 if(empty($_REQUEST['category_id'])) throwError("Empty Category");
 if(empty($_REQUEST['product_price'])) throwError("Empty price");
 if(empty($_REQUEST['product_available'])) throwError("Empty availability");
-if(empty($_REQUEST['product_image'])) throwError("Empty image");
+if(empty($_REQUEST['product_image'])) $product_image = "";
 
 $product_id = $_REQUEST['product_id'];
 $product_code = $_REQUEST['product_code'];
 $product_name = $_REQUEST['product_name'];
 $product_description = "";
-if(!empty($_REQUEST['product_description'])) = $_REQUEST['product_description'];
+if(!empty($_REQUEST['product_description'])) $product_description = $_REQUEST['product_description'];
 $category_id = $_REQUEST['category_id'];
 $product_price = $_REQUEST['product_price'];
 $product_available = $_REQUEST['product_available'];
-$product_image = $_REQUEST['product_image'];
+if(!empty($_REQUEST['product_image'])) $product_image = $_REQUEST['product_image'];
 
 $array = array(
 	"product_id" => $product_id,

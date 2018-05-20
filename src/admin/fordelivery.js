@@ -77,12 +77,35 @@ var renderForDelivery = () => {
           var qv = "items";
         }
 
+        if(tpm === "CASH_ON_DELIVERY"){
+          var tpm = "Cash on Delivery";
+        }
+
+        if(tpm === "CREDIT_CARD"){
+          var tpm = "Credit Card";
+        }
+
+        if(ts === "PROCESS"){
+          var ts = "Processing Order";
+        }
+        if(ts === "FOR_DELIVERY"){
+          var ts = "For Delivery";
+        }
+
+        if(ts === "CANCELLED"){
+          var ts = "Cancelled Delivery";
+        }
+
+        if(ts === "DELIVERED"){
+          var ts = "Delivered";
+        }
+
         if (tlo) {
           var mpimg = `
-                        <div class="card-img">
-                            <img src="https://maps.googleapis.com/maps/api/staticmap?center=${tlt},${tlo}&zoom=17&size=800x300&markers=color:blue%7C${tlt},${tlo}&key=AIzaSyCuNfQSkwl85bk38k4de_QR-DwBGL-069o" width="100%">
-                        </div>
-                    `;
+            <div class="card-img">
+                <img src="https://maps.googleapis.com/maps/api/staticmap?center=${tlt},${tlo}&zoom=17&size=800x300&markers=color:blue%7C${tlt},${tlo}&key=AIzaSyCuNfQSkwl85bk38k4de_QR-DwBGL-069o" width="100%">
+            </div>
+          `;
         }
 
         var templ = `
@@ -106,13 +129,16 @@ var renderForDelivery = () => {
                     </div>
                 `;
 
-        $("#forDeliveryList").append(templ);
+        if(ts !== "DELIVERED"){
+          $("#forDeliveryList").append(templ);
+        }
+        
 
       });
 
     }
   } catch (e) {
-    alert(e);
+    console.log(e);
     $("#forDeliveryList").html(errorCard);
   }
 };

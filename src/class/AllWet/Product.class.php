@@ -198,9 +198,9 @@ class Product {
   }
   
   final public function update(Array $p_array){
-    $product_id = $p_array['product_id'];
-    $product_name = $p_array['product_name'];
-    $product_code = $p_array['product_code'];
+    $this->product_id = $p_array['product_id'];
+    $this->product_name = $p_array['product_name'];
+    $this->product_code = $p_array['product_code'];
     if($p_array['product_description']) $this->product_description = $p_array['product_description'];
     $this->product_available = $p_array['product_available'];
     $this->category_id = $p_array['category_id'];

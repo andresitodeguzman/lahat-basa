@@ -150,7 +150,7 @@ var recheckLoginStatus = ()=>{
 					window.location.replace("/authenticate/logout.php");
 				} else {
 					if(result.account_type !== "customer"){
-						window.location.replace("/?rd=true");
+						window.location.replace("/");
 					}
 				}
 			} catch(e){

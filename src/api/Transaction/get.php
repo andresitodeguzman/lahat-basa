@@ -26,7 +26,7 @@ $data = $obj->get($id);
 if(empty($data)){
     $data = json_encode(array());
 } else {
-    $data = json_encode($data);
+    $data = array_reverse(json_encode($data));
 }
 
 echo $data;

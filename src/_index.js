@@ -20,31 +20,47 @@
     let loginButton = `
         <a class="btn btn-large blue darken-4 waves-effect waves-light" href="/authenticate"> Sign-In with Mobile Number
         </a>`;
-    
-    let appButton = `
+
+    if(status == "true"){
+
+      var at = localStorage.getItem("all-wet-account-type");
+
+      if(navigator.onLine){
+        $.ajax({
+          type:'GET',
+          url:'/authenticate/signInStatus.php',
+          cache:'false',
+          success: result=>{
+            if(result.is_signed_in == false){
+              localStorage.clear();
+              window.location.replace("/authenticate/logout.php");
+            }
+          }
+        }).fail(()=>{
+          console.log("Error while checking login status");
+        });
+      }
+
+      let appButton = `
         <a class="btn btn-large blue darken-4 waves-effect waves-light waves-green" href="/app">
             Open App
         </a>`;
 
-    if(status == "true"){
-        var urlstring = window.location.href;
-        var url = new URL(urlstring);
-        var redirected = url.searchParams.get("rd");
-        
-        if(rd === true){
-          var at = localStorage.getItem("all-wet-account-type");
-          if(at == 'customer'){
-            window.location.replace('/app/');
-          }
-          if(at == 'employee'){
-            window.location.replace('/employee/');
-          }
-          if(at == 'admin'){
-            window.location.replace('/admin/');
-          }
-        }
+      if(at == 'employee'){
+        let appButton = `
+        <a class="btn btn-large blue darken-4 waves-effect waves-light waves-green" href="/app">
+            Open Employee
+        </a>`;
+      }
+      if(at == 'admin'){
+        let appButton = `
+        <a class="btn btn-large blue darken-4 waves-effect waves-light waves-green" href="/app">
+            Open Admin
+        </a>`;
+      }
       
-        
+      $("#button").html(appButton);
+
     } else {
         $("#button").html(loginButton);
     }

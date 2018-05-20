@@ -34,8 +34,8 @@ $transaction_payment_method_token = $_REQUEST['transaction_payment_method'];
 $transaction_status = $_REQUEST['transaction_status'];
 $transaction_longitude = "";
 $transaction_latitude = "";
-if(isset($transaction_longitude)) = $_REQUEST['transaction_longitude'];
-if(isset($transaction_latitude)) = $_REQUEST['transaction_latitude'];
+if(isset($_REQUEST['transaction_longitude'])) $transaction_longitude = $_REQUEST['transaction_longitude'];
+if(isset($_REQUEST['transaction_latitude'])) $transaction_latitude = $_REQUEST['transaction_latitude'];
 $transaction_address = $_REQUEST['transaction_address'];
 
 

@@ -69,8 +69,8 @@ require_once("_system/config.php");
         
         <!-- Dropdown Structure -->
         <ul id='dropdown1' class='dropdown-content'>
-          <li><a href="/authenticate/?account_type=admin" class="black-text">Admin Area</a></li>
-          <li><a href="/authenticate/?account_type=employee" class="black-text">Employee Area</a></li>
+          <li><a href="/authenticate/admin.php" class="black-text">Admin Area</a></li>
+          <li><a href="/authenticate/employee.php" class="black-text">Employee Area</a></li>
         </ul>
         
         <div class="parallax">
