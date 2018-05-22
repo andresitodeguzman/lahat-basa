@@ -46,7 +46,8 @@ require_once("../_system/config.php");
                 </div>
                 <a href="/app">
                     <span class="white-text name">
-                        <b>All Wet Employee</b>
+                        <span id="empName"><b>All Wet</b> Employee</span><br>
+                        <span id="empUsername">@username</span>
                     </span>
                 </a>
                 <a href="/app">
@@ -148,13 +149,13 @@ require_once("../_system/config.php");
             <div class="row">
                 <div class="input-field col s12">
                     <input type="text" id="nameField">
-                    <label for="name">Name</label>
+                    <label for="name" class="active">Name</label>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s6">
                     <input type="text" id="usernameField">
-                    <label for="username">Username</label>
+                    <label for="username" class="active">Username</label>
                 </div>
                 <div class="input-field col s6">
                     <input type="password" id="passwordField">
@@ -199,22 +200,16 @@ require_once("../_system/config.php");
             </span>
             <br><br><br><br>
                 <div class="row">
-                    <div class="col s6" id="dmContactCustomer">
-                        <a href="#" class="btn btn-large btn-block grey lighten-1 blue-text text-darken-4"><i class="material-icons">phone</i> Call</a><br>
-                        <a href="#" class="btn btn-large btn-block grey lighten-1 blue-text text-darken-4"><i class="material-icons">message</i> Text</a>
-                    </div>
+                    <div class="col s6" id="dmContactCustomer"></div>
                     <div class="col s6">
-                        <a href="#dmTransItemsModal" data-target="dmTransItemsModal" class="btn btn-large btn-block blue lighten-2 modal-trigger">Items</a><br>
+                        <a href="#dmTransItemsModal" data-target="dmTransItemsModal" class="btn btn-large btn-block blue darken-2 modal-trigger">Items</a><br>
                         <div id="dmCancelButton">
                             <a href="#" class="btn btn-large btn-block red lighten-2">Cancel</a>
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col s12" id="dmMainAct">
-                        <a href="#" class="btn btn-large btn-block white blue-text text-darken-4">Directions</a><br>
-                        <a href="#" class="btn btn-large btn-block blue darken-2">Delivered</a>
-                    </div>
+                    <div class="col s12" id="dmMainAct"></div>
                 </div>
             <br>
             <br>
@@ -225,7 +220,7 @@ require_once("../_system/config.php");
                 <h5 class="blue-grey-text text-darken-4">Items</h5><br>
                 <ul class="collection" id="dmTransItem"></ul>
             </div>
-            <div class="modal-footer addProductActivity">
+            <div class="modal-footer">
                 <a href="#" class="modal-action modal-close waves-effect waves-red btn-flat">Close</a>
             </div>
         </div>

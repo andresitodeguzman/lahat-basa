@@ -226,11 +226,10 @@ var renderMyOrder = ()=>{
 	try {
 		var result = JSON.parse(localStorage.getItem("all-wet-myorders"));
 		
-		$("#orderList").html(" ");
-		$("#deliveredList").html(" ");
+		$("#orderList").html("");
+		$("#deliveredList").html("");
 
-		if(result.length < 0){
-			var emptyCard = `
+		var emptyCard = `
 				<div class="card">
 					<div class="card-content">
 						<center>
@@ -244,7 +243,9 @@ var renderMyOrder = ()=>{
 						</center>
 					</div>
 				</div>
-			`;
+		`;
+
+		if(result.length < 0){
 			$("#orderList").html(emptyCard);
 			$("#deliveredList").html(emptyCard);
 		} else {
@@ -262,6 +263,7 @@ var renderMyOrder = ()=>{
 				var tlo = order['transaction_longitude'];
 				var tlt = order['transaction_latitude'];
 				var ta = order['transaction_address'];
+				var titems = order.transitem;
 
 				if(tpm === "CASH_ON_DELIVERY"){
 					var tpm = "Cash on Delivery";
@@ -327,7 +329,7 @@ var renderMyOrder = ()=>{
         `;
 
 				var tmpl = `
-					<div class="card hoverable" id="${tid}TransactionCard">
+					<div class="card hoverable" id="TransactionCard${tid}">
 						${mpimg}
 						<div class="card-content">
 							<span class="card-title">${ta}</span>
@@ -340,67 +342,72 @@ var renderMyOrder = ()=>{
 							</p>
 						</div>
 						<div class="card-action">
-							<a class="black-text activator" href="#${tid}ItemsModal">See Items</a>
-						</div>
-						<div class="card-reveal">
-							<span class="card-title grey-text text-darken-4">Items<i class="material-icons right">close</i></span>
-							<ul class="collection" id="items${tid}">
-								<li class="collection-item">
-									<center>
-										${preloader} 
-									</center>
-								</li>
-							</ul>
+							<a class="black-text modal-trigger" data-trigger="ItemsModal${tid}" href="#ItemsModal${tid}">See Items</a>
 						</div>
 					</div>
+
+					<div class="modal modal-fixed-footer" id="ItemsModal${tid}">
+						<div class="modal-content">
+							<h5>Items</h5><br>
+							<ul class="collection" id="itemsList${tid}"></ul>
+						</div>
+						<div class="modal-footer">
+							<a href="#" class="modal-action modal-close waves-effect waves-red btn-flat">Close</a>
+						</div>
+					</div>
+
+
+					<script type="text/javascript">
+						$(document).ready(()=>{
+							$(".modal").modal();
+						});
+					</script>
 				`;
 
-				if(ts == 'DELIVERED'){
+				if(ts == 'Delivered'){
 					$("#deliveredList").append(tmpl);
 				} else {
-					$("#orderList").append(tmpl);	
+					if(ts == 'Cancelled Delivery'){
+						$("#deliveredList").append(tmpl);
+					} else {
+						$("#orderList").append(tmpl);
+					}
 				}
 				
+				$.each(titems, (index,item)=>{
+					var pid = item.product_id;
+					var pn = item.product_name;
+					var tq = item.transitem_quantity;
 
-				$.ajax({
-					type:'POST',
-					cache: 'false',
-					url: transitemGetByTransactionIdApi,
-					data: {
-						transaction_id: tid
-					},
-					success: result => {
-						if(result.message == 400){
-			              $(`#items${tid}`).html(`<li class="collection-item"><center>Error Processing Items</center></li>`);
-			            } else {
-			              $(`#items${tid}`).html(" ");
-			              $.each(result, (index, item)=>{
-			              	console.log(item);
-			                var pid = item.product_id;
-			                var pn = item.product_name;
-			                var tq = item.transitem_quantity;
-			                
-			                if(tq <= 1) { 
-			                  var qv = "piece";
-			                } else {
-			                  var qv = "pieces";
-			                }
-			                
-			                var tmpl = `
-			                  <li class="collection-item black-text">
-			                    <b>${pn}</b> (${tq} ${qv})
-			                  </li>
-			                `;
-
-			                $(`#items${tid}`).append(tmpl);
-			              });
-				        }
+					if(tq <= 1) { 
+						var qv = "piece";
+					} else {
+						var qv = "pieces";
 					}
-				}).fail(()=>{
-					$(`#items${tid}`).html(`<li class="collection-item"><center>Error Fetching Items</center></li>`);
+						
+					if(!pn){
+						var pn = "Unknown Product";
+					}
+
+					var tmpl = `
+						<li class="collection-item black-text">
+							<b>${pn}</b> (${tq} ${qv})
+						</li>
+					`;
+					$(`#itemsList${tid}`).append(tmpl);
 				});
 
 			});
+		}
+
+		var olDom = $("#orderList").html();
+		var dlDom = $("#deliveredList").html();
+
+		if(!olDom){
+			$("#orderList").html(emptyCard);
+		}
+		if(!dlDom){
+			$("#deliveredList").html(emptyCard);
 		}
 
 	} catch(e){
@@ -582,7 +589,7 @@ var editAccount = ()=>{
 		$.ajax({
 			type: 'POST',
 			cache: 'false',
-			url: 'api/Customer/updateBasic.php',
+			url: '/api/Customer/updateBasic.php',
 			data: {
 				customer_id: i,
 				customer_name: n,

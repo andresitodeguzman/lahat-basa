@@ -79,7 +79,7 @@ var signIn = ()=>{
 							 var ei = result['employee_id'];
 							 var en = result['employee_name'];
 							 var eu = result['employee_username'];
-							 
+							 localStorage.setItem("all-wet-employee-info",JSON.stringify(result));
 							 localStorage.setItem("all-wet-account-type","employee");
 							 localStorage.setItem("all-wet-login",true);
 							 localStorage.setItem("all-wet-employee-id",ei);

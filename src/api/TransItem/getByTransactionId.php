@@ -32,7 +32,8 @@ if(empty($data)){
 		$transitem_quantity = $d['transitem_quantity'];
 
 		$p_data = $prod->get($product_id);
-		$product_name = $p_data['product_name'];
+		$product_name = "";
+		if(@$p_data['product_name']) $product_name = $p_data['product_name'];
 
 		$arr = array(
 			"transitem_id"=>$transitem_id,

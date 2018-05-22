@@ -11,6 +11,7 @@ $(document).ready(()=>{
 
 	splash(1000);
 	forDeliveryShow();
+	setUserFields();
 
 	setInterval(recheckLoginStatus(),300000);
 });
@@ -22,6 +23,7 @@ let productGetAllApi = '/api/Product/getAll.php';
 let transitemGetByProductIdApi = '/api/TransItem/getByProductId.php';
 let categoryGetAll = '/api/Category/getAll.php';
 let employeeUpdate = '/api/Employee/update.php';
+let employeeGet = '/api/Employee/get.php';
 
 // Global Variables
 let errorCard = `
@@ -255,8 +257,10 @@ var renderForDelivery = ()=>{
 					</div>
 				  </div>
 				`;
-                    
-                $("#forDeliveryList").append(templ);
+				
+				if(ts !== "Cancelled Delivery"){
+					$("#forDeliveryList").append(templ);
+				}
 
             });
 
@@ -426,17 +430,46 @@ var renderProduct = ()=>{
 	}
 }
 
+var getUserFields = ()=>{
+	var i = localStorage.getItem("all-wet-employee-id");
+	$.ajax({
+		type:'GET',
+		cache:'false',
+		url: employeeGet,
+		data:{
+			employee_id: i
+		},
+		success: result=>{
+			localStorage.setItem("all-wet-employee-info", JSON.stringify(result));
+			localStorage.setItem("all-wet-employee-name",result.employee_name);
+			localStorage.setItem("all-wet-employee-username",result.employee_username);
+		}
+	});
+};
+
+var setUserFields = ()=>{
+	var n = localStorage.getItem("all-wet-employee-name");
+	var u = localStorage.getItem("all-wet-employee-username");
+
+	$("#empName").html(`<b>${n}</b>`);
+	$("#empUsername").html(`@${u}`);
+
+	$("#nameField").val(n);
+	$("#usernameField").val(u);
+};
 
 var editAccount = ()=>{
-	var n = $("#employeeName").val();
-	var u = $("#employeeUsername").val();
-	var p = $("#employeePassword").val();
+	var i = localStorage.getItem("all-wet-employee-id");
+	var n = $("#nameField").val();
+	var u = $("#usernameField").val();
+	var p = $("#passwordField").val();
 
 	$.ajax({
 		type:'POST',
 		cache: 'false',
 		url: employeeUpdate,
 		data:{
+			employee_id: i,
 			employee_name: n,
 			employee_username: u,
 			employee_password: p
@@ -444,6 +477,8 @@ var editAccount = ()=>{
 		success: result=>{
 			if(result.code){
 				M.toast({html:result.message,durationLength:3000});
+				getUserFields();
+				setUserFields();
 			}
 		}
 	}).fail(()=>{
@@ -462,6 +497,7 @@ var setAsDelivered = (id)=>{
 		cache:'false',
 		success: result=>{
 			if(result.code === 200){
+				clear();
 				setForDelivery();
 			} else {
 				M.toast({html:result.message, durationLength:3000});
@@ -553,20 +589,21 @@ var deliveryMode = (index)=>{
 		$("#dmMapImage").html(mpimg);
 
 		var cnt = `
-			<a href="tel:+63${cnum}" class="btn btn-large btn-block grey lighten-1 blue-text text-darken-4"><i class="material-icons">phone</i> Call</a><br>
-			<a href="sms:+63${cnum}" class="btn btn-large btn-block grey lighten-1 blue-text text-darken-4"><i class="material-icons">message</i> Text</a>
+			<a href="tel:+63${cnum}" class="btn btn-large btn-block green darken-2"><i class="material-icons">phone</i></a><br>
+			<a href="sms:+63${cnum}" class="btn btn-large btn-block green darken-2"><i class="material-icons">message</i></a>
 		`;
 		$("#dmContactCustomer").html(cnt);
 
-		$("#dmCancelButton").html(`<a href="#" onclick="setAsCancelled('${tid}'); setForDelivery();" class="btn btn-large btn-block red lighten-2">Cancel</a>`);
+		$("#dmCancelButton").html(`<a href="#" onclick="setAsCancelled('${tid}'); clear(); setForDelivery();" class="btn btn-large btn-block red darken-2">Cancel</a>`);
 
 		var mainact = `
-			<a href="${dest}" target="_blank" class="btn btn-large btn-block white blue-text text-darken-4">Directions</a><br>
-			<a href="#" onclick="setAsDelivered('${tid}'); setForDelivery();" class="btn btn-large btn-block blue darken-2">Delivered</a>
+			<a href="${dest}" target="_blank" class="btn btn-large btn-block blue darken-2">Directions</a><br>
+			<a href="#" onclick="setAsDelivered('${tid}'); clear(); setForDelivery();" class="btn btn-large btn-block blue darken-4">Delivered</a>
 		`;
 
 		$("#dmMainAct").html(mainact);
 
+		$("#dmTransItem").html("");
 		$.each(ti, (index,value)=>{
 			var pn = value.product_name;
 			var tiq = value.transitem_quantity;
@@ -599,8 +636,8 @@ var setAsCancelled = (id)=>{
 		},
 		cache:'false',
 		success: result=>{
-			alert(result);
 			if(result.code === 200){
+				clear();
 				setForDelivery();
 			} else {
 				M.toast({html:result.message, durationLength:3000});

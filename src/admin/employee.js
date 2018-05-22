@@ -69,7 +69,7 @@ var renderEmployee = ()=>{
             ${img}
             <div class="card-content">
               <span class="card-title">${en}</span>
-              <p><font size="3pt" class="grey-text">@${eu}</font></p>
+              <p><font size="3pt" class="grey-text">@${eu}<br>PHP${es}</font></p>
               <br>
             </div>
             <div class="card-action">

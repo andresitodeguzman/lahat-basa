@@ -67,7 +67,7 @@ class Transaction{
       }
     }
     
-    return $transaction_array;
+    return array_reverse($transaction_array);
   }
   
   final public function get(Int $transaction_id){
