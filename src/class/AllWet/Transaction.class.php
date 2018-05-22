@@ -145,8 +145,8 @@ class Transaction{
 
   final public function add(Array $t_array){
     date_default_timezone_set("Asia/Manila");
-    $this->transaction_date = (String) date("M-d-Y");
-    $this->transaction_time = (String) date("h:i:s A");
+    $this->transaction_date = (String) date("M d,Y");
+    $this->transaction_time = (String) date("h:i A");
     $this->customer_id = $t_array['customer_id'];
     $this->transaction_count = $t_array['transaction_count'];
     $this->transaction_price = $t_array['transaction_price'];

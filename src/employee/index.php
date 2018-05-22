@@ -168,5 +168,70 @@ require_once("../_system/config.php");
     </div>
     <!-- .editAccountActivity -->
 
+    <!-- deliveryModeActivity -->
+    <div class="col s12 blue-grey darken-4 activity" id="deliveryModeActivity" style="width:100%; height:auto;">
+        <!-- navbar -->
+        <div class="navbar-fixed" id="navbar">
+            <nav class="blue-grey darken-4 z-depth-0">
+                <div class="nav-wrapper">
+                    <a class="title" href="#" style="padding-left:30px"><b>All Wet</b> Delivery</a>
+                    <a href="#" onclick="forDeliveryShow()" class="right">
+                        <i class="material-icons">close</i>
+                    </a>
+                </div>
+            </nav>
+        </div>
+        <!-- .navbar -->
+        <div class="container"><br>
+            <div id="dmMapImage">
+                <img src="https://maps.googleapis.com/maps/api/staticmap?center=14.322856,120.959199&zoom=17&size=800x300&markers=color:blue%7C14.322856,120.959199&key=AIzaSyCuNfQSkwl85bk38k4de_QR-DwBGL-069o" width="100%" style="border-radius:15px">
+            </div>            
+            <br>
+            <h4 class="white-text"><b id="dmAddress">Address</b></h4>
+            <h5 class="grey-text text-lighten-2" id="dmCountPrice">
+                0 items for PHP 0.00
+            </h5>
+            <br>
+            <span class="grey-text text-lighten-2">
+                <i class="material-icons">person</i> <span id="dmCustomerName">Customer name</span><br>
+                <i class="material-icons">date_range</i> <span id="dmDateTime">Date and Time</span><br>
+                <i class="material-icons">credit_card</i> <span id="dmPaymentMethod">Payment Method</span>
+            </span>
+            <br><br><br><br>
+                <div class="row">
+                    <div class="col s6" id="dmContactCustomer">
+                        <a href="#" class="btn btn-large btn-block grey lighten-1 blue-text text-darken-4"><i class="material-icons">phone</i> Call</a><br>
+                        <a href="#" class="btn btn-large btn-block grey lighten-1 blue-text text-darken-4"><i class="material-icons">message</i> Text</a>
+                    </div>
+                    <div class="col s6">
+                        <a href="#dmTransItemsModal" data-target="dmTransItemsModal" class="btn btn-large btn-block blue lighten-2 modal-trigger">Items</a><br>
+                        <div id="dmCancelButton">
+                            <a href="#" class="btn btn-large btn-block red lighten-2">Cancel</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12" id="dmMainAct">
+                        <a href="#" class="btn btn-large btn-block white blue-text text-darken-4">Directions</a><br>
+                        <a href="#" class="btn btn-large btn-block blue darken-2">Delivered</a>
+                    </div>
+                </div>
+            <br>
+            <br>
+        </div>
+
+        <div class="modal modal-fixed-footer" id="dmTransItemsModal">
+            <div class="modal-content">
+                <h5 class="blue-grey-text text-darken-4">Items</h5><br>
+                <ul class="collection" id="dmTransItem"></ul>
+            </div>
+            <div class="modal-footer addProductActivity">
+                <a href="#" class="modal-action modal-close waves-effect waves-red btn-flat">Close</a>
+            </div>
+        </div>
+
+    </div>
+    <!-- .deliveryModeActivity -->
+
 </body>
 </html>

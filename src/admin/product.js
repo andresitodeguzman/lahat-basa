@@ -1,3 +1,7 @@
+$(document).ready(()=>{
+  setupProdCat();
+});
+
 var productsShow = () => {
   clear();
   closeNav();
@@ -100,7 +104,7 @@ var renderProduct = ()=>{
 					</div>
 					<div class="card-action">
 						<a href="#" class="black-text modal-trigger" data-target="editModalProduct${id}"><i class="material-icons">edit</i></a>
-						<a href="#" id="deleteProductButton${id}" class="red-text"><i class="material-icons">delete</i></a>
+						<a href="#" onclick="deleteProduct('${id}')" class="red-text"><i class="material-icons">delete</i></a>
 					</div>
 				</div>
 
@@ -130,32 +134,26 @@ var renderProduct = ()=>{
 						<!-- .Preloader -->
 
 						<div class="editProductActivity${id}">
-
 							<div class="input-field">
 								<input type="text" id="productName${id}" value="${n}">
 								<label for="productName${id}" class="active">Name</label>
 							</div>
-
 							<div class="input-field">
 								<input type="text" id="productImage${id}" value="${i}">
 								<label for="productImage${id}" class="active">Image URL</label>
 							</div>
-
 							<div class="input-field">
 								<input type="text" id="productDescription${id}" value="${d}">
 								<label for="productDescription${id}" class="active">Description</label>
 							</div>
-
 							<div class="input-field">
 								<input type="text" id="productCode${id}" value="${c}">
 								<label for="productCode${id}" class="active">Code</label>
 							</div>
-
 							<div class="input-field">
 								<input type="text" id="productPrice${id}" value="${p}">
 								<label for="productPrice${id}" class="active">Price in Pesos</label>
 							</div>
-
 							<div class="input-field">
 								<p><font size="-1" class="grey-text">Availability</font></p>
 								<select id="productAvailable${id}" class="browser-default">
@@ -163,13 +161,12 @@ var renderProduct = ()=>{
 									<option value="False">Out of Stock</option>
 								</select>
 							</div>
-
 							<div class="input-field">
 								<p><font size="-1" class="grey-text">Category</font></p>
 								<select id="productCategory${id}" class="browser-default">
 								</select>
 							</div>
-
+							<br><br><br><br>
 						</div>
 
 					</div>
@@ -202,19 +199,6 @@ var renderProduct = ()=>{
 							$("#productCategory${id}").append(tmpl);
 						});
 					};
-
-					$("#deleteProductButton${id}").click(()=>{
-						$.ajax({
-							type:'POST',
-							cache: 'false',
-							url: '${dlpdapi}',
-							success: result => {
-								setCategory();
-							}
-						}).fail(()=>{
-							M.toast({html:"An Error Occured", durationLength:3000});
-						});
-					});
 
 					$("#editProductSaveButton${id}").click(()=>{
 						var pn = $("#productName${id}").val();
@@ -356,4 +340,37 @@ var addProduct = ()=>{
 		}
 	  }
 	}
-  };
+	};
+	
+	var setupProdCat = ()=>{
+		try {
+			var categories = JSON.parse(localStorage.getItem("all-wet-categories"));
+			$.each(categories, (index,value)=>{
+				var ci = value.category_id;
+				var cn = value.category_name;
+	
+				var tmpl = `<option value="${ci}">${cn}</option>`;
+	
+				$("#productCategory").append(tmpl);
+			});
+		}catch(e){
+			console.log(e);
+		}
+	};
+
+
+	var deleteProduct = (id)=>{
+		$.ajax({
+			type:'POST',
+			cache: 'false',
+			url: productDelete,
+			data:{
+				product_id: id
+			},
+			success: result => {
+				setProducts();
+			}
+		}).fail(()=>{
+			M.toast({html:"An Error Occured", durationLength:3000});
+		});
+	};

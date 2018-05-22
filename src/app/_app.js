@@ -292,12 +292,22 @@ var renderMyOrder = ()=>{
 					var qv = "items";
 				}
 
-				if(tlo){
+				if (tlo) {
+					var mpimg = `
+					  <div class="card-img">
+						  <img src="https://maps.googleapis.com/maps/api/staticmap?center=${tlt},${tlo}&zoom=17&size=800x300&markers=color:blue%7C${tlt},${tlo}&key=AIzaSyCuNfQSkwl85bk38k4de_QR-DwBGL-069o" width="100%">
+					  </div>
+					`;
+		  
+					var dest = `https://www.google.com/maps/dir/?api=1&destination=${tlt},${tlo}`;
+				} else {
 					var mpimg = `
 						<div class="card-img">
-							<img src="https://maps.googleapis.com/maps/api/staticmap?center=${tlt},${tlo}&zoom=17&size=800x300&markers=color:blue%7C${tlt},${tlo}&key=AIzaSyCuNfQSkwl85bk38k4de_QR-DwBGL-069o" width="100%">
+							<img src="https://maps.googleapis.com/maps/api/staticmap?center=${ta}&zoom=17&size=800x300&markers=color:blue%7C${ta}&key=AIzaSyCuNfQSkwl85bk38k4de_QR-DwBGL-069o" width="100%">
 						</div>
 					`;
+					
+					var dest = `https://www.google.com/maps/dir/?api=1&destination=${ta}`;
 				}
         
         let preloader = `
@@ -370,7 +380,7 @@ var renderMyOrder = ()=>{
 			                var pn = item.product_name;
 			                var tq = item.transitem_quantity;
 			                
-			                if(tq <= 1) {
+			                if(tq <= 1) { 
 			                  var qv = "piece";
 			                } else {
 			                  var qv = "pieces";

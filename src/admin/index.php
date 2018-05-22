@@ -91,8 +91,8 @@ require_once("../_system/config.php");
       <li><a href="#" onclick="customerShow()"><i class="material-icons">people</i> Customers</a></li>
       <li><a href="#" onclick="employeeShow()"><i class="material-icons">people_outline</i> Employees</a></li>
       <li><a href="#" onclick="adminShow()"><i class="material-icons">people_outline</i> Admin</a></li>
-      <li class="divider"></li>
-      <li><a href="#" onclick="salesReportShow()"><i class="material-icons">pie_chart</i> Sales Report</a></li>
+      <!--li class="divider"></li-->
+      <!--li><a href="#" onclick="salesReportShow()"><i class="material-icons">pie_chart</i> Sales Report</a></li-->
       <li class="divider"></li>
       <li><a href="#" onclick="editAccountShow()"><i class="material-icons">info</i> Edit Account</a></li>
       <li><a href="/authenticate/logout.php"><i class="material-icons">person</i> Log-out</a></li>
@@ -284,12 +284,18 @@ require_once("../_system/config.php");
                 <label for="productPrice" class="active">Price (in Pesos)</label>
               </div>
               <div class="input-field">
-                <select id="productAvailable">
+                <p><font size="-1" class="grey-text">Availability</font></p>
+                <select id="productAvailable" class="browser-default">
                   <option value="True">Available</option>
                   <option value="False">Out of Stock</option>
                 </select>
-                <label>Availability</label>
               </div>
+              <div class="input-field">
+                <p><font size="-1" class="grey-text">Category</font></p>
+                <select id="productCategory" class="browser-default">
+                </select>
+              </div>
+              <br><br><br><br>
         </div>
       </div>
       <div class="modal-footer addProductActivity">

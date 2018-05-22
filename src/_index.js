@@ -42,24 +42,27 @@
       }
 
       let appButton = `
-        <a class="btn btn-large blue darken-4 waves-effect waves-light waves-green" href="/app">
+        <a class="btn btn-large blue darken-4 waves-effect waves-light waves-green" href="/app/">
             Open App
         </a>`;
 
       if(at == 'employee'){
-        let appButton = `
-        <a class="btn btn-large blue darken-4 waves-effect waves-light waves-green" href="/app">
+        let employeeButton = `
+        <a class="btn btn-large blue darken-4 waves-effect waves-light waves-green" href="/employee/">
             Open Employee
         </a>`;
+        $("#button").html(employeeButton);
       }
       if(at == 'admin'){
-        let appButton = `
-        <a class="btn btn-large blue darken-4 waves-effect waves-light waves-green" href="/app">
+        let adminButton = `
+        <a class="btn btn-large blue darken-4 waves-effect waves-light waves-green" href="/admin/">
             Open Admin
         </a>`;
+        $("#button").html(adminButton);
       }
-      
-      $("#button").html(appButton);
+      if(at === 'customer'){
+        $("#button").html(appButton);
+      }
 
     } else {
         $("#button").html(loginButton);

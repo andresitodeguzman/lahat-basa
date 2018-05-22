@@ -1,6 +1,10 @@
 $(document).ready(()=>{
 	$("meta[name='theme-color']").attr("content","#455a64");
 	$("#loader").hide();
+
+	loginCheck();
+	setInterval(recheckLoginStatus(),300000);
+
 }).keypress(e=>{
   var key = e.which;
   if(key == 13){
@@ -9,6 +13,36 @@ $(document).ready(()=>{
 });
 
 var signInApi = '/authenticate/process/employee.php';
+
+var checkLoginStatus = ()=>{
+	return localStorage.getItem('all-wet-login');
+};
+
+var loginCheck = ()=>{
+	let status = checkLoginStatus();
+	if(status == 'true'){
+		window.location.replace('/');
+	}
+};
+
+var recheckLoginStatus = ()=>{
+	$.ajax({
+		type:'POST',
+		url:'/authenticate/signInStatus.php',
+		cache:'false',
+		success: result=>{
+			try {
+				if(result.is_signed_in == 'True'){
+					window.location.replace('/');
+				}
+			} catch(e){
+				console.log(e);
+			}
+		}
+	}).fail(()=>{
+		console.log({module:"recheckLoginStatus",message:"Cannot check sign-in status"});
+	});
+};
 
 var signIn = ()=>{
 	$("#loader").show();

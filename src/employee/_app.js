@@ -178,42 +178,83 @@ var renderForDelivery = ()=>{
                 var ts = order['transaction_status'];
                 var tlo = order['transaction_longitude'];
                 var tlt = order['transaction_latitude'];
-                var ta = order['transaction_address'];
+				var ta = order['transaction_address'];
+				var c = order['customer'];
+				var cname = c.customer_name;
+				var cnum = c.customer_number;
 
-                if(tc <= 1) {
-                    var qv = "item";
-                } else {
-                    var qv = "items";
-                }
+                if (tc <= 1) {
+					var qv = "item";
+				} else {
+					var qv = "items";
+				}
+		  
+				if(tpm === "CASH_ON_DELIVERY"){
+					var tpm = "Cash on Delivery";
+				}
+		  
+				if(tpm === "CREDIT_CARD"){
+					var tpm = "Credit Card";
+				}
+		  
+				if(ts === "PROCESS"){
+					var ts = "Processing Order";
+				}
+				if(ts === "FOR_DELIVERY"){
+					var ts = "For Delivery";
+				}
+		  
+				if(ts === "CANCELLED"){
+					var ts = "Cancelled Delivery";
+				}
+		  
+				if(ts === "DELIVERED"){
+					var ts = "Delivered";
+				}
+		  
+				if (tlo) {
+					var mpimg = `
+					  <div class="card-img">
+						  <img src="https://maps.googleapis.com/maps/api/staticmap?center=${tlt},${tlo}&zoom=17&size=800x300&markers=color:blue%7C${tlt},${tlo}&key=AIzaSyCuNfQSkwl85bk38k4de_QR-DwBGL-069o" width="100%">
+					  </div>
+					`;
+		  
+					var dest = `https://www.google.com/maps/dir/?api=1&destination=${tlt},${tlo}`;
+				} else {
+					var mpimg = `
+						<div class="card-img">
+							<img src="https://maps.googleapis.com/maps/api/staticmap?center=${ta}&zoom=17&size=800x300&markers=color:blue%7C${ta}&key=AIzaSyCuNfQSkwl85bk38k4de_QR-DwBGL-069o" width="100%">
+						</div>
+					`;
+					
+					var dest = `https://www.google.com/maps/dir/?api=1&destination=${ta}`;
+				}
 
-                if(tlo){
-                    var mpimg = `
-                        <div class="card-img">
-                            <img src="https://maps.googleapis.com/maps/api/staticmap?center=${tlt},${tlo}&zoom=17&size=800x300&markers=color:blue%7C${tlt},${tlo}&key=AIzaSyCuNfQSkwl85bk38k4de_QR-DwBGL-069o" width="100%">
-                        </div>
-                    `;
-                }
+				if(!cname){
+					var cname = "Unknown Customer";
+				}
 
-                var templ = `
-                    <div class="card hoverable">
-                        ${mpimg}
-                        <div class="card-content">
-							<span class="card-title">${ta}</span>
-							<p><font size="3pt" class="grey-text">${td} ${tt}</font></p>
-							<br>
-							<p style="line-height:1.5">
-								<i class="material-icons grey-text text-darken-1">local_offer</i> ₱${tp} for ${tc} ${qv}<br>
-								<i class="material-icons grey-text text-darken-1">payment</i> ${tpm}<br>
-								<i class="material-icons grey-text text-darken-1">linear_scale</i> ${ts}
-							</p>
-                        </div>
-                        <div class="card-action">
-                            <a href="#" onclick="setAsDelivered('${tid}')" class="grey-text"><i class="material-icons">done</i></a>
-                            <a href="https://www.google.com/maps/dir/?api=1&destination=${tlt},${tlo}" class="grey-text"><i class="material-icons">map</i></a>
-                            <a href="#" class="grey-text"><i class="material-icons">call</i></a>
-                        </div>
-                    </div>
-                `;
+				  var templ = `
+				  <div class="card hoverable">
+					${mpimg}
+					<div class="card-content">
+					  <span class="card-title">${ta}</span>
+					  <p><font size="3pt" class="grey-text">${td} ${tt}</font></p>
+					  <br>
+					  <p style="line-height:1.5">
+					  <i class="material-icons grey-text text-darken-1">person</i> ${cname}<br>
+					  <i class="material-icons grey-text text-darken-1">local_offer</i> ₱${tp} for ${tc} ${qv}<br>
+					  <i class="material-icons grey-text text-darken-1">payment</i> ${tpm}<br>
+					  <i class="material-icons grey-text text-darken-1">linear_scale</i> ${ts}
+					  </p>
+					</div>
+					<div class="card-action">
+					  <a href="#" onclick="deliveryMode('${index}')" class="grey-text"><i class="material-icons">play_arrow</i></a>
+					  <a href="${dest}" class="grey-text"><i class="material-icons">map</i></a>
+					  <a href="tel:+63${cnum}" class="grey-text"><i class="material-icons">call</i></a>
+					</div>
+				  </div>
+				`;
                     
                 $("#forDeliveryList").append(templ);
 
@@ -420,6 +461,145 @@ var setAsDelivered = (id)=>{
 		},
 		cache:'false',
 		success: result=>{
+			if(result.code === 200){
+				setForDelivery();
+			} else {
+				M.toast({html:result.message, durationLength:3000});
+			}
+		}
+	}).fail(()=>{
+		M.toast({html:"An Error Occurred", durationLength:3000});
+	});
+};
+
+var deliveryMode = (index)=>{
+	try {
+		var transList = JSON.parse(localStorage.getItem("all-wet-for-delivery"));
+		var trans = transList[index];
+		
+		var tid = trans.transaction_id;
+		var td = trans.transaction_date;
+		var tt= trans.transaction_time;
+		var cid = trans.customer_id;
+		var tc = trans.transaction_count;
+		var tp = trans.transaction_price;
+		var tpm = trans.transaction_payment_method;
+		var ts = trans.transaction_status;
+		var tlo = trans.transaction_longitude;
+		var tlt = trans.transaction_latitude;
+		var ta = trans.transaction_address;
+		var c = trans.customer;
+		var cname = c.customer_name;
+		var cnum = c.customer_number;
+		var ti = trans.transitem;
+
+		if (tc <= 1) {
+			var qv = "item";
+		  } else {
+			var qv = "items";
+		  }
+  
+		  if(tpm === "CASH_ON_DELIVERY"){
+			var tpm = "Cash on Delivery";
+		  }
+  
+		  if(tpm === "CREDIT_CARD"){
+			var tpm = "Credit Card";
+		  }
+  
+		  if(ts === "PROCESS"){
+			var ts = "Processing Order";
+		  }
+		  if(ts === "FOR_DELIVERY"){
+			var ts = "For Delivery";
+		  }
+  
+		  if(ts === "CANCELLED"){
+			var ts = "Cancelled Delivery";
+		  }
+  
+		  if(ts === "DELIVERED"){
+			var ts = "Delivered";
+		  }
+  
+		  if (tlo) {
+			var mpimg = `
+			  <div class="card-img">
+				  <img src="https://maps.googleapis.com/maps/api/staticmap?center=${tlt},${tlo}&zoom=17&size=800x300&markers=color:blue%7C${tlt},${tlo}&key=AIzaSyCuNfQSkwl85bk38k4de_QR-DwBGL-069o" width="100%" style="border-radius:15px">
+			  </div>
+			`;
+  
+			var dest = `https://www.google.com/maps/dir/?api=1&destination=${tlt},${tlo}`;
+		  } else {
+
+			var mpimg = `
+			  <div class="card-img">
+				  <img src="https://maps.googleapis.com/maps/api/staticmap?center=${ta}&zoom=17&size=800x300&markers=color:blue%7C${ta}&key=AIzaSyCuNfQSkwl85bk38k4de_QR-DwBGL-069o" width="100%" style="border-radius:15px">
+			  </div>
+			`;
+
+			var dest = `https://www.google.com/maps/dir/?api=1&destination=${ta}`;
+		  }
+
+		if(!cname){
+			var cname = "Unknown Customer";
+		}
+
+		$("#dmAddress").html(ta);
+		$("#dmCountPrice").html(`${tc} ${qv} for PHP ${tp}`);
+		$("#dmCustomerName").html(cname);
+		$("#dmDateTime").html(`${td} ${tt}`);
+		$("#dmPaymentMethod").html(tpm);
+		$("#dmMapImage").html(mpimg);
+
+		var cnt = `
+			<a href="tel:+63${cnum}" class="btn btn-large btn-block grey lighten-1 blue-text text-darken-4"><i class="material-icons">phone</i> Call</a><br>
+			<a href="sms:+63${cnum}" class="btn btn-large btn-block grey lighten-1 blue-text text-darken-4"><i class="material-icons">message</i> Text</a>
+		`;
+		$("#dmContactCustomer").html(cnt);
+
+		$("#dmCancelButton").html(`<a href="#" onclick="setAsCancelled('${tid}'); setForDelivery();" class="btn btn-large btn-block red lighten-2">Cancel</a>`);
+
+		var mainact = `
+			<a href="${dest}" target="_blank" class="btn btn-large btn-block white blue-text text-darken-4">Directions</a><br>
+			<a href="#" onclick="setAsDelivered('${tid}'); setForDelivery();" class="btn btn-large btn-block blue darken-2">Delivered</a>
+		`;
+
+		$("#dmMainAct").html(mainact);
+
+		$.each(ti, (index,value)=>{
+			var pn = value.product_name;
+			var tiq = value.transitem_quantity;
+
+			if(tiq > 1){
+				var qv = "pieces";
+			} else {
+				var qv = "piece";
+			}
+
+			var tpl = `<li class="collection-item">${pn} (${tiq} ${qv})</li>`;
+			$("#dmTransItem").append(tpl);
+		});
+
+		clear();
+		$("#deliveryModeActivity").fadeIn();
+	} catch(e){
+		console.log(e);
+		M.toast({html:"Cannot enter delivery mode", durationLength:3000});
+	}
+};
+
+var setAsCancelled = (id)=>{
+	$.ajax({
+		type:'POST',
+		url: transactionUpdateStatus,
+		data: {
+			transaction_id:id,
+			transaction_status:'CANCELLED',
+		},
+		cache:'false',
+		success: result=>{
+			alert(result);
 			if(result.code === 200){
 				setForDelivery();
 			} else {

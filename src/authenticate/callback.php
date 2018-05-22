@@ -40,9 +40,9 @@ if(!empty($_POST['unsubscribed'])){
     if(!empty($_REQUEST['code'])) $code = $_REQUEST['code'];
 
     $stmt = http_build_query(array(
-        "app_id" => "qqEaI8eXAzhMoi4xREcXMKhB5qa8I6nL",
-        "app_secret" => "6504608c9d5cda4473066f7c33057e870a1c6834b59c300a5bf889a881e976a0",
-        "code" => "jzC5947aIB4p5yfReqn8F69x7eUzna6yIMybLEHBEEXnubgeXdsAeEG8HzrpqKI6M7apunX9xyhXBL6ysBrBA5fr6BpbUekjb7C7rXBRHopknefeznyrF6pBaetq5idLe97iBnLtKGnkxFzpk6KfkKXnrHqLjR9CkBBj6UajBB4f5XLXrs4b98Bhpg7nju4apezIxbEEaHRqegBsjLE5Au8xbK6H5Ka9jIEMx9AUdaqRaFzjpGnfMa4AEIEppq8C"
+        "app_id" => $glb_app_id,
+        "app_secret" => $glb_app_secret,
+        "code" => $code
     ));
 
     $curl = curl_init();
