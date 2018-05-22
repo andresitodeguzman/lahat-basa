@@ -69,7 +69,8 @@ require_once("../_system/config.php");
           </div>
           <a href="/app">
                     <span class="white-text name">
-                        <b>All Wet Admin</b>
+                        <span id="admName"><b>All Wet Admin</b></span><br>
+                        <span id="admUsername">@username</span>
                     </span>
                 </a>
           <a href="/app">
@@ -546,13 +547,13 @@ require_once("../_system/config.php");
         <div class="row">
           <div class="input-field col s12">
             <input type="text" id="nameField">
-            <label for="name">Name</label>
+            <label for="name" class="active">Name</label>
           </div>
         </div>
         <div class="row">
           <div class="input-field col s6">
             <input type="text" id="usernameField">
-            <label for="username">Username</label>
+            <label for="username" class="active">Username</label>
           </div>
           <div class="input-field col s6">
             <input type="password" id="passwordField">

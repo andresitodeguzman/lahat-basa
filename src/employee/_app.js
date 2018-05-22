@@ -199,7 +199,7 @@ var renderForDelivery = ()=>{
 					var tpm = "Credit Card";
 				}
 		  
-				if(ts === "PROCESS"){
+				if(ts === "PROCESSING"){
 					var ts = "Processing Order";
 				}
 				if(ts === "FOR_DELIVERY"){
@@ -543,7 +543,7 @@ var deliveryMode = (index)=>{
 			var tpm = "Credit Card";
 		  }
   
-		  if(ts === "PROCESS"){
+		  if(ts === "PROCESSING"){
 			var ts = "Processing Order";
 		  }
 		  if(ts === "FOR_DELIVERY"){
@@ -582,7 +582,7 @@ var deliveryMode = (index)=>{
 		}
 
 		$("#dmAddress").html(ta);
-		$("#dmCountPrice").html(`${tc} ${qv} for PHP ${tp}`);
+		$("#dmCountPrice").html(`${tc} ${qv} for ₱${tp}`);
 		$("#dmCustomerName").html(cname);
 		$("#dmDateTime").html(`${td} ${tt}`);
 		$("#dmPaymentMethod").html(tpm);

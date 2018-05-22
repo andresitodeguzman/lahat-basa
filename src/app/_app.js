@@ -273,7 +273,7 @@ var renderMyOrder = ()=>{
 					var tpm = "Credit Card";
 				}
 
-				if(ts === "PROCESS"){
+				if(ts === "PROCESSING"){
 					var ts = "Processing Order";
 				}
 				if(ts === "FOR_DELIVERY"){

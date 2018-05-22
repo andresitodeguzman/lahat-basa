@@ -785,7 +785,7 @@ var processTransaction = ()=>{
 	var tc = JSON.parse(sessionStorage.getItem("all-wet-order-items")).length;
 	var tp = sessionStorage.getItem("all-wet-rundown-total");
 	var pm = sessionStorage.getItem("all-wet-order-payment-method");
-	var st = "FOR_DELIVERY";
+	var st = "PROCESSING";
 	var lt = sessionStorage.getItem("latitude");
 	var lo = sessionStorage.getItem("longitude");
 	var adr = sessionStorage.getItem("exact_location");	

@@ -13,6 +13,8 @@ $(document).ready(() => {
   setEmployee();
   setAdmin();
 
+  renderUserFields();
+
   splash(1000);
   forDeliveryShow();
   

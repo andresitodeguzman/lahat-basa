@@ -12,9 +12,6 @@ var setEmployee = ()=>{
       type:'GET',
       cache: 'false',
       url: employeeGetAll,
-      data: {
-        a:1
-      },
       success: result=>{
         try {
           localStorage.setItem("all-wet-employee",JSON.stringify(result));
@@ -64,12 +61,16 @@ var renderEmployee = ()=>{
           `;
         }
 
+        if(!es){
+          var es = "0.00";
+        }
+
         var tmpl = `
           <div class="card hoverable">
             ${img}
             <div class="card-content">
               <span class="card-title">${en}</span>
-              <p><font size="3pt" class="grey-text">@${eu}<br>PHP${es}</font></p>
+              <p><font size="3pt" class="grey-text">@${eu}<br>₱${es}</font></p>
               <br>
             </div>
             <div class="card-action">
@@ -178,6 +179,7 @@ var renderEmployee = ()=>{
                       setEmployee();
                      }  else {
                       M.toast({html:result.message, durationLength:3000});
+                      setEmployee();
                      }
 
                     $("#preloaderAddEmployee${eid}").hide();

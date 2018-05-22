@@ -1,7 +1,7 @@
 $(document).ready(()=>{
 	$("meta[name='theme-color']").attr("content","#455a64");
 	$("#loader").hide();
-	
+	 
 	loginCheck();
 	setInterval(recheckLoginStatus(),300000);
 
@@ -80,11 +80,12 @@ var signIn = ()=>{
 							 var an = result['admin_name'];
 							 var au = result['admin_username'];
 							 
+							 localStorage.setItem("all-wet-admin-info", JSON.stringify(result));
 							 localStorage.setItem("all-wet-account-type","admin");
 							 localStorage.setItem("all-wet-login",true);
 							 localStorage.setItem("all-wet-admin-id",ai);
 							 localStorage.setItem("all-wet-admin-name",an);
-							 localStorage.setItem("all-wet-admin-userame",au);
+							 localStorage.setItem("all-wet-admin-username",au);
 							
 							 window.location.replace("/admin/");
 							

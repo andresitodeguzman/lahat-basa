@@ -92,6 +92,11 @@ var renderForDelivery = () => {
         if(ts === "PROCESS"){
           var ts = "Processing Order";
         }
+
+        if(ts === "PROCESSING"){
+          var ts = "Processing";
+        }
+
         if(ts === "FOR_DELIVERY"){
           var ts = "For Delivery";
         }
@@ -142,7 +147,7 @@ var renderForDelivery = () => {
               </p>
             </div>
             <div class="card-action">
-              <a href="#" onclick="setAsDelivered(${tid})" class="grey-text"><i class="material-icons">done</i></a>
+              <a href="#fdChangeStatus${tid}" class="grey-text modal-trigger" data-trigger="fdChangeStatus${tid}"><i class="material-icons">library_add</i></a>
               <a href="#fdItems${tid}" class="grey-text modal-trigger" data-trigger="fdItems${tid}"><i class="material-icons">list</i></a>
               <a href="${dest}" class="grey-text"><i class="material-icons">map</i></a>
               <a href="tel:+63${cnum}" class="grey-text"><i class="material-icons">call</i></a>
@@ -155,6 +160,29 @@ var renderForDelivery = () => {
                 <ul class="collection" id="fdItemsList${tid}"></ul>
             </div>
             <div class="modal-footer addProductActivity">
+                <a href="#" class="modal-action modal-close waves-effect waves-red btn-flat">Close</a>
+            </div>
+          </div>
+
+          <div class="modal modal-fixed-footer" id="fdChangeStatus${tid}">
+            <div class="modal-content">
+              <h5 class="blue-grey-text text-darken-4">Change Status</h5><br>
+              <ul class="collection">
+                <li class="collection-item">
+                  <a class="black-text" href="#csa${tid}" onclick="changeTransactionStatus(${tid},'PROCESSING')">Processing</a>
+                </li>
+                <li class="collection-item">
+                  <a class="black-text" href="#csb${tid}" onclick="changeTransactionStatus(${tid},'FOR_DELIVERY')">For Delivery</a>              
+                </li>
+                <li class="collection-item">
+                  <a class="black-text" href="#csc${tid}" onclick="changeTransactionStatus(${tid},'CANCELLED')">Cancelled Delivery</a>              
+                </li>
+                <li class="collection-item">
+                  <a class="black-text" href="#csd${tid}" onclick="changeTransactionStatus(${tid},'DELIVERED')">Set as Delivered</a>
+                </li>
+              </ul>
+            </div>
+            <div class="modal-footer">
                 <a href="#" class="modal-action modal-close waves-effect waves-red btn-flat">Close</a>
             </div>
           </div>
@@ -206,3 +234,24 @@ var setAsDelivered = tid=>{
     M.toast({html:"An Error Occurred", durationLength:3000});
   });  
 }
+
+var changeTransactionStatus = (tid,status)=>{
+  $.ajax({
+    type:'GET',
+    cache: 'false',
+    url: '/api/Transaction/updateStatus.php',
+    data: {
+      transaction_id: tid,
+      transaction_status:status
+    },
+    success: result=>{
+      if(result.code == 200){
+        M.toast({html:`Successfully set as "${status}"`, durationLength:3000});
+        setForDelivery();
+      }
+    }
+  }).fail(()=>{
+    M.toast({html:"An Error Occurred", durationLength:3000});
+  });  
+}
+
