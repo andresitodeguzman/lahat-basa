@@ -1,7 +1,7 @@
 <?php
 /**
  * All Wet
- * 2018 hahaha
+ * 2018
  * 
  * Index
  */
